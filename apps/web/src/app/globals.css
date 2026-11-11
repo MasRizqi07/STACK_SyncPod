@@ -51,6 +51,49 @@ h3 {
   outline-offset: 2px;
 }
 
+@keyframes syncpod-radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes syncpod-seat-enter {
+  from {
+    transform: scale(0.9);
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes syncpod-arc-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.48;
+  }
+}
+
+.syncpod-radar-sweep {
+  transform-origin: 120px 120px;
+  animation: syncpod-radar-sweep 3.2s linear infinite;
+}
+
+.syncpod-seat-enter {
+  animation: syncpod-seat-enter var(--duration-ui) var(--ease-out) both;
+}
+
+.syncpod-arc-pulse {
+  animation: syncpod-arc-pulse 1.8s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -58,6 +101,17 @@ h3 {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .syncpod-radar-sweep,
+  .syncpod-arc-pulse {
+    animation: none !important;
+  }
+
+  .syncpod-seat-enter {
+    animation: none !important;
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

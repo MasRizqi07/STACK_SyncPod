@@ -1,0 +1,12 @@
+﻿$ pnpm -r typecheck
+packages/db typecheck$ tsc --noEmit
+packages/shared typecheck$ tsc --noEmit
+packages/shared typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/realtime typecheck$ tsc --noEmit
+packages/db typecheck: Done
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/realtime typecheck: Done
+apps/web typecheck: Done
+EXIT=0

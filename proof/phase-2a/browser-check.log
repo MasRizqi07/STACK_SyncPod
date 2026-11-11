@@ -1,0 +1,16 @@
+OK podring-radar-1of4: captured 375, 768, 1280 (no horizontal overflow)
+OK podring-radar-3of4: captured 375, 768, 1280 (no horizontal overflow)
+OK podring-radar-4of4: captured 375, 768, 1280 (no horizontal overflow)
+OK podring-timer-focus: captured 375, 768, 1280 (no horizontal overflow)
+OK podring-timer-break: captured 375, 768, 1280 (no horizontal overflow)
+OK podring-timer-paused: captured 375, 768, 1280 (no horizontal overflow)
+OK podring-timer-last60s: captured 375, 768, 1280 (no horizontal overflow)
+OK podring-presence-statuses: captured 375, 768, 1280 (no horizontal overflow)
+OK network-isolation: 14 requests, 0 external
+OK cockpit-focus-1280: {"scrollW":1280,"innerW":1280,"simCount":6,"cmExists":true,"titleText":"Traversal Graf dan Dijkstra · Pod 042"}
+OK interactive: Jeda/Lanjut works; Tanya pemandu rendered 3 guiding questions
+OK cockpit-focus-768: {"scrollW":768,"innerW":768}
+OK cockpit-drawer-768: opened, captured, closed on Esc with focus restored
+OK cockpit-focus-375: {"scrollW":375,"innerW":375,"tabHeights":[48,48,48,48]}
+OK cockpit-focus-podtab-375 captured
+OK console-clean: 0 console errors and 0 uncaught exceptions

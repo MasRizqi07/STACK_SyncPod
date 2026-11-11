@@ -1,0 +1,26 @@
+﻿$ node depcheck.mjs
+Package: @syncpod/web
+  IMPORTED: @codemirror/lang-markdown@6.5.2 <- apps/web/src/components/cockpit/ScratchpadEditor.tsx
+  IMPORTED: @codemirror/state@6.7.6 <- apps/web/src/components/cockpit/ScratchpadEditor.tsx
+  IMPORTED: @codemirror/view@6.43.15 <- apps/web/src/components/cockpit/ScratchpadEditor.tsx
+  IMPORTED: @fontsource-variable/bricolage-grotesque@5.3.0 <- apps/web/src/app/layout.tsx
+  IMPORTED: @fontsource-variable/jetbrains-mono@5.3.0 <- apps/web/src/app/layout.tsx
+  IMPORTED: @fontsource-variable/plus-jakarta-sans@5.3.0 <- apps/web/src/app/layout.tsx
+  IMPORTED: @syncpod/shared@workspace:* <- apps/web/next.config.ts, apps/web/src/components/cockpit/CockpitShell.tsx, apps/web/src/components/cockpit/CopilotPanel.tsx, apps/web/src/components/cockpit/MemberRow.tsx, apps/web/src/components/cockpit/QuestionQueue.tsx, apps/web/src/components/pod-ring/PodRing.tsx, apps/web/src/components/pod-ring/SeatDot.tsx, apps/web/src/features/realtime/clock.ts, apps/web/src/features/realtime/constants.ts, apps/web/src/features/realtime/fake-client.ts, apps/web/src/features/realtime/types.ts, apps/web/test/copy.test.ts, apps/web/test/pod-ring.test.tsx
+  IMPORTED: codemirror@6.0.2 <- apps/web/src/components/cockpit/ScratchpadEditor.tsx
+  IMPORTED: lucide-react@1.70.0 <- apps/web/src/components/cockpit/CockpitShell.tsx, apps/web/src/components/cockpit/CopilotPanel.tsx, apps/web/src/components/cockpit/MemberRow.tsx, apps/web/src/components/cockpit/QuestionQueue.tsx, apps/web/src/components/cockpit/ScratchpadEditor.tsx, apps/web/src/components/pod-ring/PodRing.tsx, apps/web/src/components/pod-ring/SeatDot.tsx
+  IMPORTED: next@16.4.6 <- apps/web/next-env.d.ts, apps/web/next.config.ts, apps/web/src/app/layout.tsx
+  IMPORTED: react@19.3.1 <- apps/web/src/components/cockpit/CockpitShell.tsx, apps/web/src/components/cockpit/QuestionQueue.tsx, apps/web/src/components/cockpit/ScratchpadEditor.tsx
+  IMPORTED: react-dom@19.3.1 <- apps/web/test/markdown-sanitize.test.tsx, apps/web/test/pod-ring.test.tsx
+  IMPORTED: react-markdown@10.1.0 <- apps/web/src/components/cockpit/MarkdownPreview.tsx
+  IMPORTED: rehype-sanitize@6.0.0 <- apps/web/src/components/cockpit/MarkdownPreview.tsx
+  IMPORTED: remark-gfm@4.0.1 <- apps/web/src/components/cockpit/MarkdownPreview.tsx
+Package: @syncpod/realtime
+  IMPORTED: @syncpod/shared@workspace:* <- apps/realtime/src/server.ts
+  IMPORTED: helmet@8.3.0 <- apps/realtime/src/server.ts
+  IMPORTED: socket.io@4.8.4 <- apps/realtime/src/server.ts
+Package: @syncpod/shared
+  IMPORTED: zod@4.6.7 <- packages/shared/src/schemas.ts
+Package: @syncpod/db
+  GENERATED_C4: @prisma/client@6.19.3 <- packages/db/prisma/schema.prisma (Prisma Client used in Phase 3 per C4)
+EXIT=0

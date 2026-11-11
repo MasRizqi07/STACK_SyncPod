@@ -1,0 +1,42 @@
+﻿$ node -e "fetch('https://example.com')" (block-network.cjs)
+ERR_NETWORK_DISABLED: blocked fetch to example.com
+CANARY_EXIT=1
+$ NEXT_PUBLIC_REALTIME_MODE=fake pnpm -r build (offline)
+packages/db build$ prisma generate && tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+apps/realtime build$ tsc -p tsconfig.json
+apps/web build$ next build
+packages/db build: Prisma schema loaded from prisma\schema.prisma
+apps/web build: ▲ Next.js 16.4.6 (Turbopack)
+apps/web build: ✓ Running next.config.ts took 42ms
+packages/db build: 
+packages/db build: ✔ Generated Prisma Client (v6.19.3) to .\..\..\node_modules\.pnpm\@prisma+client@6.19.3_prism_4ffd11c130385b632f1988f146a90b26\node_modules\@prisma\client in 105ms
+packages/db build: 
+packages/db build: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+packages/db build: 
+packages/db build: Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+packages/db build: 
+apps/web build: 
+apps/web build:   Creating an optimized production build ...
+apps/realtime build: Done
+packages/db build: Done
+apps/web build: ✓ Compiled successfully in 783ms
+apps/web build:   Running TypeScript ...
+apps/web build:   Finished TypeScript in 1835ms ...
+apps/web build:   Collecting page data using 5 workers ...
+apps/web build:   Generating static pages using 5 workers (0/3) ...
+apps/web build: ✓ Generating static pages using 5 workers (3/3) in 480ms
+apps/web build:   Finalizing page optimization ...
+apps/web build: 
+apps/web build: Route (app)
+apps/web build: ┌ ○ /
+apps/web build: ├ ○ /_not-found
+apps/web build: └ ƒ /pod/[podId]
+apps/web build: 
+apps/web build: 
+apps/web build: ○  (Static)   prerendered as static content
+apps/web build: ƒ  (Dynamic)  server-rendered on demand
+apps/web build: 
+apps/web build: Done
+BUILD_EXIT=0

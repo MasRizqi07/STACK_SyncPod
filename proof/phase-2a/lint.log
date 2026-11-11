@@ -1,0 +1,10 @@
+﻿$ pnpm -r lint
+packages/db lint$ eslint .
+packages/shared lint$ eslint .
+packages/db lint: Done
+packages/shared lint: Done
+apps/realtime lint$ eslint .
+apps/web lint$ eslint .
+apps/realtime lint: Done
+apps/web lint: Done
+EXIT=0
