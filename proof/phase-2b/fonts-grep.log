@@ -1,0 +1,2 @@
+$ "C:\Program Files\Git\usr\bin\grep.exe" -rnE "fonts\.googleapis\.com|next/font/google" --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.next --exclude-dir=proof apps packages
+EXIT=1

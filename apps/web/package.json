@@ -9,7 +9,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
-    "build": "next build"
+    "build": "next build --webpack"
   },
   "dependencies": {
     "@codemirror/lang-markdown": "6.5.2",

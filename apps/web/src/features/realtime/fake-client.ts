@@ -32,9 +32,12 @@ import {
   type TimePingResult,
   type TimerControlPayload,
 } from '@syncpod/shared';
+import { COPY } from '@/copy';
+import { MIN_WINDOW_MS, findModuleNodeById, type ModuleTreeNode } from '@/features/matchmaking';
 import {
   DEMO_BREAK_SECONDS,
   DEMO_CURRENT_USER,
+  DEMO_FALLBACK_TTL_MS,
   DEMO_FOCUS_SECONDS,
   DEMO_GEMINI_DELAY_MS,
   DEMO_INITIAL_NOTES,
@@ -43,6 +46,7 @@ import {
   DEMO_MODULE_DIJKSTRA,
   DEMO_SIMULATED_PEERS,
   buildDeterministicSocraticHint,
+  buildModuleInitialNotes,
   createDemoSeedQuestion,
 } from './constants';
 import type { ConnectionState, RealtimeClient, Unsubscribe } from './types';
@@ -57,11 +61,40 @@ interface PodRecord {
   phaseDurationSec: number;
   focusDurationSec: number;
   breakDurationSec: number;
+  focusSegmentStartedAt: number | null;
   leaderId: string;
   members: PodMemberDTO[];
   questions: QuestionDTO[];
   notes: string;
   endorsements: Set<string>;
+}
+
+interface ActiveOffer {
+  offerId: string;
+  requestId: string;
+  module: ModuleTreeNode;
+  expiresAt: number;
+  timer: ReturnType<typeof setTimeout>;
+}
+
+export interface PersistedFakeState {
+  activeJoinedPodId: string | null;
+  questionCounter: number;
+  pod: {
+    podId: string;
+    module: { id: string; title: string; path: string[] };
+    phase: 'LOBBY' | 'FOCUS' | 'BREAK' | 'COMPLETED';
+    round: number;
+    phaseEndsAt: number | null;
+    pausedRemainingMs: number | null;
+    phaseDurationSec: number;
+    focusDurationSec: number;
+    breakDurationSec: number;
+    leaderId: string;
+    members: PodMemberDTO[];
+    questions: QuestionDTO[];
+    notes: string;
+  };
 }
 
 interface EventMap {
@@ -75,12 +108,17 @@ interface EventMap {
   'socratic:error': Set<ServerToClientEvents['socratic:error']>;
 }
 
+export type FakeMatchBehavior = 'auto-full' | 'fallback-offer';
+
 export interface FakeRealtimeClientOptions {
   now?: () => number;
   focusDurationSec?: number;
   breakDurationSec?: number;
   maxRounds?: number;
   geminiDelayMs?: number;
+  matchBehavior?: FakeMatchBehavior;
+  fallbackTtlMs?: number;
+  onStatePersist?: (state: PersistedFakeState) => void;
 }
 
 function fail<T>(code: ErrorCode, message: string): Ack<T> {
@@ -97,6 +135,9 @@ export class FakeRealtimeClient implements RealtimeClient {
   private readonly breakDurationSec: number;
   private readonly maxRounds: number;
   private readonly geminiDelayMs: number;
+  private readonly matchBehavior: FakeMatchBehavior;
+  private readonly fallbackTtlMs: number;
+  private onStatePersist?: (state: PersistedFakeState) => void;
 
   private connectionState: ConnectionState = 'connected';
   private readonly connectionListeners = new Set<(state: ConnectionState) => void>();
@@ -117,6 +158,9 @@ export class FakeRealtimeClient implements RealtimeClient {
   private readonly matchTimers = new Set<ReturnType<typeof setTimeout>>();
   private readonly socraticInFlight = new Map<string, Promise<void>>();
   private activeMatchRequestId: string | null = null;
+  private activeMatchModule: ModuleTreeNode | null = null;
+  private activeOffer: ActiveOffer | null = null;
+  private activeJoinedPodId: string | null = null;
   private matchCounter = 0;
   private questionCounter = 1;
 
@@ -126,8 +170,89 @@ export class FakeRealtimeClient implements RealtimeClient {
     this.breakDurationSec = options.breakDurationSec ?? DEMO_BREAK_SECONDS;
     this.maxRounds = options.maxRounds ?? DEMO_MAX_ROUNDS;
     this.geminiDelayMs = options.geminiDelayMs ?? DEMO_GEMINI_DELAY_MS;
+    this.matchBehavior = options.matchBehavior ?? 'auto-full';
+    this.fallbackTtlMs = options.fallbackTtlMs ?? DEMO_FALLBACK_TTL_MS;
+    this.onStatePersist = options.onStatePersist;
 
     this.seedDefaultPod();
+  }
+
+  public setStatePersistHandler(handler: ((state: PersistedFakeState) => void) | undefined): void {
+    this.onStatePersist = handler;
+  }
+
+  private persistNow(): void {
+    if (!this.onStatePersist) return;
+    const exported = this.exportState();
+    if (exported) {
+      this.onStatePersist(exported);
+    }
+  }
+
+  public exportState(): PersistedFakeState | null {
+    const pod = this.pods.get('pod-042');
+    if (!pod) return null;
+    const snap = this.toSnapshot(pod);
+    return {
+      activeJoinedPodId: this.activeJoinedPodId,
+      questionCounter: this.questionCounter,
+      pod: {
+        podId: snap.podId,
+        module: snap.module,
+        phase: snap.phase,
+        round: snap.round,
+        phaseEndsAt: snap.phaseEndsAt,
+        pausedRemainingMs: snap.pausedRemainingMs,
+        phaseDurationSec: snap.phaseDurationSec,
+        focusDurationSec: pod.focusDurationSec,
+        breakDurationSec: pod.breakDurationSec,
+        leaderId: snap.leaderId,
+        members: snap.members,
+        questions: snap.questions,
+        notes: pod.notes,
+      },
+    };
+  }
+
+  public importState(persisted: PersistedFakeState): void {
+    this.clearPhaseTimer('pod-042');
+    const t = this.now();
+    const p = persisted.pod;
+    const record: PodRecord = {
+      podId: p.podId,
+      module: { ...p.module, path: [...p.module.path] },
+      phase: p.phase,
+      round: p.round,
+      phaseEndsAt: p.phaseEndsAt,
+      pausedRemainingMs: p.pausedRemainingMs,
+      phaseDurationSec: p.phaseDurationSec,
+      focusDurationSec: p.focusDurationSec,
+      breakDurationSec: p.breakDurationSec,
+      focusSegmentStartedAt: p.phase === 'FOCUS' && p.pausedRemainingMs === null ? t : null,
+      leaderId: p.leaderId,
+      members: p.members.map((m) => ({ ...m })),
+      questions: p.questions.map((q) => ({ ...q })),
+      notes: p.notes,
+      endorsements: new Set(),
+    };
+
+    // Fast-forward expired active timer cleanly if reload occurred after expiry
+    if (
+      record.phaseEndsAt !== null &&
+      record.pausedRemainingMs === null &&
+      record.phaseEndsAt <= t &&
+      (record.phase === 'FOCUS' || record.phase === 'BREAK')
+    ) {
+      record.phase = 'FOCUS';
+      record.phaseDurationSec = record.focusDurationSec;
+      record.phaseEndsAt = t + record.focusDurationSec * 1000;
+      record.focusSegmentStartedAt = t;
+    }
+
+    this.activeJoinedPodId = persisted.activeJoinedPodId;
+    this.questionCounter = persisted.questionCounter;
+    this.pods.set(record.podId, record);
+    this.schedulePhaseTransition(record.podId);
   }
 
   private seedDefaultPod(): void {
@@ -154,6 +279,7 @@ export class FakeRealtimeClient implements RealtimeClient {
       phaseDurationSec: this.focusDurationSec,
       focusDurationSec: this.focusDurationSec,
       breakDurationSec: this.breakDurationSec,
+      focusSegmentStartedAt: t,
       leaderId: DEMO_CURRENT_USER.userId,
       members,
       questions: [createDemoSeedQuestion('pod-042', t - 45_000)],
@@ -163,6 +289,74 @@ export class FakeRealtimeClient implements RealtimeClient {
 
     this.pods.set(record.podId, record);
     this.schedulePhaseTransition(record.podId);
+  }
+
+  private resetMatchedPod(moduleNode: ModuleTreeNode, memberCount: 3 | 4): PodRecord {
+    this.clearPhaseTimer('pod-042');
+    const t = this.now();
+    const peerLimit = memberCount === 3 ? 2 : 3;
+    const members: PodMemberDTO[] = [
+      {
+        userId: DEMO_CURRENT_USER.userId,
+        name: DEMO_CURRENT_USER.name,
+        universityName: DEMO_CURRENT_USER.universityName,
+        role: 'LEADER',
+        status: 'IN_FOCUS',
+        focusedSec: 0,
+      },
+      ...DEMO_SIMULATED_PEERS.slice(0, peerLimit).map((peer) => ({
+        ...peer,
+        focusedSec: 0,
+      })),
+    ];
+
+    const notes = buildModuleInitialNotes(moduleNode.title);
+    const seedQuestion = createDemoSeedQuestion('pod-042', t, moduleNode.id, moduleNode.title);
+
+    const record: PodRecord = {
+      podId: 'pod-042',
+      module: {
+        id: moduleNode.id,
+        title: moduleNode.title,
+        path: [...moduleNode.path],
+      },
+      phase: 'FOCUS',
+      round: 1,
+      phaseEndsAt: t + this.focusDurationSec * 1000,
+      pausedRemainingMs: null,
+      phaseDurationSec: this.focusDurationSec,
+      focusDurationSec: this.focusDurationSec,
+      breakDurationSec: this.breakDurationSec,
+      focusSegmentStartedAt: t,
+      leaderId: DEMO_CURRENT_USER.userId,
+      members,
+      questions: [seedQuestion],
+      notes,
+      endorsements: new Set(),
+    };
+
+    this.questionCounter = 1;
+    this.pods.set(record.podId, record);
+    this.activeJoinedPodId = record.podId;
+    this.schedulePhaseTransition(record.podId);
+    this.persistNow();
+    return record;
+  }
+
+  private accrueFocusSeconds(pod: PodRecord, atMs: number): void {
+    if (pod.phase !== 'FOCUS' || pod.pausedRemainingMs !== null || pod.focusSegmentStartedAt === null) {
+      pod.focusSegmentStartedAt = null;
+      return;
+    }
+    const elapsedSec = Math.max(0, Math.round((atMs - pod.focusSegmentStartedAt) / 1000));
+    if (elapsedSec > 0) {
+      for (const member of pod.members) {
+        if (member.status !== 'DISCONNECTED') {
+          member.focusedSec = (member.focusedSec ?? 0) + elapsedSec;
+        }
+      }
+    }
+    pod.focusSegmentStartedAt = atMs;
   }
 
   private toSnapshot(pod: PodRecord): PodSnapshot {
@@ -209,6 +403,17 @@ export class FakeRealtimeClient implements RealtimeClient {
     }
   }
 
+  private clearAllMatchTimers(): void {
+    for (const timer of this.matchTimers) {
+      clearTimeout(timer);
+    }
+    this.matchTimers.clear();
+    if (this.activeOffer) {
+      clearTimeout(this.activeOffer.timer);
+      this.activeOffer = null;
+    }
+  }
+
   private schedulePhaseTransition(podId: string): void {
     this.clearPhaseTimer(podId);
     const pod = this.pods.get(podId);
@@ -231,33 +436,45 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!pod) return;
 
     const currentTime = this.now();
+    this.accrueFocusSeconds(pod, currentTime);
 
     if (pod.phase === 'FOCUS') {
       if (pod.round >= this.maxRounds) {
         pod.phase = 'COMPLETED';
         pod.phaseEndsAt = null;
         pod.pausedRemainingMs = null;
+        pod.focusSegmentStartedAt = null;
+        if (this.activeJoinedPodId === podId) {
+          this.activeJoinedPodId = null;
+        }
       } else {
         pod.phase = 'BREAK';
         pod.phaseDurationSec = pod.breakDurationSec;
         pod.phaseEndsAt = currentTime + pod.breakDurationSec * 1000;
         pod.pausedRemainingMs = null;
+        pod.focusSegmentStartedAt = null;
       }
     } else if (pod.phase === 'BREAK') {
       if (pod.round >= this.maxRounds) {
         pod.phase = 'COMPLETED';
         pod.phaseEndsAt = null;
         pod.pausedRemainingMs = null;
+        pod.focusSegmentStartedAt = null;
+        if (this.activeJoinedPodId === podId) {
+          this.activeJoinedPodId = null;
+        }
       } else {
         pod.phase = 'FOCUS';
         pod.round += 1;
         pod.phaseDurationSec = pod.focusDurationSec;
         pod.phaseEndsAt = currentTime + pod.focusDurationSec * 1000;
         pod.pausedRemainingMs = null;
+        pod.focusSegmentStartedAt = currentTime;
       }
     }
 
     this.schedulePhaseTransition(podId);
+    this.persistNow();
     this.emit('pod:state', this.toSnapshot(pod));
   }
 
@@ -265,8 +482,25 @@ export class FakeRealtimeClient implements RealtimeClient {
     return DEMO_CURRENT_USER.userId;
   }
 
+  public getActivePodId(): string | null {
+    if (!this.activeJoinedPodId) return null;
+    const pod = this.pods.get(this.activeJoinedPodId);
+    if (!pod || pod.phase === 'COMPLETED') {
+      return null;
+    }
+    return pod.podId;
+  }
+
   public getConnectionState(): ConnectionState {
     return this.connectionState;
+  }
+
+  public setConnectionState(next: ConnectionState): void {
+    if (this.connectionState === next) return;
+    this.connectionState = next;
+    for (const listener of this.connectionListeners) {
+      listener(next);
+    }
   }
 
   public onConnectionStateChange(listener: (state: ConnectionState) => void): Unsubscribe {
@@ -300,13 +534,39 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Permintaan pencarian pod tidak valid.');
     }
+
+    const moduleNode = findModuleNodeById(parsed.data.moduleId);
+    if (!moduleNode || !moduleNode.isLeaf) {
+      return fail('VALIDATION_FAILED', COPY.matchmaking.moduleHintNonLeaf);
+    }
+
+    const t = this.now();
+    if (parsed.data.windowEnd <= t) {
+      return fail('VALIDATION_FAILED', COPY.errors.windowPast);
+    }
+    if (parsed.data.windowEnd - parsed.data.windowStart < MIN_WINDOW_MS) {
+      return fail('VALIDATION_FAILED', COPY.errors.windowTooShort);
+    }
+    const clampedStart = Math.max(parsed.data.windowStart, t);
+    // Allow up to 5 s event/transit jitter so [now, now + 25m] succeeds cleanly across ticks.
+    const transitGraceMs = 5_000;
+    if (parsed.data.windowEnd - clampedStart < MIN_WINDOW_MS - transitGraceMs) {
+      return fail('VALIDATION_FAILED', COPY.errors.windowTooShort);
+    }
+
+    const existingActivePod = this.getActivePodId();
+    if (existingActivePod) {
+      return fail('ALREADY_IN_POD', COPY.errors.alreadyInPod);
+    }
+
     if (this.activeMatchRequestId) {
-      return fail('ALREADY_MATCHING', 'Kamu sedang mencari pod.');
+      return fail('ALREADY_MATCHING', COPY.errors.alreadyMatching);
     }
 
     this.matchCounter += 1;
     const requestId = `req-demo-${this.matchCounter}`;
     this.activeMatchRequestId = requestId;
+    this.activeMatchModule = moduleNode;
 
     this.emit('match:update', { waitingCount: 1, seats: 1 });
 
@@ -317,10 +577,37 @@ export class FakeRealtimeClient implements RealtimeClient {
         if (this.activeMatchRequestId !== requestId) {
           return;
         }
+
+        if (seatCount === 4 && this.matchBehavior === 'fallback-offer') {
+          const offerId = `offer-demo-${this.matchCounter}`;
+          const expiresAt = this.now() + this.fallbackTtlMs;
+          const expireTimer = setTimeout(() => {
+            if (this.activeOffer?.offerId === offerId) {
+              this.activeOffer = null;
+            }
+          }, this.fallbackTtlMs);
+
+          this.activeOffer = {
+            offerId,
+            requestId,
+            module: moduleNode,
+            expiresAt,
+            timer: expireTimer,
+          };
+          this.emit('match:fallback-offer', {
+            offerId,
+            count: 3,
+            expiresAt,
+          });
+          return;
+        }
+
         this.emit('match:update', { waitingCount: seatCount, seats: seatCount });
         if (seatCount === 4) {
           this.activeMatchRequestId = null;
-          this.emit('match:found', { podId: 'pod-042' });
+          this.activeMatchModule = null;
+          const pod = this.resetMatchedPod(moduleNode, 4);
+          this.emit('match:found', { podId: pod.podId });
         }
       }, delayMs);
       this.matchTimers.add(timer);
@@ -329,16 +616,33 @@ export class FakeRealtimeClient implements RealtimeClient {
     return ok({ requestId });
   }
 
+  /**
+   * Demo-mode only helper (D8): immediately fills remaining empty seats with
+   * simulated peers ("Simulasi") and transitions into the matched pod.
+   */
+  public fillWithBotsForDemo(): boolean {
+    if (!this.activeMatchRequestId || !this.activeMatchModule) {
+      return false;
+    }
+    const moduleNode = this.activeMatchModule;
+    this.clearAllMatchTimers();
+    this.activeMatchRequestId = null;
+    this.activeMatchModule = null;
+
+    this.emit('match:update', { waitingCount: 4, seats: 4 });
+    const pod = this.resetMatchedPod(moduleNode, 4);
+    this.emit('match:found', { podId: pod.podId });
+    return true;
+  }
+
   public async matchCancel(payload: MatchCancelPayload): Promise<Ack<{ cancelled: true }>> {
     const parsed = matchCancelPayloadSchema.safeParse(payload);
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Payload pembatalan tidak valid.');
     }
     this.activeMatchRequestId = null;
-    for (const timer of this.matchTimers) {
-      clearTimeout(timer);
-    }
-    this.matchTimers.clear();
+    this.activeMatchModule = null;
+    this.clearAllMatchTimers();
     return ok({ cancelled: true });
   }
 
@@ -349,10 +653,28 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Balasan tawaran tidak valid.');
     }
+
+    const offer = this.activeOffer;
+    if (!offer || offer.offerId !== parsed.data.offerId) {
+      return fail('INVALID_STATE', 'Tawaran memulai bertiga sudah tidak aktif.');
+    }
+
+    clearTimeout(offer.timer);
+    this.activeOffer = null;
+
+    if (this.now() >= offer.expiresAt) {
+      return fail('INVALID_STATE', 'Batas waktu tawaran sudah habis.');
+    }
+
     if ('accept' in parsed.data && parsed.data.accept) {
-      this.emit('match:found', { podId: 'pod-042' });
+      this.clearAllMatchTimers();
+      this.activeMatchRequestId = null;
+      this.activeMatchModule = null;
+      const pod = this.resetMatchedPod(offer.module, 3);
+      this.emit('match:found', { podId: pod.podId });
       return ok({ accepted: true });
     }
+
     return ok({ accepted: false });
   }
 
@@ -369,9 +691,15 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!member) {
       return fail('NOT_A_MEMBER', 'Kamu bukan anggota pod ini.');
     }
-    if (member.status === 'DISCONNECTED') {
+    if (pod.phase !== 'COMPLETED' && member.status === 'DISCONNECTED') {
       member.status = 'IN_FOCUS';
     }
+    if (pod.phase !== 'COMPLETED') {
+      this.activeJoinedPodId = pod.podId;
+    } else if (this.activeJoinedPodId === pod.podId) {
+      this.activeJoinedPodId = null;
+    }
+    this.persistNow();
     const snapshot = this.toSnapshot(pod);
     this.emit('pod:state', snapshot);
     return ok(snapshot);
@@ -390,7 +718,14 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!member) {
       return fail('NOT_A_MEMBER', 'Kamu bukan anggota pod ini.');
     }
+    if (pod.phase === 'FOCUS') {
+      this.accrueFocusSeconds(pod, this.now());
+    }
     member.status = 'DISCONNECTED';
+    if (pod.phase !== 'COMPLETED') {
+      this.activeJoinedPodId = pod.podId;
+    }
+    this.persistNow();
     this.emit('presence:update', { userId: member.userId, status: 'DISCONNECTED' });
     this.emit('pod:state', this.toSnapshot(pod));
     return ok({ left: true });
@@ -417,8 +752,10 @@ export class FakeRealtimeClient implements RealtimeClient {
     pod.phaseDurationSec = pod.focusDurationSec;
     pod.phaseEndsAt = t + pod.focusDurationSec * 1000;
     pod.pausedRemainingMs = null;
+    pod.focusSegmentStartedAt = t;
 
     this.schedulePhaseTransition(pod.podId);
+    this.persistNow();
     const snapshot = this.toSnapshot(pod);
     this.emit('pod:state', snapshot);
     return ok(snapshot);
@@ -447,8 +784,10 @@ export class FakeRealtimeClient implements RealtimeClient {
       if ((pod.phase !== 'FOCUS' && pod.phase !== 'BREAK') || pod.phaseEndsAt === null) {
         return fail('INVALID_STATE', 'Timer tidak sedang berjalan.');
       }
+      this.accrueFocusSeconds(pod, t);
       pod.pausedRemainingMs = Math.max(0, pod.phaseEndsAt - t);
       pod.phaseEndsAt = null;
+      pod.focusSegmentStartedAt = null;
       this.clearPhaseTimer(pod.podId);
     } else if (action === 'RESUME') {
       if ((pod.phase !== 'FOCUS' && pod.phase !== 'BREAK') || pod.pausedRemainingMs === null) {
@@ -456,6 +795,9 @@ export class FakeRealtimeClient implements RealtimeClient {
       }
       pod.phaseEndsAt = t + pod.pausedRemainingMs;
       pod.pausedRemainingMs = null;
+      if (pod.phase === 'FOCUS') {
+        pod.focusSegmentStartedAt = t;
+      }
       this.schedulePhaseTransition(pod.podId);
     } else if (action === 'SKIP') {
       if (pod.phase !== 'FOCUS' && pod.phase !== 'BREAK') {
@@ -465,12 +807,18 @@ export class FakeRealtimeClient implements RealtimeClient {
       this.advancePhase(pod.podId);
       return ok(this.toSnapshot(pod));
     } else if (action === 'END') {
+      this.accrueFocusSeconds(pod, t);
       this.clearPhaseTimer(pod.podId);
       pod.phase = 'COMPLETED';
       pod.phaseEndsAt = null;
       pod.pausedRemainingMs = null;
+      pod.focusSegmentStartedAt = null;
+      if (this.activeJoinedPodId === pod.podId) {
+        this.activeJoinedPodId = null;
+      }
     }
 
+    this.persistNow();
     const snapshot = this.toSnapshot(pod);
     this.emit('pod:state', snapshot);
     return ok(snapshot);
@@ -493,6 +841,7 @@ export class FakeRealtimeClient implements RealtimeClient {
       return ok({ updated: true });
     }
     member.status = parsed.data.status;
+    this.persistNow();
     this.emit('presence:update', { userId: member.userId, status: member.status });
     return ok({ updated: true });
   }
@@ -513,7 +862,7 @@ export class FakeRealtimeClient implements RealtimeClient {
     // D14: One question per member per pod, ever (resolved questions still occupy slot)
     const alreadyExists = pod.questions.some((q) => q.authorId === DEMO_CURRENT_USER.userId);
     if (alreadyExists) {
-      return fail('QUESTION_LIMIT', 'Kamu sudah punya satu pertanyaan di pod ini.');
+      return fail('QUESTION_LIMIT', COPY.errors.questionLimit);
     }
 
     this.questionCounter += 1;
@@ -529,6 +878,7 @@ export class FakeRealtimeClient implements RealtimeClient {
     };
 
     pod.questions.push(question);
+    this.persistNow();
     this.emit('queue:update', { questions: this.toSnapshot(pod).questions });
     return ok({ ...question });
   }
@@ -553,6 +903,7 @@ export class FakeRealtimeClient implements RealtimeClient {
     }
 
     question.resolved = true;
+    this.persistNow();
     this.emit('queue:update', { questions: this.toSnapshot(pod).questions });
     return ok({ resolved: true });
   }
@@ -598,10 +949,12 @@ export class FakeRealtimeClient implements RealtimeClient {
         try {
           const hint = buildDeterministicSocraticHint(question.text);
           question.aiHint = hint;
+          this.persistNow();
           this.emit('socratic:result', { questionId: question.id, hint });
           this.emit('queue:update', { questions: this.toSnapshot(pod).questions });
         } finally {
           member.status = prevStatus === 'ASKING_GEMINI' ? 'IN_FOCUS' : prevStatus;
+          this.persistNow();
           this.emit('presence:update', { userId: member.userId, status: member.status });
           this.socraticInFlight.delete(key);
           resolve();
@@ -646,6 +999,7 @@ export class FakeRealtimeClient implements RealtimeClient {
       return;
     }
     pod.notes = content;
+    this.persistNow();
     const bucket = this.notesListeners.get(podId);
     if (bucket) {
       for (const listener of bucket) {
@@ -674,10 +1028,7 @@ export class FakeRealtimeClient implements RealtimeClient {
       clearTimeout(timer);
     }
     this.activePhaseTimers.clear();
-    for (const timer of this.matchTimers) {
-      clearTimeout(timer);
-    }
-    this.matchTimers.clear();
+    this.clearAllMatchTimers();
     this.socraticInFlight.clear();
     this.connectionListeners.clear();
     this.notesListeners.clear();
@@ -686,4 +1037,3 @@ export class FakeRealtimeClient implements RealtimeClient {
     }
   }
 }
-

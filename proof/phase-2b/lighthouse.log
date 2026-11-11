@@ -1,0 +1,8 @@
+PASS /masuk (mobile) -> accessibility: 100/100
+PASS /masuk (desktop) -> accessibility: 100/100
+PASS /pod (mobile) -> accessibility: 100/100
+PASS /pod (desktop) -> accessibility: 100/100
+PASS /pod/pod-042 (mobile) -> accessibility: 100/100
+PASS /pod/pod-042 (desktop) -> accessibility: 100/100
+PASS /pod/pod-042/selesai (mobile) -> accessibility: 100/100
+PASS /pod/pod-042/selesai (desktop) -> accessibility: 100/100

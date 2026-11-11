@@ -1,8 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import type { PodSnapshot, TimerAction } from '@syncpod/shared';
 import {
+  ArrowRight,
+  CheckCircle2,
   CircleHelp,
   FileText,
   LogOut,
@@ -16,19 +20,21 @@ import {
   X,
 } from 'lucide-react';
 import { COPY } from '@/copy';
+import { ConnectionBanner, CockpitSkeleton, EmptyState, Toast } from '@/components/common';
 import { PodRing, type PodSeatState } from '@/components/pod-ring';
 import {
   CLOCK_RECALIBRATE_MS,
   CLOCK_SAMPLE_COUNT,
-  FakeRealtimeClient,
   TIMER_RENDER_INTERVAL_MS,
   TYPING_IDLE_RESET_MS,
   computeClockSample,
   computeCountdownMs,
   computeTimerProgress,
   getRealtimeMode,
+  getSharedFakeRealtimeClient,
   selectBestClockSample,
   type ClockSample,
+  type ConnectionState,
   type RealtimeClient,
 } from '@/features/realtime';
 import { CopilotPanel } from './CopilotPanel';
@@ -38,6 +44,7 @@ import { ScratchpadEditor } from './ScratchpadEditor';
 
 export interface CockpitShellProps {
   podId: string;
+  initialClient?: RealtimeClient;
 }
 
 type MobileTab = 'notes' | 'queue' | 'guide' | 'pod';
@@ -61,7 +68,8 @@ function getFocusableElements(container: HTMLElement): HTMLElement[] {
   );
 }
 
-export function CockpitShell({ podId }: CockpitShellProps) {
+export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
+  const router = useRouter();
   const mode = getRealtimeMode();
   const clientRef = useRef<RealtimeClient | null>(null);
   const typingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -72,6 +80,7 @@ export function CockpitShell({ podId }: CockpitShellProps) {
 
   const [snapshot, setSnapshot] = useState<PodSnapshot | null>(null);
   const [currentUserId, setCurrentUserId] = useState('');
+  const [connectionState, setConnectionState] = useState<ConnectionState>('connected');
   const [notes, setNotes] = useState('');
   const [notFound, setNotFound] = useState(false);
   const [offsetMs, setOffsetMs] = useState(0);
@@ -97,11 +106,11 @@ export function CockpitShell({ podId }: CockpitShellProps) {
   }, []);
 
   useEffect(() => {
-    if (mode !== 'fake') {
+    if (mode !== 'fake' && !initialClient) {
       return;
     }
 
-    const client = new FakeRealtimeClient();
+    const client = initialClient ?? getSharedFakeRealtimeClient();
     clientRef.current = client;
     let disposed = false;
 
@@ -120,6 +129,10 @@ export function CockpitShell({ podId }: CockpitShellProps) {
         setOffsetMs(selectBestClockSample(samples).offsetMs);
       }
     };
+
+    const unsubscribeConnection = client.onConnectionStateChange((nextState) => {
+      setConnectionState(nextState);
+    });
 
     const unsubscribePod = client.on('pod:state', (nextSnapshot) => {
       if (nextSnapshot.podId === podId) {
@@ -166,6 +179,7 @@ export function CockpitShell({ podId }: CockpitShellProps) {
     });
 
     const bootstrap = async () => {
+      setConnectionState(client.getConnectionState());
       const joinAck = await client.podJoin({ podId });
       if (disposed) return;
       if (!joinAck.ok) {
@@ -197,16 +211,16 @@ export function CockpitShell({ podId }: CockpitShellProps) {
       if (toastTimerRef.current !== null) {
         clearTimeout(toastTimerRef.current);
       }
+      unsubscribeConnection();
       unsubscribePod();
       unsubscribePresence();
       unsubscribeQueue();
       unsubscribeSocraticResult();
       unsubscribeSocraticError();
       unsubscribeNotes();
-      client.dispose();
       clientRef.current = null;
     };
-  }, [mode, podId]);
+  }, [initialClient, mode, podId]);
 
   useEffect(() => {
     if (!snapshot) return;
@@ -275,6 +289,7 @@ export function CockpitShell({ podId }: CockpitShellProps) {
 
   const isLeader = snapshot?.leaderId === currentUserId;
   const isPaused = snapshot?.pausedRemainingMs !== null;
+  const isDisconnected = connectionState !== 'connected';
 
   const remainingMs = useMemo(() => {
     if (!snapshot) return 0;
@@ -319,7 +334,7 @@ export function CockpitShell({ podId }: CockpitShellProps) {
 
   const handleTypingActivity = useCallback(() => {
     const client = clientRef.current;
-    if (!client || hasLeftPod) return;
+    if (!client || hasLeftPod || connectionState !== 'connected') return;
 
     if (!isTypingRef.current) {
       isTypingRef.current = true;
@@ -335,11 +350,11 @@ export function CockpitShell({ podId }: CockpitShellProps) {
       typingTimerRef.current = null;
       void client.presenceSet({ podId, status: 'IN_FOCUS' });
     }, TYPING_IDLE_RESET_MS);
-  }, [hasLeftPod, podId]);
+  }, [connectionState, hasLeftPod, podId]);
 
   async function handleStartPod(): Promise<void> {
     const client = clientRef.current;
-    if (!client) return;
+    if (!client || isDisconnected) return;
     setActionError(null);
     const ack = await client.podStart({ podId });
     if (!ack.ok) {
@@ -349,26 +364,33 @@ export function CockpitShell({ podId }: CockpitShellProps) {
 
   async function handleTimerAction(action: TimerAction): Promise<void> {
     const client = clientRef.current;
-    if (!client) return;
+    if (!client || isDisconnected) return;
     setActionError(null);
     const ack = await client.timerControl({ podId, action });
     if (!ack.ok) {
       setActionError(ack.error.message || COPY.errors.genericActionFailed);
+      return;
+    }
+    if (action === 'END' && !initialClient) {
+      router.push(`/pod/${podId}/selesai`);
     }
   }
 
   async function handleLeavePod(): Promise<void> {
     const client = clientRef.current;
-    if (!client) return;
+    if (!client || isDisconnected) return;
     const ack = await client.podLeave({ podId });
     if (ack.ok) {
       setHasLeftPod(true);
+      if (!initialClient) {
+        router.push('/pod');
+      }
     }
   }
 
   async function handleRejoinPod(): Promise<void> {
     const client = clientRef.current;
-    if (!client) return;
+    if (!client || isDisconnected) return;
     const ack = await client.podJoin({ podId });
     if (ack.ok) {
       setHasLeftPod(false);
@@ -379,8 +401,8 @@ export function CockpitShell({ podId }: CockpitShellProps) {
     text: string,
   ): Promise<{ ok: true } | { ok: false; message: string }> {
     const client = clientRef.current;
-    if (!client) {
-      return { ok: false, message: COPY.errors.genericActionFailed };
+    if (!client || isDisconnected) {
+      return { ok: false, message: COPY.errors.disconnected };
     }
     const ack = await client.queueAdd({ podId, text });
     if (!ack.ok) {
@@ -393,13 +415,13 @@ export function CockpitShell({ podId }: CockpitShellProps) {
 
   async function handleResolveQuestion(questionId: string): Promise<void> {
     const client = clientRef.current;
-    if (!client) return;
+    if (!client || isDisconnected) return;
     await client.queueResolve({ podId, questionId });
   }
 
   async function handleAskGuide(questionId: string): Promise<void> {
     const client = clientRef.current;
-    if (!client) return;
+    if (!client || isDisconnected) return;
     setGuideError(null);
     setAskingQuestionId(questionId);
     const ack = await client.socraticAsk({ podId, questionId });
@@ -409,15 +431,15 @@ export function CockpitShell({ podId }: CockpitShellProps) {
     }
   }
 
-  if (mode !== 'fake') {
+  if (mode !== 'fake' && !initialClient) {
     return (
       <main className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center px-6 py-12">
-        <section className="rounded-[var(--radius-panel)] border border-border-subtle bg-surface p-[var(--space-card)]">
-          <h1 className="font-display text-xl font-bold text-ink-primary">
-            {COPY.cockpit.podLabel(formatPodCode(podId))}
-          </h1>
-          <p className="mt-2 text-sm text-ink-secondary">{COPY.cockpit.realModeUnavailable}</p>
-        </section>
+        <EmptyState
+          title={COPY.cockpit.podLabel(formatPodCode(podId))}
+          message={COPY.cockpit.realModeUnavailable}
+          actionLabel={COPY.auth.signInGoogle}
+          href="/masuk"
+        />
       </main>
     );
   }
@@ -425,68 +447,41 @@ export function CockpitShell({ podId }: CockpitShellProps) {
   if (notFound) {
     return (
       <main className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center px-6 py-12">
-        <section className="rounded-[var(--radius-panel)] border border-border-subtle bg-surface p-[var(--space-card)]">
-          <h1 className="font-display text-xl font-bold text-ink-primary">
-            {COPY.cockpit.podNotFoundTitle}
-          </h1>
-          <p className="mt-2 text-sm text-ink-secondary">{COPY.cockpit.podNotFoundBody}</p>
-        </section>
+        <EmptyState
+          title={COPY.cockpit.podNotFoundTitle}
+          message={COPY.cockpit.podNotFoundBody}
+          actionLabel={COPY.matchmaking.startMatching}
+          href="/pod"
+        />
       </main>
     );
   }
 
   if (!snapshot) {
-    return (
-      <main className="mx-auto min-h-screen max-w-[1440px] px-4 py-4 md:px-6">
-        <div
-          aria-busy="true"
-          className="h-14 rounded-[var(--radius-panel)] border border-border-subtle bg-surface"
-        />
-      </main>
-    );
+    return <CockpitSkeleton />;
   }
 
-  const controlsDisabled = hasLeftPod || snapshot.phase === 'COMPLETED';
+  const controlsDisabled = hasLeftPod || snapshot.phase === 'COMPLETED' || isDisconnected;
   const showLeaderControls = isLeader && snapshot.phase !== 'COMPLETED' && !hasLeftPod;
 
   return (
     <div className="min-h-screen bg-canvas text-ink-primary">
-      {/* Mobile sticky top bar (< 768px) */}
-      <div className="sticky top-0 z-30 border-b border-border-subtle bg-surface md:hidden">
-        <div className="flex items-center justify-between gap-2 border-b border-border-subtle px-3 py-2">
-          <p className="truncate text-xs font-medium text-ink-secondary">
-            {snapshot.module.title} · {COPY.cockpit.podLabel(formatPodCode(snapshot.podId))}
-          </p>
-        </div>
-        <PodRing
-          mode="timer"
-          variant="mini"
-          announcePhase={false}
-          seats={ringSeats}
-          progress={progress}
-          phase={snapshot.phase}
-          round={snapshot.round}
-          remainingMs={remainingMs}
-          isPaused={isPaused}
-        />
-      </div>
-
-      {/* Tablet & Desktop top header (≥ 768px) */}
-      <header className="hidden border-b border-border-subtle bg-surface/80 md:block">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-5 py-3">
-          <div className="flex min-w-0 items-center gap-2.5">
-            <span className="font-display text-base font-bold text-primary">
+      {/* Single responsive header (single <h1> across 375, 768, 1280) + mobile sticky mini ring */}
+      <header className="sticky top-0 z-30 border-b border-border-subtle bg-surface md:static md:bg-surface/80">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-3 py-2.5 md:px-5 md:py-3">
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="hidden font-display text-base font-bold text-primary md:inline">
               {COPY.brand.name}
             </span>
-            <span className="text-ink-muted" aria-hidden="true">
+            <span className="hidden text-ink-muted md:inline" aria-hidden="true">
               /
             </span>
-            <h1 className="truncate font-display text-base font-semibold text-ink-primary">
+            <h1 className="truncate font-display text-xs font-semibold text-ink-primary md:text-base">
               {snapshot.module.title} · {COPY.cockpit.podLabel(formatPodCode(snapshot.podId))}
             </h1>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2.5">
+          <div className="hidden shrink-0 items-center gap-2.5 md:flex">
             <button
               ref={drawerTriggerRef}
               type="button"
@@ -501,16 +496,18 @@ export function CockpitShell({ podId }: CockpitShellProps) {
             {hasLeftPod ? (
               <button
                 type="button"
+                disabled={isDisconnected}
                 onClick={() => void handleRejoinPod()}
-                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-3 py-1.5 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-3 py-1.5 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <span>{COPY.cockpit.timer.resume}</span>
+                <span>{COPY.cockpit.rejoinPod}</span>
               </button>
             ) : (
               <button
                 type="button"
+                disabled={isDisconnected}
                 onClick={() => void handleLeavePod()}
-                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-3 py-1.5 text-sm font-medium text-ink-secondary transition-colors duration-200 hover:border-danger/60 hover:text-ink-primary"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-3 py-1.5 text-sm font-medium text-ink-secondary transition-colors duration-200 hover:border-danger/60 hover:text-ink-primary disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <LogOut className="h-4 w-4" aria-hidden="true" />
                 <span>{COPY.cockpit.leavePod}</span>
@@ -518,18 +515,47 @@ export function CockpitShell({ podId }: CockpitShellProps) {
             )}
           </div>
         </div>
+
+        <div className="border-t border-border-subtle md:hidden">
+          <PodRing
+            mode="timer"
+            variant="mini"
+            announcePhase={false}
+            seats={ringSeats}
+            progress={progress}
+            phase={snapshot.phase}
+            round={snapshot.round}
+            remainingMs={remainingMs}
+            isPaused={isPaused}
+          />
+        </div>
       </header>
 
       <main className="mx-auto max-w-[1440px] px-3 pb-24 pt-3 md:px-5 md:pb-6 md:pt-4">
-        {toastMessage && (
+        <ConnectionBanner connectionState={connectionState} className="mb-3" />
+
+        {snapshot.phase === 'COMPLETED' && (
           <div
-            role="status"
-            aria-live="polite"
-            className="mb-3 rounded-[var(--radius-control)] border border-emerald/40 bg-surface-elevated px-3 py-2 text-xs font-medium text-emerald"
+            data-sprint-completed-banner="true"
+            className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-panel)] border border-emerald/50 bg-surface-elevated px-4 py-3"
           >
-            {toastMessage}
+            <div className="flex items-center gap-2 text-emerald">
+              <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span className="text-sm font-semibold text-ink-primary">
+                {COPY.cockpit.timer.completedPhase}
+              </span>
+            </div>
+            <Link
+              href={`/pod/${podId}/selesai`}
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-4 py-2 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover"
+            >
+              <span>{COPY.cockpit.viewSummary}</span>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
           </div>
         )}
+
+        {toastMessage && <Toast message={toastMessage} className="mb-3" />}
 
         <div className="flex flex-col gap-[var(--space-gap)] xl:grid xl:grid-cols-[300px_minmax(0,1fr)_340px] xl:items-start">
           {/* Left Panel (Desktop column 1 / Tablet horizontal top bar / Mobile Pod tab) */}
@@ -572,8 +598,9 @@ export function CockpitShell({ podId }: CockpitShellProps) {
                   {snapshot.phase === 'LOBBY' ? (
                     <button
                       type="button"
+                      disabled={isDisconnected}
                       onClick={() => void handleStartPod()}
-                      className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-3 py-2 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover"
+                      className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-3 py-2 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <Play className="h-4 w-4" aria-hidden="true" />
                       <span>{COPY.cockpit.timer.start}</span>
@@ -582,8 +609,9 @@ export function CockpitShell({ podId }: CockpitShellProps) {
                     <>
                       <button
                         type="button"
+                        disabled={isDisconnected}
                         onClick={() => void handleTimerAction(isPaused ? 'RESUME' : 'PAUSE')}
-                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-3 py-2 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover"
+                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-3 py-2 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {isPaused ? (
                           <Play className="h-4 w-4" aria-hidden="true" />
@@ -597,8 +625,9 @@ export function CockpitShell({ podId }: CockpitShellProps) {
 
                       <button
                         type="button"
+                        disabled={isDisconnected}
                         onClick={() => void handleTimerAction('SKIP')}
-                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-surface-elevated px-3 py-2 text-sm font-medium text-ink-primary transition-colors duration-200 hover:border-border-active"
+                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-surface-elevated px-3 py-2 text-sm font-medium text-ink-primary transition-colors duration-200 hover:border-border-active disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         <SkipForward className="h-4 w-4" aria-hidden="true" />
                         <span>{COPY.cockpit.timer.skip}</span>
@@ -606,8 +635,9 @@ export function CockpitShell({ podId }: CockpitShellProps) {
 
                       <button
                         type="button"
+                        disabled={isDisconnected}
                         onClick={() => void handleTimerAction('END')}
-                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-3 py-2 text-xs font-medium text-ink-secondary transition-colors duration-200 hover:border-danger/50 hover:text-danger"
+                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-3 py-2 text-xs font-medium text-ink-secondary transition-colors duration-200 hover:border-danger/50 hover:text-danger disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         <Square className="h-3.5 w-3.5" aria-hidden="true" />
                         <span>{COPY.cockpit.timer.end}</span>
@@ -652,16 +682,18 @@ export function CockpitShell({ podId }: CockpitShellProps) {
                 {hasLeftPod ? (
                   <button
                     type="button"
+                    disabled={isDisconnected}
                     onClick={() => void handleRejoinPod()}
-                    className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[var(--radius-control)] bg-primary px-3 py-2 text-sm font-semibold text-on-primary"
+                    className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[var(--radius-control)] bg-primary px-3 py-2 text-sm font-semibold text-on-primary disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    <span>{COPY.cockpit.timer.resume}</span>
+                    <span>{COPY.cockpit.rejoinPod}</span>
                   </button>
                 ) : (
                   <button
                     type="button"
+                    disabled={isDisconnected}
                     onClick={() => void handleLeavePod()}
-                    className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-3 py-2 text-sm font-medium text-ink-secondary"
+                    className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-3 py-2 text-sm font-medium text-ink-secondary disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <LogOut className="h-4 w-4" aria-hidden="true" />
                     <span>{COPY.cockpit.leavePod}</span>
@@ -671,7 +703,7 @@ export function CockpitShell({ podId }: CockpitShellProps) {
             </div>
           </aside>
 
-          {/* Center Panel: Scratchpad Editor (always visible on Tablet/Desktop; 'notes' tab on Mobile) */}
+          {/* Center Panel: Scratchpad Editor */}
           <div className={`${mobileTab === 'notes' ? 'flex' : 'hidden'} min-w-0 flex-1 md:flex`}>
             <ScratchpadEditor
               value={notes}
@@ -690,7 +722,7 @@ export function CockpitShell({ podId }: CockpitShellProps) {
             />
           )}
 
-          {/* Right Panel (Desktop column 3 / Tablet Slide-over Drawer / Mobile Queue or Guide tabs) */}
+          {/* Right Panel */}
           <aside
             ref={drawerRef}
             role={isDrawerOpen ? 'dialog' : undefined}

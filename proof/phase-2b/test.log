@@ -1,0 +1,59 @@
+$ pnpm -r test
+Scope: 4 of 5 workspace projects
+packages/db test$ vitest run
+packages/shared test$ vitest run
+packages/db test: 
+packages/db test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/db
+packages/shared test: 
+packages/db test: 
+packages/shared test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/shared
+packages/shared test: 
+packages/db test:  ✓ test/index.test.ts (2 tests) 4ms
+packages/db test: 
+packages/db test:  Test Files  1 passed (1)
+packages/db test:       Tests  2 passed (2)
+packages/db test:    Start at  00:05:47
+packages/db test:    Duration  181ms (import 47%, transform 26%, worker 15%, tests 12%, environment 1%)
+packages/db test: 
+packages/db test: Done
+packages/shared test:  ✓ test/schemas.test.ts (4 tests) 10ms
+packages/shared test: 
+packages/shared test:  Test Files  1 passed (1)
+packages/shared test:       Tests  4 passed (4)
+packages/shared test:    Start at  00:05:47
+packages/shared test:    Duration  249ms (import 72%, transform 15%, tests 9%, worker 4%)
+packages/shared test: 
+packages/shared test: Done
+apps/realtime test$ vitest run
+apps/web test$ vitest run
+apps/realtime test: 
+apps/web test: 
+apps/realtime test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/realtime
+apps/web test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/web
+apps/realtime test: 
+apps/web test: 
+apps/web test:  ✓ test/clock.test.ts (5 tests) 8ms
+apps/realtime test:  ✓ test/health.test.ts (2 tests) 67ms
+apps/realtime test: 
+apps/realtime test:  Test Files  1 passed (1)
+apps/realtime test:       Tests  2 passed (2)
+apps/realtime test:    Start at  00:05:47
+apps/realtime test:    Duration  406ms (import 66%, tests 26%, transform 5%, worker 3%)
+apps/realtime test: 
+apps/web test:  ✓ test/summary-export.test.ts (2 tests) 30ms
+apps/web test:  ✓ test/matchmaking-logic.test.ts (4 tests) 12ms
+apps/realtime test: Done
+apps/web test:  ✓ test/copy.test.ts (2 tests) 5ms
+apps/web test:  ✓ test/fake-client-phase2b.test.ts (4 tests) 44ms
+apps/web test:  ✓ test/fake-client.test.ts (2 tests) 45ms
+apps/web test:  ✓ test/pod-ring.test.tsx (2 tests) 47ms
+apps/web test:  ✓ test/resilience-components.test.tsx (5 tests) 34ms
+apps/web test:  ✓ test/markdown-sanitize.test.tsx (1 test) 36ms
+apps/web test: 
+apps/web test:  Test Files  9 passed (9)
+apps/web test:       Tests  27 passed (27)
+apps/web test:    Start at  00:05:47
+apps/web test:    Duration  948ms (import 69%, transform 19%, tests 10%, worker 2%)
+apps/web test: 
+apps/web test: Done
+EXIT=0

@@ -1,0 +1,15 @@
+$ Get-ChildItem -Recurse apps/web/.next/static/media -Filter *.woff2
+apps/web/.next/static/media/bricolage-grotesque-latin-ext-wght-normal.232ded7b.woff2 (18668 bytes)
+apps/web/.next/static/media/bricolage-grotesque-latin-wght-normal.3e340e57.woff2 (41344 bytes)
+apps/web/.next/static/media/bricolage-grotesque-vietnamese-wght-normal.96a5d80f.woff2 (8608 bytes)
+apps/web/.next/static/media/jetbrains-mono-cyrillic-ext-wght-normal.0d2c2f66.woff2 (2028 bytes)
+apps/web/.next/static/media/jetbrains-mono-cyrillic-wght-normal.23645aad.woff2 (12108 bytes)
+apps/web/.next/static/media/jetbrains-mono-greek-wght-normal.c6c31cb1.woff2 (9004 bytes)
+apps/web/.next/static/media/jetbrains-mono-latin-ext-wght-normal.9c9751ca.woff2 (15196 bytes)
+apps/web/.next/static/media/jetbrains-mono-latin-wght-normal.a865edea.woff2 (40404 bytes)
+apps/web/.next/static/media/jetbrains-mono-vietnamese-wght-normal.93fc40a8.woff2 (7504 bytes)
+apps/web/.next/static/media/plus-jakarta-sans-cyrillic-ext-wght-normal.4c28e6c8.woff2 (1716 bytes)
+apps/web/.next/static/media/plus-jakarta-sans-latin-ext-wght-normal.a048183b.woff2 (21728 bytes)
+apps/web/.next/static/media/plus-jakarta-sans-latin-wght-normal.be6419ff.woff2 (27348 bytes)
+apps/web/.next/static/media/plus-jakarta-sans-vietnamese-wght-normal.9ba5d91f.woff2 (8352 bytes)
+EXIT=0

@@ -102,6 +102,7 @@ export function ScratchpadEditor({
         basicSetup,
         markdown(),
         EditorView.lineWrapping,
+        EditorView.contentAttributes.of({ 'aria-label': COPY.cockpit.panelNotes }),
         EditorState.readOnly.of(readOnly),
         placeholder(COPY.cockpit.notesEmpty),
         syncPodEditorTheme,

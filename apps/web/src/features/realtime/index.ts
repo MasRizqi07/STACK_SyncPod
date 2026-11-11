@@ -18,6 +18,7 @@ export {
   DEMO_BREAK_SECONDS,
   DEMO_BOT_JOIN_STEP_MS,
   DEMO_CURRENT_USER,
+  DEMO_FALLBACK_TTL_MS,
   DEMO_FOCUS_SECONDS,
   DEMO_GEMINI_DELAY_MS,
   DEMO_INITIAL_NOTES,
@@ -27,8 +28,18 @@ export {
   DEMO_SIMULATED_PEERS,
   TYPING_IDLE_RESET_MS,
   buildDeterministicSocraticHint,
+  buildModuleInitialNotes,
   createDemoSeedQuestion,
 } from './constants';
-export { FakeRealtimeClient, type FakeRealtimeClientOptions } from './fake-client';
+export {
+  FakeRealtimeClient,
+  type FakeMatchBehavior,
+  type FakeRealtimeClientOptions,
+  type PersistedFakeState,
+} from './fake-client';
+export {
+  getSharedFakeRealtimeClient,
+  isFakeSessionAuthenticated,
+  setFakeSessionAuthenticated,
+} from './fake-session';
 export type { ConnectionState, RealtimeClient, Unsubscribe } from './types';
-

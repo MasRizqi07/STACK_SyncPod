@@ -1,0 +1,12 @@
+OK / -> /masuk captured at 375, 768, 1280 (no horizontal overflow)
+OK keyboard /masuk: Tab -> Tab -> Enter navigated cleanly to /pod
+OK matchmaking-idle captured at 375, 768, 1280
+OK matchmaking interactive checks: non-leaf guard, search Eigen, radio ArrowRight, custom window error
+OK prefers-reduced-motion: radar sweep animationName='none' when reduced
+OK matchmaking-active captured 375, 768, 1280 (mobile PodRing top=153 < summary=566)
+OK match -> bot fill -> Cockpit transition: "Nilai Eigen dan Vektor Eigen · Pod 042"
+OK summary captured 375, 768, 1280; Unduh ringkasan -> toast 'Ringkasan diunduh'
+OK network-isolation: 51 requests across Masuk -> Pod -> Cockpit -> Selesai, 0 external
+OK matchmaking-fallback (FR-2.4) captured 375, 768, 1280
+OK cockpit-disconnected (FR-3.5 ConnectionBanner) captured 375, 768, 1280
+OK console-clean: 0 console errors and 0 uncaught exceptions

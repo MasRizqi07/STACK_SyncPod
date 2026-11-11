@@ -6,6 +6,7 @@ export const DEMO_MAX_ROUNDS = 4;
 
 // Fixed deterministic delays (ms) for semifinal prototype video reproducibility (D19)
 export const DEMO_MATCH_SCHEDULE_MS = [1200, 2600, 4200] as const;
+export const DEMO_FALLBACK_TTL_MS = 60_000;
 export const DEMO_GEMINI_DELAY_MS = 650;
 export const DEMO_BOT_JOIN_STEP_MS = 900;
 export const TYPING_IDLE_RESET_MS = 5000;
@@ -58,16 +59,44 @@ struct Node { int v, w; };
 export const DEMO_MODULE_DIJKSTRA = {
   id: 'mod-dijkstra',
   title: 'Traversal Graf dan Dijkstra',
-  path: ['Informatika', 'Struktur Data', 'Traversal Graf dan Dijkstra'],
+  path: ['Struktur Data', 'Graf', 'Traversal Graf dan Dijkstra'],
 };
 
-export function createDemoSeedQuestion(podId: string, createdAt: number): QuestionDTO {
+export function buildModuleInitialNotes(moduleTitle: string): string {
+  if (moduleTitle === DEMO_MODULE_DIJKSTRA.title) {
+    return DEMO_INITIAL_NOTES;
+  }
+  return `# Tujuan sesi — ${moduleTitle}
+- Rumuskan bagian konsep yang paling membingungkan
+- Catat contoh soal atau edge case yang gagal
+`;
+}
+
+export function createDemoSeedQuestion(
+  podId: string,
+  createdAt: number,
+  moduleId = DEMO_MODULE_DIJKSTRA.id,
+  moduleTitle = DEMO_MODULE_DIJKSTRA.title,
+): QuestionDTO {
+  if (moduleId === DEMO_MODULE_DIJKSTRA.id) {
+    return {
+      id: 'q-042-1',
+      podId,
+      authorId: 'simulasi-3',
+      authorName: 'Rivan Alamsyah',
+      text: 'Bagaimana merepresentasikan edge berbobot negatif?',
+      aiHint: null,
+      resolved: false,
+      createdAt,
+    };
+  }
+
   return {
     id: 'q-042-1',
     podId,
     authorId: 'simulasi-3',
     authorName: 'Rivan Alamsyah',
-    text: 'Bagaimana merepresentasikan edge berbobot negatif?',
+    text: `Apa syarat utama yang sering terlewat pada materi ${moduleTitle}?`,
     aiHint: null,
     resolved: false,
     createdAt,

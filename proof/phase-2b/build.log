@@ -1,0 +1,43 @@
+$ NEXT_PUBLIC_REALTIME_MODE=fake NEXT_TELEMETRY_DISABLED=1 pnpm -r build
+packages/db build$ prisma generate && tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+apps/web build$ next build --webpack
+apps/realtime build$ tsc -p tsconfig.json
+packages/db build: Prisma schema loaded from prisma\schema.prisma
+apps/web build: ▲ Next.js 16.4.6 (webpack)
+apps/web build: ✓ Running next.config.ts took 29ms
+apps/web build: 
+apps/web build:   Creating an optimized production build ...
+packages/db build: 
+packages/db build: ✔ Generated Prisma Client (v6.19.3) to .\..\..\node_modules\.pnpm\@prisma+client@6.19.3_prism_4ffd11c130385b632f1988f146a90b26\node_modules\@prisma\client in 93ms
+packages/db build: 
+packages/db build: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+packages/db build: 
+packages/db build: Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+packages/db build: 
+apps/realtime build: Done
+packages/db build: Done
+apps/web build: ✓ Compiled successfully in 8.6s
+apps/web build:   Running TypeScript ...
+apps/web build:   Finished TypeScript in 2.8s ...
+apps/web build:   Collecting page data using 8 workers ...
+apps/web build:   Generating static pages using 8 workers (0/3) ...
+apps/web build: ✓ Generating static pages using 8 workers (3/3) in 779ms
+apps/web build:   Finalizing page optimization ...
+apps/web build:   Collecting build traces ...
+apps/web build: 
+apps/web build: Route (app)
+apps/web build: ┌ ○ /
+apps/web build: ├ ○ /_not-found
+apps/web build: ├ ƒ /masuk
+apps/web build: ├ ƒ /pod
+apps/web build: ├ ƒ /pod/[podId]
+apps/web build: └ ƒ /pod/[podId]/selesai
+apps/web build: 
+apps/web build: 
+apps/web build: ○  (Static)   prerendered as static content
+apps/web build: ƒ  (Dynamic)  server-rendered on demand
+apps/web build: 
+apps/web build: Done
+EXIT=0

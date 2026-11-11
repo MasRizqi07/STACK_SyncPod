@@ -94,6 +94,20 @@ h3 {
   animation: syncpod-arc-pulse 1.8s ease-in-out infinite;
 }
 
+@keyframes syncpod-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.syncpod-skeleton-pulse {
+  animation: syncpod-skeleton-pulse 2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -104,8 +118,10 @@ h3 {
   }
 
   .syncpod-radar-sweep,
-  .syncpod-arc-pulse {
+  .syncpod-arc-pulse,
+  .syncpod-skeleton-pulse {
     animation: none !important;
+    opacity: 0.72;
   }
 
   .syncpod-seat-enter {
