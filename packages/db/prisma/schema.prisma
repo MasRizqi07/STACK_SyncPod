@@ -1,0 +1,152 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Urgency {
+  QUIZ_PREP
+  STUCK_ASSIGNMENT
+  THEORY_REVIEW
+}
+
+enum MatchStatus {
+  WAITING
+  MATCHED
+  CANCELLED
+}
+
+enum PodPhase {
+  LOBBY
+  FOCUS
+  BREAK
+  COMPLETED
+}
+
+enum PodRole {
+  LEADER
+  MEMBER
+}
+
+model User {
+  id                   String         @id @default(cuid())
+  email                String         @unique
+  name                 String
+  image                String?
+  universityName       String         @default("Institut Teknologi Adhi Tama Surabaya")
+  studyProgram         String?
+  semester             Int?
+  createdAt            DateTime       @default(now())
+  matchRequests        MatchRequest[]
+  memberships          PodMember[]
+  questions            Question[]
+  endorsementsGiven    Endorsement[]  @relation("EndorsementFrom")
+  endorsementsReceived Endorsement[]  @relation("EndorsementTo")
+}
+
+model Course {
+  id      String   @id @default(cuid())
+  code    String   @unique
+  title   String
+  modules Module[]
+}
+
+model Module {
+  id            String         @id @default(cuid())
+  courseId      String
+  course        Course         @relation(fields: [courseId], references: [id])
+  parentId      String?
+  parent        Module?        @relation("ModuleTree", fields: [parentId], references: [id])
+  children      Module[]       @relation("ModuleTree")
+  title         String
+  isLeaf        Boolean        @default(false)
+  matchRequests MatchRequest[]
+  pods          SprintPod[]
+
+  @@index([courseId, parentId])
+}
+
+model MatchRequest {
+  id             String      @id @default(cuid())
+  userId         String
+  user           User        @relation(fields: [userId], references: [id])
+  moduleId       String
+  module         Module      @relation(fields: [moduleId], references: [id])
+  urgency        Urgency
+  windowStart    DateTime
+  windowEnd      DateTime
+  status         MatchStatus @default(WAITING)
+  graceStartedAt DateTime    @default(now())
+  podId          String?
+  pod            SprintPod?  @relation(fields: [podId], references: [id])
+  createdAt      DateTime    @default(now())
+
+  @@index([status, moduleId])
+}
+// Migrasi SQL mentah wajib (Phase 3): satu request WAITING per pengguna
+// CREATE UNIQUE INDEX one_waiting_per_user ON "MatchRequest"("userId") WHERE status = 'WAITING';
+
+model SprintPod {
+  id                String         @id @default(cuid())
+  moduleId          String
+  module            Module         @relation(fields: [moduleId], references: [id])
+  phase             PodPhase       @default(LOBBY)
+  round             Int            @default(0)
+  phaseEndsAt       DateTime?
+  pausedRemainingMs Int?
+  focusDurationSec  Int
+  breakDurationSec  Int
+  notesSnapshot     String         @default("") @db.Text
+  yjsState          Bytes?
+  createdAt         DateTime       @default(now())
+  startedAt         DateTime?
+  endedAt           DateTime?
+  members           PodMember[]
+  questions         Question[]
+  endorsements      Endorsement[]
+  matchRequests     MatchRequest[]
+}
+
+model PodMember {
+  id         String    @id @default(cuid())
+  podId      String
+  pod        SprintPod @relation(fields: [podId], references: [id])
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  role       PodRole   @default(MEMBER)
+  joinedAt   DateTime  @default(now())
+  focusedSec Int       @default(0)
+
+  @@unique([podId, userId])
+}
+
+model Question {
+  id        String    @id @default(cuid())
+  podId     String
+  pod       SprintPod @relation(fields: [podId], references: [id])
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id])
+  text      String    @db.VarChar(280)
+  aiHint    Json?
+  resolved  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+
+  @@unique([podId, authorId]) // FR-3.3: satu pertanyaan utama per anggota
+}
+
+model Endorsement {
+  id         String    @id @default(cuid())
+  podId      String
+  pod        SprintPod @relation(fields: [podId], references: [id])
+  fromUserId String
+  from       User      @relation("EndorsementFrom", fields: [fromUserId], references: [id])
+  toUserId   String
+  to         User      @relation("EndorsementTo", fields: [toUserId], references: [id])
+  createdAt  DateTime  @default(now())
+
+  @@unique([podId, fromUserId, toUserId])
+}
+

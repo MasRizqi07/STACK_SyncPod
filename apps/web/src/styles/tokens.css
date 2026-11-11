@@ -1,0 +1,40 @@
+:root {
+  /* Permukaan */
+  --bg-canvas: #090D16;
+  --bg-surface: #0F172A;
+  --bg-surface-elevated: #1E293B;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(56, 189, 248, 0.3);
+
+  /* Aksen */
+  --color-primary: #38BDF8;
+  --color-primary-hover: #0EA5E9;
+  --color-on-primary: #04121F;
+  --color-amber: #F59E0B;
+  --color-emerald: #10B981;
+  --color-purple: #A855F7;
+  --color-purple-text: #C084FC;
+  --color-danger: #F87171;
+
+  /* Teks */
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #8393A8;
+
+  /* Tipografi */
+  --font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', sans-serif;
+  --font-body: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+
+  /* Ruang dan bentuk */
+  --space-card: 1.25rem;
+  --space-gap: 1rem;
+  --space-section: clamp(2rem, 4vw, 3.5rem);
+  --radius-control: 8px;
+  --radius-panel: 14px;
+
+  /* Gerak */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-ui: 200ms;
+}
+

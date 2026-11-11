@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: syncpod-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: syncpod
+      POSTGRES_PASSWORD: syncpod
+      POSTGRES_DB: syncpod
+    ports:
+      - "5432:5432"
+    volumes:
+      - syncpod_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U syncpod -d syncpod"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  syncpod_pgdata:
+
