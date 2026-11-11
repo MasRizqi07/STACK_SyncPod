@@ -108,3 +108,10 @@ Everything in the Phase 0 plan stands, plus:
 - `git status` and `git check-ignore -v .env` proving `.env` is not tracked.
 - The listing of `Docs/` after the D1 move.
 - LADDER CHECK listing every dependency added and the rung that justified it.
+
+---
+
+D18. Prototype mode. NEXT_PUBLIC_REALTIME_MODE=fake|real (default real). In fake mode the Masuk screen is a mock that routes to /pod without Auth.js, and the app makes no network calls except static assets, so apps/web can be deployed as a standalone prototype for the semifinal judges. In real mode no bypass may exist. The Phase 3 gate must prove /pod redirects to /masuk without a session when the flag is not "fake".
+D19. Fake adapter. One RealtimeClient interface whose methods map 1:1 to the DESIGN B5 events (so Phase 4 implements the same interface), plus a fake in-memory implementation. The fake must be deterministic: seeded timers, no unseeded randomness, all timings in constants (demo: focus 60 s, break 20 s, matching 1/4 to 4/4 on a fixed schedule) so the 2-minute video can be re-recorded identically. Simulated members are labeled "Simulasi".
+D20. Allowed new dependencies in Phase 2 (only when imported): codemirror, @codemirror/lang-markdown, @codemirror/state, @codemirror/view (local document only, no Yjs yet), react-markdown, rehype-sanitize, remark-gfm, lucide-react. Not allowed: framer-motion or any animation library (DESIGN A6 is CSS-only), any chart library, any state library unless justified on the ladder.
+

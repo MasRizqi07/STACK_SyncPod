@@ -1,4 +1,3 @@
-import { Clock } from 'lucide-react';
 import { COPY } from '@/copy';
 
 export default function HomePage() {
@@ -6,7 +5,6 @@ export default function HomePage() {
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-6 py-12">
       <section className="rounded-[var(--radius-panel)] border border-border-subtle bg-surface p-[var(--space-card)]">
         <div className="mb-4 flex items-center gap-2 text-primary">
-          <Clock className="h-5 w-5" aria-hidden="true" />
           <span className="font-display text-lg font-semibold text-ink-primary">
             {COPY.brand.name}
           </span>
@@ -20,4 +18,3 @@ export default function HomePage() {
     </main>
   );
 }
-
