@@ -1,0 +1,117 @@
+﻿$ git clone "D:\MY CODE\STACK_SyncPod" "$env:TEMP\syncpod-repro-check"
+Cloning into 'C:\Users\rrgtet47\AppData\Local\Temp\syncpod-repro-check'...
+done.
+CLONE_EXIT=0
+$ pnpm install --frozen-lockfile
+Scope: all 5 workspace projects
+✓ Lockfile passes supply-chain policies (verified 3m ago)
+Lockfile is up to date, resolution step is skipped
+Downloading prisma@6.19.3: 0.00 B/17.62 MB
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: C:\Users\rrgtet47\AppData\Local\pnpm\store\v11
+  Virtual store is at:             node_modules/.pnpm
+Downloading @img/sharp-win32-x64@0.35.5: 0.00 B/8.57 MB
+Downloading @prisma/client@6.19.3: 0.00 B/27.25 MB
+[WARN] Tarball download average speed 5 KiB/s (size 7 KiB) is below 50 KiB/s: https://registry.npmjs.org/gensync/-/gensync-1.0.0-beta.2.tgz (GET)
+Progress: resolved 431, reused 0, downloaded 288, added 256
+Downloading @rolldown/binding-win32-x64-msvc@1.2.18: 0.00 B/8.92 MB
+[WARN] Tarball download average speed 6 KiB/s (size 11 KiB) is below 50 KiB/s: https://registry.npmjs.org/string.prototype.trim/-/string.prototype.trim-1.2.11.tgz (GET)
+[WARN] Tarball download average speed 4 KiB/s (size 7 KiB) is below 50 KiB/s: https://registry.npmjs.org/@nodelib/fs.walk/-/fs.walk-1.2.8.tgz (GET)
+[WARN] Tarball download average speed 28 KiB/s (size 41 KiB) is below 50 KiB/s: https://registry.npmjs.org/hermes-estree/-/hermes-estree-0.25.1.tgz (GET)
+[WARN] Tarball download average speed 40 KiB/s (size 41 KiB) is below 50 KiB/s: https://registry.npmjs.org/ignore/-/ignore-7.0.14.tgz (GET)
+[WARN] Tarball download average speed 25 KiB/s (size 58 KiB) is below 50 KiB/s: https://registry.npmjs.org/es-iterator-helpers/-/es-iterator-helpers-1.4.0.tgz (GET)
+Downloading @next/swc-win32-x64-msvc@16.4.6: 0.00 B/36.16 MB
+[WARN] Tarball download average speed 17 KiB/s (size 38 KiB) is below 50 KiB/s: https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz (GET)
+[WARN] Tarball download average speed 49 KiB/s (size 114 KiB) is below 50 KiB/s: https://registry.npmjs.org/minimatch/-/minimatch-10.2.6.tgz (GET)
+[WARN] Tarball download average speed 20 KiB/s (size 39 KiB) is below 50 KiB/s: https://registry.npmjs.org/confbox/-/confbox-0.2.4.tgz (GET)
+Downloading next@16.4.6: 0.00 B/43.66 MB
+Progress: resolved 431, reused 0, downloaded 384, added 373
+[WARN] Tarball download average speed 9 KiB/s (size 40 KiB) is below 50 KiB/s: https://registry.npmjs.org/baseline-browser-mapping/-/baseline-browser-mapping-2.11.35.tgz (GET)
+[WARN] Tarball download average speed 48 KiB/s (size 139 KiB) is below 50 KiB/s: https://registry.npmjs.org/tsx/-/tsx-4.23.15.tgz (GET)
+[WARN] Tarball download average speed 25 KiB/s (size 49 KiB) is below 50 KiB/s: https://registry.npmjs.org/ts-api-utils/-/ts-api-utils-2.5.0.tgz (GET)
+[WARN] Tarball download average speed 24 KiB/s (size 30 KiB) is below 50 KiB/s: https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.31.tgz (GET)
+[WARN] Tarball download average speed 32 KiB/s (size 43 KiB) is below 50 KiB/s: https://registry.npmjs.org/@typescript-eslint/utils/-/utils-8.72.2.tgz (GET)
+[WARN] Tarball download average speed 25 KiB/s (size 58 KiB) is below 50 KiB/s: https://registry.npmjs.org/es-module-lexer/-/es-module-lexer-2.3.2.tgz (GET)
+[WARN] Tarball download average speed 41 KiB/s (size 128 KiB) is below 50 KiB/s: https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz (GET)
+[WARN] Tarball download average speed 45 KiB/s (size 77 KiB) is below 50 KiB/s: https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-8.72.2.tgz (GET)
+[WARN] Tarball download average speed 42 KiB/s (size 75 KiB) is below 50 KiB/s: https://registry.npmjs.org/@types/react/-/react-19.3.0.tgz (GET)
+[WARN] Tarball download average speed 43 KiB/s (size 209 KiB) is below 50 KiB/s: https://registry.npmjs.org/sharp/-/sharp-0.35.5.tgz (GET)
+Progress: resolved 431, reused 0, downloaded 416, added 386
+Progress: resolved 431, reused 0, downloaded 416, added 406
+Progress: resolved 431, reused 0, downloaded 416, added 408
+Progress: resolved 431, reused 0, downloaded 416, added 410
+Progress: resolved 431, reused 0, downloaded 416, added 411
+[WARN] Tarball download average speed 46 KiB/s (size 469 KiB) is below 50 KiB/s: https://registry.npmjs.org/@types/node/-/node-26.6.6.tgz (GET)
+Downloading @rolldown/binding-win32-x64-msvc@1.2.18: 5.02 MB/8.92 MB
+Downloading @next/swc-win32-x64-msvc@16.4.6: 4.51 MB/36.16 MB
+Downloading @next/swc-win32-x64-msvc@16.4.6: 5.86 MB/36.16 MB
+Downloading @next/swc-win32-x64-msvc@16.4.6: 7.40 MB/36.16 MB
+Downloading @next/swc-win32-x64-msvc@16.4.6: 9.54 MB/36.16 MB
+Downloading @next/swc-win32-x64-msvc@16.4.6: 11.84 MB/36.16 MB
+Downloading @next/swc-win32-x64-msvc@16.4.6: 14.52 MB/36.16 MB
+Downloading @next/swc-win32-x64-msvc@16.4.6: 17.35 MB/36.16 MB
+Downloading @next/swc-win32-x64-msvc@16.4.6: 20.79 MB/36.16 MB
+Downloading @next/swc-win32-x64-msvc@16.4.6: 23.92 MB/36.16 MB
+Downloading @next/swc-win32-x64-msvc@16.4.6: 27.20 MB/36.16 MB
+Downloading @next/swc-win32-x64-msvc@16.4.6: 29.17 MB/36.16 MB
+Progress: resolved 431, reused 0, downloaded 431, added 422
+Progress: resolved 431, reused 0, downloaded 431, added 428
+Packages: +431
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 431, reused 0, downloaded 431, added 431, done
+.../node_modules/@prisma/engines postinstall$ node scripts/postinstall.js
+.../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+.../node_modules/@prisma/engines postinstall: Done
+.../node_modules/prisma preinstall$ node scripts/preinstall-entry.js
+.../node_modules/prisma preinstall: Done
+.../node_modules/@prisma/client postinstall$ node scripts/postinstall.js
+.../node_modules/@prisma/client postinstall: Done
+
+devDependencies:
++ @eslint/js 9.39.5
++ @types/node 26.6.6
++ eslint 9.39.5
++ typescript 6.0.3
++ typescript-eslint 8.72.2
++ vitest 5.1.0
+
+Done in 37.3s using pnpm v12.8.1
+INSTALL_EXIT=0
+$ pnpm -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/db build$ prisma generate && tsc -p tsconfig.json
+packages/shared build: Done
+apps/realtime build$ tsc -p tsconfig.json
+apps/web build$ next build
+packages/db build: Prisma schema loaded from prisma\schema.prisma
+apps/web build: ▲ Next.js 16.4.6 (Turbopack)
+apps/web build: ✓ Running next.config.ts took 56ms
+apps/web build: 
+apps/web build:   Creating an optimized production build ...
+apps/realtime build: Done
+packages/db build: 
+packages/db build: ✔ Generated Prisma Client (v6.19.3) to .\..\..\node_modules\.pnpm\@prisma+client@6.19.3_prism_4ffd11c130385b632f1988f146a90b26\node_modules\@prisma\client in 90ms
+packages/db build: 
+packages/db build: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+packages/db build: 
+packages/db build: Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+packages/db build: 
+packages/db build: Done
+apps/web build: ✓ Compiled successfully in 2.6s
+apps/web build:   Running TypeScript ...
+apps/web build:   Finished TypeScript in 1450ms ...
+apps/web build:   Collecting page data using 4 workers ...
+apps/web build:   Generating static pages using 4 workers (0/3) ...
+apps/web build: ✓ Generating static pages using 4 workers (3/3) in 460ms
+apps/web build:   Finalizing page optimization ...
+apps/web build: 
+apps/web build: Route (app)
+apps/web build: ┌ ○ /
+apps/web build: └ ○ /_not-found
+apps/web build: 
+apps/web build: 
+apps/web build: ○  (Static)  prerendered as static content
+apps/web build: 
+apps/web build: Done
+BUILD_EXIT=0

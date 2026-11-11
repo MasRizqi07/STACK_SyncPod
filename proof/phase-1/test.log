@@ -1,0 +1,51 @@
+﻿$ NO_COLOR=1 pnpm -r test
+Scope: 4 of 5 workspace projects
+packages/shared test$ vitest run
+packages/db test$ vitest run
+packages/db test: 
+packages/db test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/db
+packages/db test: 
+packages/shared test: 
+packages/shared test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/shared
+packages/shared test: 
+packages/db test:  ✓ test/index.test.ts (2 tests) 3ms
+packages/db test: 
+packages/db test:  Test Files  1 passed (1)
+packages/db test:       Tests  2 passed (2)
+packages/db test:    Start at  11:11:57
+packages/db test:    Duration  142ms (import 46%, transform 25%, worker 14%, tests 14%, environment 1%)
+packages/db test: 
+packages/db test: Done
+packages/shared test:  ✓ test/schemas.test.ts (4 tests) 8ms
+packages/shared test: 
+packages/shared test:  Test Files  1 passed (1)
+packages/shared test:       Tests  4 passed (4)
+packages/shared test:    Start at  11:11:57
+packages/shared test:    Duration  196ms (import 76%, transform 11%, tests 10%, worker 4%)
+packages/shared test: 
+packages/shared test: Done
+apps/web test$ vitest run
+apps/realtime test$ vitest run
+apps/realtime test: 
+apps/realtime test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/realtime
+apps/realtime test: 
+apps/web test: 
+apps/web test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/web
+apps/web test: 
+apps/realtime test:  ✓ test/health.test.ts (2 tests) 44ms
+apps/realtime test: 
+apps/realtime test:  Test Files  1 passed (1)
+apps/realtime test:       Tests  2 passed (2)
+apps/realtime test:    Start at  11:11:58
+apps/realtime test:    Duration  262ms (import 58%, tests 33%, transform 6%, worker 4%)
+apps/realtime test: 
+apps/realtime test: Done
+apps/web test:  ✓ test/copy.test.ts (2 tests) 2ms
+apps/web test: 
+apps/web test:  Test Files  1 passed (1)
+apps/web test:       Tests  2 passed (2)
+apps/web test:    Start at  11:11:58
+apps/web test:    Duration  304ms (import 81%, transform 12%, worker 4%, tests 2%)
+apps/web test: 
+apps/web test: Done
+EXIT=0

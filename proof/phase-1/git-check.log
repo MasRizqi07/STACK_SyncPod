@@ -1,0 +1,15 @@
+﻿$ git log --oneline -n 5
+daee707 chore(closeout): clean unused deps, locate block-network script, add D18-D20
+c1a7b7c feat: initial project structure with web and realtime apps and documentation
+$ git check-ignore -v .env
+.gitignore:8:.env*	.env
+IGNORE_EXIT=0
+$ Get-ChildItem -Recurse Docs | ForEach-Object { $_.FullName }
+D:\MY CODE\STACK_SyncPod\Docs\archive-v1
+D:\MY CODE\STACK_SyncPod\Docs\DECISIONS.md
+D:\MY CODE\STACK_SyncPod\Docs\DESIGN.md
+D:\MY CODE\STACK_SyncPod\Docs\PRD.md
+D:\MY CODE\STACK_SyncPod\Docs\archive-v1\claude_memory_master_context_prompt.md
+D:\MY CODE\STACK_SyncPod\Docs\archive-v1\README.md
+D:\MY CODE\STACK_SyncPod\Docs\archive-v1\syncpod_product_requirements_document.md
+D:\MY CODE\STACK_SyncPod\Docs\archive-v1\syncpod_system_architecture_and_design_specification.md

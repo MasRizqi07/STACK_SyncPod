@@ -1,0 +1,49 @@
+﻿$ node -e "fetch('https://example.com')" (with NODE_OPTIONS=--require="D:/MY CODE/STACK_SyncPod/scripts/block-network.cjs")
+Error: ERR_NETWORK_DISABLED: blocked fetch to example.com
+    at patchedFetch (D:\MY CODE\STACK_SyncPod\scripts\block-network.cjs:52:13)
+    at [eval]:1:1
+    at runScriptInThisContext (node:internal/vm:219:10)
+    at node:internal/process/execution:485:12
+    at [eval]-wrapper:6:24
+    at runScriptInContext (node:internal/process/execution:483:60)
+    at evalFunction (node:internal/process/execution:317:30)
+    at evalTypeScript (node:internal/process/execution:329:3)
+    at node:internal/main/eval_string:71:3
+CANARY_EXIT=1
+$ pnpm -r build (with block-network.cjs, invalid HTTP/HTTPS proxies, npm_config_offline=true, NEXT_TELEMETRY_DISABLED=1)
+packages/db build$ prisma generate && tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+apps/web build$ next build
+apps/realtime build$ tsc -p tsconfig.json
+packages/db build: Prisma schema loaded from prisma\schema.prisma
+apps/web build: ▲ Next.js 16.4.6 (Turbopack)
+packages/db build: 
+packages/db build: ✔ Generated Prisma Client (v6.19.3) to .\..\..\node_modules\.pnpm\@prisma+client@6.19.3_prism_4ffd11c130385b632f1988f146a90b26\node_modules\@prisma\client in 94ms
+packages/db build: 
+packages/db build: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+packages/db build: 
+packages/db build: Tip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate
+packages/db build: 
+apps/web build: ✓ Running next.config.ts took 50ms
+apps/web build: 
+apps/web build:   Creating an optimized production build ...
+apps/realtime build: Done
+packages/db build: Done
+apps/web build: ✓ Compiled successfully in 955ms
+apps/web build:   Running TypeScript ...
+apps/web build:   Finished TypeScript in 1392ms ...
+apps/web build:   Collecting page data using 4 workers ...
+apps/web build:   Generating static pages using 4 workers (0/3) ...
+apps/web build: ✓ Generating static pages using 4 workers (3/3) in 434ms
+apps/web build:   Finalizing page optimization ...
+apps/web build: 
+apps/web build: Route (app)
+apps/web build: ┌ ○ /
+apps/web build: └ ○ /_not-found
+apps/web build: 
+apps/web build: 
+apps/web build: ○  (Static)  prerendered as static content
+apps/web build: 
+apps/web build: Done
+BUILD_EXIT=0

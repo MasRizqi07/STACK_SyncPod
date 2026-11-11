@@ -1,0 +1,15 @@
+﻿$ Get-ChildItem -Recurse -Filter *.woff2 apps/web/.next/static | ForEach-Object { $_.FullName }
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\bricolage-grotesque-latin-ext-wght-normal.37g1whwfgt7kp.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\bricolage-grotesque-latin-wght-normal.1iqnhac4m3hwo.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\bricolage-grotesque-vietnamese-wght-normal.03f_1bxrvnkfd.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\jetbrains-mono-cyrillic-ext-wght-normal.1ladf10s224e1.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\jetbrains-mono-cyrillic-wght-normal.0x7cg5h5x34js.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\jetbrains-mono-greek-wght-normal.1k07jbkicvzf3.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\jetbrains-mono-latin-ext-wght-normal.3rxtet6g9i1k3.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\jetbrains-mono-latin-wght-normal.2rmhnsrc80fag.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\jetbrains-mono-vietnamese-wght-normal.0a13tgqsi9z78.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\plus-jakarta-sans-cyrillic-ext-wght-normal.1p5eg27ho_atv.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\plus-jakarta-sans-latin-ext-wght-normal.362mv560wxbnh.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\plus-jakarta-sans-latin-wght-normal.1nsast9qgxif8.woff2
+D:\MY CODE\STACK_SyncPod\apps\web\.next\static\media\plus-jakarta-sans-vietnamese-wght-normal.2gl4mcd5dm2h_.woff2
+POWERSHELL_OK=True
