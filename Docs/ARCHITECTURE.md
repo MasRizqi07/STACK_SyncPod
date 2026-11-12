@@ -119,3 +119,4 @@ stateDiagram-v2
   - Permukaan: `--bg-canvas` (`#090D16`), `--bg-surface` (`#0F172A`), `--bg-surface-elevated` (`#1E293B`)
   - Semantik: `--color-primary` (Fokus/Aksi), `--color-amber` (Istirahat/Peringatan), `--color-emerald` (Hadir/Selesai), `--color-purple` + `--color-purple-text` (Khusus konten AI Pemandu), `--color-danger` (Galat)
 - **Tipografi Self-Hosted (`@fontsource-variable/*`):** `Bricolage Grotesque` (heading), `Plus Jakarta Sans` (body 15px), `JetBrains Mono` dengan `tabular-nums` (timer, statistik, editor CodeMirror).
+

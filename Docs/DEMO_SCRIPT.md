@@ -81,3 +81,4 @@ Dokumen ini memandu rekaman demo **120 detik** prototipe SyncPod (`NEXT_PUBLIC_R
 - **Narasi Singkat:**  
   *"Setelah sprint berakhir, seluruh durasi fokus, pertanyaan, petunjuk pemandu, dan catatan dirangkum menjadi berkas Markdown siap pakai. Ini adalah prototipe antarmuka penuh SyncPod dengan data simulasi; seluruh backend Socket.IO, PostgreSQL, Yjs, dan Gemini diselesaikan di Build Period."*
 - **Yang Tidak Boleh Diklaim:** Jangan mengklaim statistik endorsement tersimpan permanen di PostgreSQL atau ada angka pengguna aktif nyata.
+

@@ -21,3 +21,4 @@ Jelaskan perilaku yang terjadi vs perilaku yang diharapkan menurut `Docs/PRD.md`
 - Versi Node (`node -v`):
 - Viewport (375px / 768px / 1280px):
 - Log error / screenshot (tanpa menyertakan token atau rahasia `.env`):
+

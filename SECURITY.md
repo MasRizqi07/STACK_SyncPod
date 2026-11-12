@@ -32,3 +32,4 @@ Jika menemukan celah keamanan, kebocoran kunci, atau bypass autentikasi/otorisas
    - Langkah reproduksi singkat dan komponen terdampak (`apps/web`, `apps/realtime`, `packages/db`, `packages/shared`).
    - Dampak potensial terhadap sesi, isolasi pod, atau guardrail AI.
    - Saran mitigasi jika ada.
+

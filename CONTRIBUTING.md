@@ -57,3 +57,4 @@ pnpm --filter @syncpod/web... build
 ```
 
 Pastikan tidak ada `console.log` token/rahasia dan tidak ada variabel `NEXT_PUBLIC_*` yang membawa kredensial.
+

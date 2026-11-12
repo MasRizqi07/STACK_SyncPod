@@ -40,3 +40,4 @@ flowchart LR
 
 - **Semifinal (30 Nov):** Fokus pada prototipe terverifikasi (`NEXT_PUBLIC_REALTIME_MODE=fake`) lengkap dengan bukti UI, kontrak deterministik, aksesibilitas, dan build offline tanpa CDN.
 - **Build Period:** Mengimplementasikan backend `real` pada `apps/realtime` dan `packages/db` menggunakan antarmuka `RealtimeClient` serta kontrak event yang sama persis (`DESIGN.md` B5).
+
