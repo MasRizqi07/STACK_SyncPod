@@ -138,7 +138,7 @@ export const COPY = {
     moduleLabel: 'Modul',
     dateLabel: 'Tanggal sesi',
     questionsHeading: 'Pertanyaan dan petunjuk pemandu',
-    questionsEmpty: 'Belum ada pertanyaan yang diajukan pada sesi ini.',
+    questionsEmpty: 'Tidak ada pertanyaan di sesi ini.',
     notesHeading: 'Catatan akhir sesi',
     unresolvedTag: 'Belum selesai',
     noHintYet: 'Belum ada petunjuk pemandu.',
