@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Indeks Spesifikasi & Arsitektur (Docs/)
+    url: https://github.com/MasRizqi07/STACK_SyncPod/tree/main/Docs
+    about: Periksa PRD, Design System, dan ADR (DECISIONS.md) sebelum mengajukan usulan perubahan scope.
