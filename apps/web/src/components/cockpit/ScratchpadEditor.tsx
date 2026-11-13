@@ -26,6 +26,7 @@ const syncPodEditorTheme = EditorView.theme(
       fontFamily: 'var(--font-mono)',
       fontSize: '0.875rem',
       lineHeight: '1.6',
+      height: '100%',
       minHeight: '320px',
       borderRadius: 'var(--radius-control)',
       border: '1px solid var(--border-subtle)',
@@ -36,6 +37,7 @@ const syncPodEditorTheme = EditorView.theme(
     },
     '.cm-scroller': {
       overflow: 'auto',
+      height: '100%',
       fontFamily: 'var(--font-mono)',
       padding: '0.5rem 0',
     },
@@ -153,9 +155,9 @@ export function ScratchpadEditor({
   return (
     <section
       aria-label={COPY.cockpit.panelNotes}
-      className="flex min-w-0 flex-1 flex-col rounded-[var(--radius-panel)] border border-border-subtle bg-surface p-[var(--space-card)]"
+      className="flex h-full min-h-0 min-w-0 flex-1 flex-col rounded-[var(--radius-panel)] border border-border-subtle bg-surface p-[var(--space-card)]"
     >
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-border-subtle pb-3">
+      <div className="mb-3 flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-border-subtle pb-3">
         <div className="flex items-center gap-2">
           <h2 className="font-display text-base font-semibold text-ink-primary">
             {COPY.cockpit.panelNotes}
@@ -206,12 +208,12 @@ export function ScratchpadEditor({
         <div
           ref={hostRef}
           data-scratchpad-mode="write"
-          className="min-h-[320px] min-w-0 flex-1 overflow-hidden"
+          className="flex h-full min-h-[320px] min-w-0 flex-1 flex-col overflow-hidden [&_.cm-editor]:h-full [&_.cm-editor]:flex-1"
         />
       ) : (
         <div
           data-scratchpad-mode="preview"
-          className="min-h-[320px] min-w-0 flex-1 overflow-y-auto rounded-[var(--radius-control)] border border-border-subtle bg-canvas/60 p-4"
+          className="h-full min-h-[320px] min-w-0 flex-1 overflow-y-auto rounded-[var(--radius-control)] border border-border-subtle bg-canvas/60 p-4"
         >
           <MarkdownPreview content={value} />
         </div>

@@ -465,9 +465,9 @@ export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
   const showLeaderControls = isLeader && snapshot.phase !== 'COMPLETED' && !hasLeftPod;
 
   return (
-    <div className="min-h-screen bg-canvas text-ink-primary">
+    <div className="flex min-h-screen flex-col bg-canvas text-ink-primary xl:h-[100dvh] xl:overflow-hidden">
       {/* Single responsive header (single <h1> across 375, 768, 1280) + mobile sticky mini ring */}
-      <header className="sticky top-0 z-30 border-b border-border-subtle bg-surface md:static md:bg-surface/80">
+      <header className="sticky top-0 z-30 shrink-0 border-b border-border-subtle bg-surface md:static md:bg-surface/80">
         <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-3 py-2.5 md:px-5 md:py-3">
           <div className="flex min-w-0 items-center gap-2">
             <span className="hidden font-display text-base font-bold text-primary md:inline">
@@ -531,13 +531,13 @@ export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-[1440px] px-3 pb-24 pt-3 md:px-5 md:pb-6 md:pt-4">
-        <ConnectionBanner connectionState={connectionState} className="mb-3" />
+      <main className="mx-auto flex w-full max-w-[1440px] flex-1 min-h-0 flex-col px-3 pb-24 pt-3 md:px-5 md:pb-6 md:pt-4 xl:pb-4 xl:pt-3">
+        <ConnectionBanner connectionState={connectionState} className="mb-3 shrink-0" />
 
         {snapshot.phase === 'COMPLETED' && (
           <div
             data-sprint-completed-banner="true"
-            className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-panel)] border border-emerald/50 bg-surface-elevated px-4 py-3"
+            className="mb-3 flex shrink-0 flex-wrap items-center justify-between gap-3 rounded-[var(--radius-panel)] border border-emerald/50 bg-surface-elevated px-4 py-3"
           >
             <div className="flex items-center gap-2 text-emerald">
               <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -555,15 +555,15 @@ export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
           </div>
         )}
 
-        {toastMessage && <Toast message={toastMessage} className="mb-3" />}
+        {toastMessage && <Toast message={toastMessage} className="mb-3 shrink-0" />}
 
-        <div className="flex flex-col gap-[var(--space-gap)] xl:grid xl:grid-cols-[300px_minmax(0,1fr)_340px] xl:items-start">
+        <div className="flex flex-col gap-[var(--space-gap)] xl:grid xl:flex-1 xl:min-h-0 xl:grid-cols-[300px_minmax(0,1fr)_340px] xl:items-stretch">
           {/* Left Panel (Desktop column 1 / Tablet horizontal top bar / Mobile Pod tab) */}
           <aside
             aria-label={COPY.cockpit.panelPod}
             className={`${
               mobileTab === 'pod' ? 'flex' : 'hidden'
-            } min-w-0 flex-col gap-4 rounded-[var(--radius-panel)] border border-border-subtle bg-surface p-[var(--space-card)] md:flex md:flex-row md:items-center md:justify-between xl:flex-col xl:items-stretch`}
+            } min-w-0 flex-col gap-4 rounded-[var(--radius-panel)] border border-border-subtle bg-surface p-[var(--space-card)] md:flex md:flex-row md:items-center md:justify-between xl:flex-col xl:items-stretch xl:justify-between xl:h-full xl:overflow-y-auto`}
           >
             <div className="flex flex-col items-center gap-3 md:flex-row md:items-center xl:flex-col">
               <div className="md:hidden xl:block">
@@ -600,18 +600,19 @@ export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
                       type="button"
                       disabled={isDisconnected}
                       onClick={() => void handleStartPod()}
-                      className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-3 py-2 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
+                      className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-4 py-2 text-sm font-semibold text-on-primary shadow-sm transition-all duration-200 hover:bg-primary-hover active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <Play className="h-4 w-4" aria-hidden="true" />
                       <span>{COPY.cockpit.timer.start}</span>
                     </button>
                   ) : (
                     <>
+                      {/* Jeda / Lanjut: PRIMARY */}
                       <button
                         type="button"
                         disabled={isDisconnected}
                         onClick={() => void handleTimerAction(isPaused ? 'RESUME' : 'PAUSE')}
-                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-3 py-2 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-3.5 py-2 text-sm font-semibold text-on-primary shadow-sm transition-all duration-200 hover:bg-primary-hover active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {isPaused ? (
                           <Play className="h-4 w-4" aria-hidden="true" />
@@ -623,21 +624,23 @@ export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
                         </span>
                       </button>
 
+                      {/* Lewati: SECONDARY */}
                       <button
                         type="button"
                         disabled={isDisconnected}
                         onClick={() => void handleTimerAction('SKIP')}
-                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-surface-elevated px-3 py-2 text-sm font-medium text-ink-primary transition-colors duration-200 hover:border-border-active disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-surface px-3 py-2 text-sm font-medium text-ink-primary transition-all duration-200 hover:border-border-active hover:bg-surface-elevated active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       >
-                        <SkipForward className="h-4 w-4" aria-hidden="true" />
+                        <SkipForward className="h-4 w-4 text-ink-secondary" aria-hidden="true" />
                         <span>{COPY.cockpit.timer.skip}</span>
                       </button>
 
+                      {/* Akhiri sprint: QUIET DANGER */}
                       <button
                         type="button"
                         disabled={isDisconnected}
                         onClick={() => void handleTimerAction('END')}
-                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-3 py-2 text-xs font-medium text-ink-secondary transition-colors duration-200 hover:border-danger/50 hover:text-danger disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle/80 bg-canvas px-2.5 py-2 text-xs font-medium text-ink-muted transition-all duration-200 hover:border-danger/60 hover:text-danger active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-danger focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         <Square className="h-3.5 w-3.5" aria-hidden="true" />
                         <span>{COPY.cockpit.timer.end}</span>
@@ -704,7 +707,7 @@ export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
           </aside>
 
           {/* Center Panel: Scratchpad Editor */}
-          <div className={`${mobileTab === 'notes' ? 'flex' : 'hidden'} min-w-0 flex-1 md:flex`}>
+          <div className={`${mobileTab === 'notes' ? 'flex' : 'hidden'} min-w-0 flex-1 md:flex xl:h-full xl:min-h-0`}>
             <ScratchpadEditor
               value={notes}
               onChange={handleNotesChange}
@@ -733,7 +736,7 @@ export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
                 ? 'flex min-w-0 flex-col gap-[var(--space-gap)]'
                 : isDrawerOpen
                   ? 'fixed inset-y-0 right-0 z-50 flex w-[360px] max-w-[calc(100vw-2rem)] flex-col gap-[var(--space-gap)] overflow-y-auto border-l border-border-subtle bg-canvas p-4 shadow-2xl xl:static xl:z-auto xl:w-auto xl:overflow-visible xl:border-0 xl:bg-transparent xl:p-0 xl:shadow-none'
-                  : 'hidden xl:flex xl:flex-col xl:gap-[var(--space-gap)]'
+                  : 'hidden xl:flex xl:h-full xl:min-h-0 xl:flex-col xl:gap-[var(--space-gap)] xl:overflow-y-auto'
             }`}
           >
             {isDrawerOpen && (
