@@ -290,7 +290,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
             <button
               type="button"
               onClick={handleSignOut}
-              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-3 py-1.5 text-sm font-medium text-ink-secondary transition-colors duration-200 hover:border-border-active hover:text-ink-primary"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-3 py-1.5 text-sm font-medium text-ink-primary transition-all duration-200 hover:border-border-active hover:bg-surface-elevated active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
             >
               <LogOut className="h-4 w-4" aria-hidden="true" />
               <span>{COPY.auth.signOut}</span>
@@ -482,7 +482,11 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
               <button
                 type="submit"
                 disabled={!canStartSearch}
-                className="inline-flex min-h-[48px] w-full items-center justify-center rounded-[var(--radius-control)] bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
+                className={
+                  canStartSearch
+                    ? 'inline-flex min-h-[48px] w-full items-center justify-center rounded-[var(--radius-control)] bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary shadow-sm transition-all duration-200 hover:bg-primary-hover active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 cursor-pointer'
+                    : 'inline-flex min-h-[48px] w-full items-center justify-center rounded-[var(--radius-control)] border border-border-subtle bg-surface-elevated px-5 py-2.5 text-sm font-medium text-ink-muted transition-colors duration-200 cursor-not-allowed opacity-60'
+                }
               >
                 {COPY.matchmaking.startMatching}
               </button>

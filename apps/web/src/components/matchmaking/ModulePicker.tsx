@@ -142,10 +142,10 @@ export function ModulePicker({
                                         data-module-leaf="true"
                                         aria-pressed={isLeafSelected}
                                         onClick={() => onSelectNode(leaf)}
-                                        className={`flex min-h-[44px] w-full items-center justify-between gap-2 rounded-[var(--radius-control)] border px-2.5 py-1.5 text-left text-sm transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${
+                                        className={`flex min-h-[44px] w-full items-center justify-between gap-2 rounded-[var(--radius-control)] border px-2.5 py-1.5 text-left text-sm transition-all duration-200 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-1 disabled:cursor-not-allowed disabled:opacity-40 ${
                                           isLeafSelected
-                                            ? 'border-primary bg-surface-elevated font-medium text-ink-primary'
-                                            : 'border-transparent text-ink-secondary hover:border-border-subtle hover:bg-surface hover:text-ink-primary'
+                                            ? 'border-primary bg-surface-elevated font-medium text-ink-primary ring-1 ring-primary/40'
+                                            : 'border-transparent text-ink-primary hover:border-border-subtle hover:bg-surface'
                                         }`}
                                       >
                                         <span className="min-w-0 break-words">{leaf.title}</span>
