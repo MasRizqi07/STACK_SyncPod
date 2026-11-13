@@ -178,9 +178,9 @@ export function ScratchpadEditor({
             role="tab"
             aria-selected={activeTab === 'write'}
             onClick={() => setActiveTab('write')}
-            className={`inline-flex min-h-[36px] items-center gap-1.5 rounded-[calc(var(--radius-control)-2px)] px-3 py-1 text-xs font-medium transition-colors duration-200 ${
+            className={`inline-flex min-h-[44px] items-center gap-1.5 rounded-[calc(var(--radius-control)-2px)] px-3.5 py-1.5 text-xs font-medium transition-all duration-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-1 ${
               activeTab === 'write'
-                ? 'bg-surface-elevated text-ink-primary'
+                ? 'bg-surface-elevated text-ink-primary font-semibold shadow-xs'
                 : 'text-ink-secondary hover:text-ink-primary'
             }`}
           >
@@ -192,9 +192,9 @@ export function ScratchpadEditor({
             role="tab"
             aria-selected={activeTab === 'preview'}
             onClick={() => setActiveTab('preview')}
-            className={`inline-flex min-h-[36px] items-center gap-1.5 rounded-[calc(var(--radius-control)-2px)] px-3 py-1 text-xs font-medium transition-colors duration-200 ${
+            className={`inline-flex min-h-[44px] items-center gap-1.5 rounded-[calc(var(--radius-control)-2px)] px-3.5 py-1.5 text-xs font-medium transition-all duration-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-1 ${
               activeTab === 'preview'
-                ? 'bg-surface-elevated text-ink-primary'
+                ? 'bg-surface-elevated text-ink-primary font-semibold shadow-xs'
                 : 'text-ink-secondary hover:text-ink-primary'
             }`}
           >
