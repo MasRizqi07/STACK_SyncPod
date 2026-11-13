@@ -748,7 +748,7 @@ export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
                   type="button"
                   aria-label={COPY.cockpit.closeDrawer}
                   onClick={closeDrawer}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-[var(--radius-control)] border border-border-subtle bg-surface text-ink-primary hover:border-border-active"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[var(--radius-control)] border border-border-subtle bg-surface text-ink-primary transition-all duration-200 hover:border-border-active hover:bg-surface-elevated active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
                 >
                   <X className="h-4 w-4" aria-hidden="true" />
                 </button>

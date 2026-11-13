@@ -185,7 +185,7 @@ export function SummaryShell({ podId, initialClient }: SummaryShellProps) {
               <button
                 type="button"
                 onClick={handleDownloadMarkdown}
-                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[var(--radius-control)] bg-primary px-4 py-2 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover"
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[var(--radius-control)] bg-primary px-4 py-2 text-sm font-semibold text-on-primary shadow-sm transition-all duration-200 hover:bg-primary-hover active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
               >
                 <Download className="h-4 w-4" aria-hidden="true" />
                 <span>{COPY.summary.downloadMarkdown}</span>
