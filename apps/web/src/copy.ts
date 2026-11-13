@@ -12,6 +12,7 @@ export const COPY = {
     realModeNotice:
       'Masuk dengan Google dan endpoint sesi terhubung setelah autentikasi diaktifkan.',
     domainRejected: 'Gunakan email institusi yang diizinkan untuk masuk.',
+    prototypeNotice: 'Prototipe: data simulasi',
   },
   matchmaking: {
     pageTitle: 'Cari pod belajar',

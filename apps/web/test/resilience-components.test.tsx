@@ -100,6 +100,8 @@ describe('Phase 2b UI components, resilience states, and real-mode guard (DESIGN
       const noDemoHtml = renderToStaticMarkup(<MasukCard demoModeEnabled={false} />);
       expect(noDemoHtml).toContain(COPY.auth.headline);
       expect(noDemoHtml).toContain(COPY.auth.signInGoogle);
+      expect(noDemoHtml).toContain('data-idle-pod-ring="true"');
+      expect(noDemoHtml).toContain(COPY.auth.prototypeNotice);
       expect(noDemoHtml).not.toContain(COPY.auth.signInDemo);
       expect(noDemoHtml).not.toContain('href="/pod"');
 

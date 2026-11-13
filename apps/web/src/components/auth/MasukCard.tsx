@@ -4,12 +4,20 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { LogIn, UserCheck, Users } from 'lucide-react';
 import { COPY } from '@/copy';
+import { PodRing } from '@/components/pod-ring';
 import { getRealtimeMode, setFakeSessionAuthenticated } from '@/features/realtime';
 
 export interface MasukCardProps {
   demoModeEnabled: boolean;
   initialError?: string | null;
 }
+
+const IDLE_SEATS = [
+  { seatNumber: 1 as const },
+  { seatNumber: 2 as const },
+  { seatNumber: 3 as const },
+  { seatNumber: 4 as const },
+];
 
 export function MasukCard({ demoModeEnabled, initialError = null }: MasukCardProps) {
   const router = useRouter();
@@ -30,6 +38,26 @@ export function MasukCard({ demoModeEnabled, initialError = null }: MasukCardPro
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-5 py-10">
+      <div
+        data-idle-pod-ring="true"
+        className="mb-5 flex flex-col items-center justify-center text-center"
+      >
+        <PodRing
+          mode="radar"
+          variant="compact"
+          radarActive={false}
+          seats={IDLE_SEATS}
+          progress={0}
+          phase="LOBBY"
+        />
+        <p
+          data-prototype-notice="true"
+          className="mt-2.5 text-xs font-medium text-ink-muted"
+        >
+          {COPY.auth.prototypeNotice}
+        </p>
+      </div>
+
       <section className="rounded-[var(--radius-panel)] border border-border-subtle bg-surface p-6 md:p-7">
         <div className="flex items-center gap-2.5 text-primary">
           <Users className="h-5 w-5 shrink-0" aria-hidden="true" />
