@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SyncPod - Command Palette (Ctrl+K) & Modal Keluar Pod</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            canvas: '#090D16',
+            surface: '#0F172A',
+            'surface-elevated': '#1E293B',
+            'card-bg': '#111827',
+            primary: '#38BDF8',
+            emerald: '#10B981',
+            amber: '#F59E0B',
+            purple: '#A855F7',
+            danger: '#EF4444',
+            'border-subtle': 'rgba(255, 255, 255, 0.08)',
+            'border-active': 'rgba(56, 189, 248, 0.3)',
+            'text-muted': '#8393A8'
+          },
+          fontFamily: {
+            display: ['"Bricolage Grotesque"', 'sans-serif'],
+            body: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #090D16;
+      color: #F8FAFC;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      width: 1280px;
+      height: 800px;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+    .modal-shadow {
+      box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.12);
+    }
+    .card-shadow {
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(245, 158, 11, 0.25);
+    }
+  </style>
+</head>
+<body class="relative w-[1280px] h-[800px] bg-[#090D16] text-[#F8FAFC] overflow-hidden select-none font-body">
+
+  <!-- ==================== BACKGROUND: DIMMED COCKPIT (/pod/pod-042) ==================== -->
+  <div class="absolute inset-0 w-full h-full flex flex-col pointer-events-none opacity-40">
+    <!-- Header Cockpit Background -->
+    <header class="h-14 border-b border-white/10 px-6 flex items-center justify-between bg-[#0F172A]">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <span class="font-display font-semibold text-sm tracking-tight text-white">SyncPod</span>
+        <span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300 font-mono">pod-042</span>
+        <span class="text-xs text-slate-400">Informatika &rsaquo; Struktur Data &rsaquo; Traversal Graf dan Dijkstra</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-xs font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-2.5 py-1 rounded">● SPRINT FOKUS 1 AKTIF</span>
+        <button class="px-3 py-1 text-xs border border-rose-500/30 text-rose-300 rounded bg-rose-950/20">Keluar Pod</button>
+      </div>
+    </header>
+
+    <!-- Content 3-Column Layout Cockpit Background -->
+    <div class="flex-1 grid grid-cols-12 gap-4 p-4">
+      <!-- Col 1: PodRing Left Rail -->
+      <div class="col-span-3 bg-[#111827] rounded-xl border border-white/10 p-4 flex flex-col items-center justify-between">
+        <div class="text-center w-full">
+          <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-2">Timer Serempak (WIB)</div>
+          <!-- Mock Ring -->
+          <div class="relative w-40 h-40 mx-auto my-3 flex items-center justify-center">
+            <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,0.06)" stroke-width="8" fill="none"/>
+              <circle cx="60" cy="60" r="50" stroke="#10B981" stroke-width="8" stroke-dasharray="314" stroke-dashoffset="65" stroke-linecap="round" fill="none"/>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span class="font-mono text-3xl font-bold tracking-tight text-white tabular-nums">24:18</span>
+              <span class="text-[10px] text-emerald-400 uppercase tracking-widest font-mono">Fokus Penuh</span>
+            </div>
+          </div>
+        </div>
+        <div class="w-full space-y-2">
+          <div class="p-2 rounded bg-white/5 border border-white/5 flex items-center justify-between text-xs">
+            <span>Ahmad Rizqi (Anda)</span>
+            <span class="text-emerald-400 font-mono text-[10px]">● Fokus</span>
+          </div>
+          <div class="p-2 rounded bg-white/5 border border-white/5 flex items-center justify-between text-xs">
+            <span>Muhammad Rifqi</span>
+            <span class="text-sky-400 font-mono text-[10px]">● Mencatat</span>
+          </div>
+          <div class="p-2 rounded bg-white/5 border border-white/5 flex items-center justify-between text-xs">
+            <span>Rivan Pramudya</span>
+            <span class="text-emerald-400 font-mono text-[10px]">● Fokus</span>
+          </div>
+          <div class="p-2 rounded bg-white/5 border border-white/5 flex items-center justify-between text-xs">
+            <span>M. Farhan Magribi</span>
+            <span class="text-purple-400 font-mono text-[10px]">● Tanya AI</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 2: Center Editor -->
+      <div class="col-span-6 bg-[#111827] rounded-xl border border-white/10 p-4 flex flex-col font-mono text-xs">
+        <div class="border-b border-white/10 pb-2 mb-3 flex items-center justify-between text-slate-400">
+          <span>catatan_kolaboratif_pod042.md</span>
+          <span>Yjs CRDT 12ms</span>
+        </div>
+        <div class="space-y-1.5 text-slate-300">
+          <p class="text-emerald-400 font-semibold"># 1. Invarian Relaksasi Dijkstra</p>
+          <p class="text-slate-400">> Algoritma Greedy shortest path untuk graf berbobot non-negatif.</p>
+          <p class="mt-2 text-sky-300">struct Node { int v, w; };</p>
+          <p>priority_queue&lt;pair&lt;int,int&gt;&gt; pq;</p>
+          <p class="bg-sky-500/10 border-l-2 border-sky-400 pl-2">if (dist[v] &gt; dist[u] + w(u,v)) {</p>
+          <p class="pl-4">dist[v] = dist[u] + w(u,v);</p>
+          <p class="pl-4">pq.push({dist[v], v});</p>
+          <p class="pl-2">}</p>
+        </div>
+      </div>
+
+      <!-- Col 3: Right Socratic & Queue -->
+      <div class="col-span-3 bg-[#111827] rounded-xl border border-white/10 p-4 flex flex-col justify-between">
+        <div>
+          <div class="text-xs font-semibold text-purple-300 mb-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-purple-400"></span> Pemandu Sokratik (Gemini)
+          </div>
+          <div class="p-2.5 rounded-lg bg-purple-950/20 border border-purple-500/30 text-xs text-purple-200 space-y-1">
+            <p class="font-medium text-[11px] text-purple-400">Pertanyaan Pemandu 1:</p>
+            <p>"Apa asumsi fundamental Dijkstra terhadap bobot edge saat relaksasi dilakukan?"</p>
+          </div>
+        </div>
+        <div class="border-t border-white/10 pt-3">
+          <div class="text-[11px] font-mono text-slate-400 mb-2">Antrean Pertanyaan (1/4)</div>
+          <div class="p-2 rounded bg-white/5 border border-white/10 text-xs text-slate-300">
+            Q1: Edge berbobot negatif vs Bellman-Ford
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== BACKDROP OVERLAY ==================== -->
+  <div class="absolute inset-0 bg-[#090D16]/80 backdrop-blur-[6px] z-10"></div>
+
+  <!-- ==================== MAIN CONTENT CONTAINER (Z-20) ==================== -->
+  <div class="relative z-20 w-full h-full flex flex-col justify-between p-6 pointer-events-auto">
+
+    <!-- Top Diagnostic Micro-Bar -->
+    <div class="w-full flex items-center justify-between text-xs px-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[11px]">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          STATE: COCKPIT OVERLAY ACTIVE
+        </span>
+        <span class="text-slate-400 text-xs font-mono">Sprint Pod-042 // Hotkeys & Action Hub</span>
+      </div>
+      <div class="flex items-center gap-2 text-slate-400 font-mono text-[11px]">
+        <span>Tekan</span>
+        <kbd class="px-1.5 py-0.5 rounded bg-surface-elevated border border-white/10 text-slate-200">ESC</kbd>
+        <span>untuk menutup semua modal</span>
+      </div>
+    </div>
+
+    <!-- Center Workspace Area (Holds Command Palette & Modal simultaneously) -->
+    <div class="flex-1 w-full relative flex items-center justify-center">
+
+      <!-- ==================== 1. CENTER OVERLAY: COMMAND PALETTE MODAL ==================== -->
+      <!-- Fixed width: 600px, #0F172A surface, 1px border rgba(255,255,255,0.14), multi-layer shadow, radius 12px -->
+      <div class="w-[600px] bg-[#0F172A] border border-white/[0.14] rounded-xl modal-shadow overflow-hidden flex flex-col -translate-y-2">
+
+        <!-- Top Search Bar (height: 56px, 1px bottom border) -->
+        <div class="h-14 border-b border-white/[0.12] px-4 flex items-center justify-between bg-[#0F172A]">
+          <div class="flex items-center gap-3 flex-1">
+            <!-- Terminal/Search Icon -->
+            <div class="text-slate-400">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+              </svg>
+            </div>
+            <!-- Input text placeholder with live cursor simulation -->
+            <div class="flex items-center gap-1 text-[15px] text-slate-200 font-normal">
+              <span>Ketik perintah atau cari aksi sprint...</span>
+              <span class="w-0.5 h-4 bg-emerald-400 animate-pulse"></span>
+            </div>
+          </div>
+          <!-- Keyboard badge ESC -->
+          <div class="flex items-center gap-1.5">
+            <kbd class="px-2 py-0.5 rounded bg-white/5 border border-white/15 text-[11px] font-mono text-slate-400 font-semibold shadow-inner">ESC</kbd>
+          </div>
+        </div>
+
+        <!-- Grouped Command List Body -->
+        <div class="p-2 space-y-3 font-body text-sm">
+
+          <!-- Group 1: AKSI SPRINT AKTIF (POD 042) -->
+          <div>
+            <div class="px-3 py-1.5 text-[10px] font-mono font-semibold tracking-wider text-slate-400 uppercase flex items-center justify-between">
+              <span>Aksi Sprint Aktif (Pod 042)</span>
+              <span class="text-emerald-400/80 lowercase text-[10px]">4 perintah tersedia</span>
+            </div>
+
+            <div class="space-y-1 mt-0.5">
+              <!-- Row 1: Selected / Highlighted (#1E293B, #10B981 left accent bar, 44px height) -->
+              <div class="h-11 px-3 rounded-lg bg-[#1E293B] border border-emerald-500/30 flex items-center justify-between relative overflow-hidden group cursor-pointer">
+                <!-- Left green accent bar -->
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#10B981]"></div>
+
+                <div class="flex items-center gap-3 pl-1.5">
+                  <!-- Sparkles Icon -->
+                  <div class="w-6 h-6 rounded flex items-center justify-center bg-purple-500/20 text-purple-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"/>
+                    </svg>
+                  </div>
+                  <span class="text-white font-medium text-sm">Ajukan Pertanyaan ke Pemandu Socratic AI</span>
+                </div>
+
+                <div class="flex items-center gap-1.5 font-mono text-[11px] text-slate-300">
+                  <kbd class="px-1.5 py-0.5 rounded bg-black/40 border border-white/10 text-emerald-300 font-semibold shadow-sm">Ctrl</kbd>
+                  <span class="text-slate-500">+</span>
+                  <kbd class="px-1.5 py-0.5 rounded bg-black/40 border border-white/10 text-emerald-300 font-semibold shadow-sm">Enter</kbd>
+                </div>
+              </div>
+
+              <!-- Row 2: Pause / Resume -->
+              <div class="h-11 px-3 rounded-lg hover:bg-[#1E293B]/70 border border-transparent hover:border-white/5 flex items-center justify-between group cursor-pointer transition-colors">
+                <div class="flex items-center gap-3">
+                  <!-- Pause/Play Icon -->
+                  <div class="w-6 h-6 rounded flex items-center justify-center bg-amber-500/10 text-amber-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>
+                    </svg>
+                  </div>
+                  <span class="text-slate-200 group-hover:text-white font-normal text-sm">Jeda / Lanjutkan Timer Sprint</span>
+                </div>
+                <div class="flex items-center gap-1.5 font-mono text-[11px] text-slate-400">
+                  <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">Alt</kbd>
+                  <span class="text-slate-500">+</span>
+                  <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">P</kbd>
+                </div>
+              </div>
+
+              <!-- Row 3: Markdown Mode -->
+              <div class="h-11 px-3 rounded-lg hover:bg-[#1E293B]/70 border border-transparent hover:border-white/5 flex items-center justify-between group cursor-pointer transition-colors">
+                <div class="flex items-center gap-3">
+                  <!-- Eye Icon -->
+                  <div class="w-6 h-6 rounded flex items-center justify-center bg-sky-500/10 text-sky-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                    </svg>
+                  </div>
+                  <span class="text-slate-200 group-hover:text-white font-normal text-sm">Beralih Mode Tulis / Pratinjau Markdown</span>
+                </div>
+                <div class="flex items-center gap-1.5 font-mono text-[11px] text-slate-400">
+                  <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">Ctrl</kbd>
+                  <span class="text-slate-500">+</span>
+                  <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">M</kbd>
+                </div>
+              </div>
+
+              <!-- Row 4: Download .md -->
+              <div class="h-11 px-3 rounded-lg hover:bg-[#1E293B]/70 border border-transparent hover:border-white/5 flex items-center justify-between group cursor-pointer transition-colors">
+                <div class="flex items-center gap-3">
+                  <!-- Download Icon -->
+                  <div class="w-6 h-6 rounded flex items-center justify-center bg-emerald-500/10 text-emerald-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                    </svg>
+                  </div>
+                  <span class="text-slate-200 group-hover:text-white font-normal text-sm">Unduh Catatan Sesi Saat Ini (.md)</span>
+                </div>
+                <div class="flex items-center gap-1.5 font-mono text-[11px] text-slate-400">
+                  <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">Ctrl</kbd>
+                  <span class="text-slate-500">+</span>
+                  <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">S</kbd>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Group 2: MODE DEMO & DIAGNOSTIK JURI -->
+          <div class="pt-1 border-t border-white/[0.08]">
+            <div class="px-3 py-1.5 text-[10px] font-mono font-semibold tracking-wider text-slate-400 uppercase flex items-center justify-between">
+              <span>Mode Demo & Diagnostik Juri</span>
+              <span class="text-amber-400/80 font-mono text-[10px]">GDGoC STACK 2026</span>
+            </div>
+
+            <div class="space-y-1 mt-0.5">
+              <!-- Row 5: Telemetry Panel -->
+              <div class="h-11 px-3 rounded-lg hover:bg-[#1E293B]/70 border border-transparent hover:border-white/5 flex items-center justify-between group cursor-pointer transition-colors">
+                <div class="flex items-center gap-3">
+                  <!-- Activity Icon -->
+                  <div class="w-6 h-6 rounded flex items-center justify-center bg-cyan-500/10 text-cyan-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"/>
+                    </svg>
+                  </div>
+                  <span class="text-slate-200 group-hover:text-white font-normal text-sm">Buka Panel Telemetri & Bukti Sinkronisasi</span>
+                </div>
+                <div class="flex items-center gap-1 font-mono text-[11px] text-slate-400">
+                  <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">Ctrl</kbd>
+                  <span class="text-slate-500">+</span>
+                  <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">Shift</kbd>
+                  <span class="text-slate-500">+</span>
+                  <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">D</kbd>
+                </div>
+              </div>
+
+              <!-- Row 6: Reset Simulation -->
+              <div class="h-11 px-3 rounded-lg hover:bg-[#1E293B]/70 border border-transparent hover:border-white/5 flex items-center justify-between group cursor-pointer transition-colors">
+                <div class="flex items-center gap-3">
+                  <!-- RefreshCw Icon -->
+                  <div class="w-6 h-6 rounded flex items-center justify-center bg-rose-500/10 text-rose-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                    </svg>
+                  </div>
+                  <span class="text-slate-200 group-hover:text-white font-normal text-sm">Reset Simulasi Deterministik ke 00:60</span>
+                </div>
+                <div class="flex items-center gap-1.5 font-mono text-[11px] text-slate-400">
+                  <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">Alt</kbd>
+                  <span class="text-slate-500">+</span>
+                  <kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">R</kbd>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Command Palette Footer Navigation Info -->
+        <div class="px-4 py-2 bg-[#0A0E17] border-t border-white/[0.08] flex items-center justify-between text-[11px] font-mono text-slate-400">
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1">
+              <kbd class="px-1 py-0.2 rounded bg-white/5 border border-white/10 text-[10px]">↑</kbd>
+              <kbd class="px-1 py-0.2 rounded bg-white/5 border border-white/10 text-[10px]">↓</kbd>
+              <span class="text-slate-500">navigasi</span>
+            </span>
+            <span class="flex items-center gap-1">
+              <kbd class="px-1.5 py-0.2 rounded bg-white/5 border border-white/10 text-[10px]">↵</kbd>
+              <span class="text-slate-500">pilih aksi</span>
+            </span>
+          </div>
+          <span class="text-slate-500">SyncPod Technical Cockpit v2.4</span>
+        </div>
+      </div>
+
+      <!-- ==================== 2. BOTTOM-RIGHT SECONDARY CARD: MODAL KONFIRMASI KELUAR ==================== -->
+      <!-- Width: 420px, #111827 surface, 1px solid #F59E0B border, prominent card-shadow -->
+      <div class="absolute bottom-1 right-2 w-[420px] bg-[#111827] border border-[#F59E0B]/70 rounded-xl card-shadow p-5 flex flex-col z-30">
+        <!-- Top alert accent pill -->
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-md bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-mono font-semibold tracking-wider text-amber-400 uppercase">Perlindungan Sesi Sprint</span>
+          </div>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950/40 border border-amber-500/30 text-amber-300">FR-3.5 Invarian</span>
+        </div>
+
+        <!-- Title: Bricolage Grotesque 18px bold -->
+        <h3 class="font-display font-bold text-lg text-white tracking-tight leading-snug">
+          Tinggalkan Sesi Sprint Pod 042?
+        </h3>
+
+        <!-- Body text -->
+        <p class="mt-2 text-xs leading-relaxed text-slate-300 font-normal">
+          Kursi Anda di Pod 042 akan tetap disimpan selama <span class="text-amber-300 font-semibold font-mono">15 menit</span>. Anda dapat bergabung kembali kapan saja sebelum sesi berakhir, dan catatan bersama tetap tersimpan.
+        </p>
+
+        <!-- Technical guarantee bullet points -->
+        <div class="my-3 py-2 px-3 rounded-lg bg-black/40 border border-white/5 space-y-1.5 text-[11px] font-mono text-slate-300">
+          <div class="flex items-center gap-2 text-emerald-400">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+            <span>Yjs CRDT state tersimpan aman di server</span>
+          </div>
+          <div class="flex items-center gap-2 text-emerald-400">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+            <span>Timer 3 rekan tetap berjalan tanpa jeda</span>
+          </div>
+        </div>
+
+        <!-- Buttons Row (Height: 44px each) -->
+        <div class="grid grid-cols-2 gap-2.5 mt-1 pt-2 border-t border-white/10">
+          <!-- Secondary: Tetap di Cockpit -->
+          <button class="h-11 px-3 rounded-lg bg-[#1E293B] hover:bg-[#283548] border border-white/10 hover:border-white/20 text-xs font-semibold text-slate-200 transition-colors flex items-center justify-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-[#111827]">
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/></svg>
+            <span>Tetap di Cockpit</span>
+          </button>
+
+          <!-- Danger: Keluar Sementara (#EF4444) -->
+          <button class="h-11 px-3 rounded-lg bg-[#EF4444] hover:bg-red-600 text-white text-xs font-bold transition-colors shadow-lg shadow-red-950/50 flex items-center justify-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-[#111827]">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"/></svg>
+            <span>Keluar Sementara</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bottom Status Strip -->
+    <footer class="w-full flex items-center justify-between text-xs px-2 pt-2 border-t border-white/[0.08] text-slate-400 font-mono text-[11px]">
+      <div class="flex items-center gap-4">
+        <span>GDGoC ITB STACK 2026</span>
+        <span>•</span>
+        <span>Tim Cah Kacawww (ITATS)</span>
+        <span>•</span>
+        <span class="text-emerald-400">NFR-3 Responsive & Zero Layout Drift Verified</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-slate-400">Modal Focus Trap: <span class="text-white">Aktif</span></span>
+        <span>•</span>
+        <span class="text-slate-400">Rasio Kontras: <span class="text-emerald-400">&ge; 7.2:1 (WCAG AAA)</span></span>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

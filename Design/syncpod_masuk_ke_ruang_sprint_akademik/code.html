@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "background": "#0f131c", "surface-container": "#1c1f29", "on-tertiary-fixed-variant": "#5516be", "primary-container": "#10b981", "error-container": "#93000a", "secondary": "#89ceff", "on-secondary-container": "#00344e", "tertiary-container": "#b090ff", "surface-container-low": "#181b25", "on-surface-variant": "#bbcabf", "inverse-on-surface": "#2c303a", "surface-tint": "#4edea3", "secondary-fixed-dim": "#89ceff", "inverse-surface": "#dfe2ef", "on-tertiary": "#3c0091", "surface-bright": "#353943", "on-tertiary-fixed": "#23005c", "tertiary-fixed-dim": "#d0bcff", "on-surface": "#dfe2ef", "outline-variant": "#3c4a42", "primary": "#4edea3", "inverse-primary": "#006c49", "primary-fixed-dim": "#4edea3", "tertiary": "#d0bcff", "primary-fixed": "#6ffbbe", "on-secondary-fixed-variant": "#004c6e", "on-primary-fixed": "#002113", "surface-container-highest": "#31353f", "surface": "#0f131c", "on-primary-fixed-variant": "#005236", "surface-variant": "#31353f", "surface-container-lowest": "#0a0e17", "on-background": "#dfe2ef", "outline": "#86948a", "on-secondary": "#00344d", "error": "#ffb4ab", "surface-dim": "#0f131c", "on-error": "#690005", "surface-container-high": "#262a34", "on-primary": "#003824", "on-error-container": "#ffdad6", "on-tertiary-container": "#4600a7", "secondary-fixed": "#c9e6ff", "on-secondary-fixed": "#001e2f", "secondary-container": "#00a2e6", "on-primary-container": "#00422b", "tertiary-fixed": "#e9ddff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin": "1rem", "space-xs": "0.25rem", "space-md": "0.75rem", "margin-desktop": "1.5rem", "gutter-desktop": "1rem", "space-lg": "1rem", "space-sm": "0.5rem", "space-xl": "1.5rem", "gutter": "0.75rem" }, "fontFamily": { "body-lg": [ "Plus Jakarta Sans" ], "display-lg-mobile": [ "Bricolage Grotesque" ], "label-code-md": [ "JetBrains Mono" ], "label-code-lg": [ "JetBrains Mono" ], "body-md": [ "Plus Jakarta Sans" ], "body-sm": [ "Plus Jakarta Sans" ], "headline-lg": [ "Bricolage Grotesque" ], "label-code-sm": [ "JetBrains Mono" ], "headline-md": [ "Bricolage Grotesque" ], "display-lg": [ "Bricolage Grotesque" ] }, "fontSize": { "body-lg": [ "15px", { "lineHeight": "24px", "fontWeight": "500" } ], "display-lg-mobile": [ "30px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "label-code-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" } ], "label-code-lg": [ "18px", { "lineHeight": "22px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "body-md": [ "13px", { "lineHeight": "20px", "fontWeight": "400" } ], "body-sm": [ "12px", { "lineHeight": "18px", "fontWeight": "400" } ], "headline-lg": [ "24px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "label-code-sm": [ "10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500" } ], "headline-md": [ "18px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "display-lg": [ "40px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" } ] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><main class="w-full min-h-screen flex items-center justify-center bg-surface"><div class="flex flex-col w-full">
+<div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+<!-- LEFT COLUMN: AUTHENTICATION & DEMO SWITCHER (~42% / 5 cols) -->
+<section class="lg:col-span-5 flex flex-col gap-6">
+<!-- Brand & Context Header -->
+<header class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-surface-container-high border border-primary/30">
+<svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewbox="0 0 32 32">
+<circle class="opacity-40" cx="16" cy="16" r="11" stroke-dasharray="3 3" stroke-width="1.75"></circle>
+<circle class="text-primary" cx="16" cy="16" r="6" stroke-width="1.75"></circle>
+<circle cx="16" cy="5" fill="currentColor" r="2"></circle>
+<circle cx="27" cy="16" fill="currentColor" r="2"></circle>
+<circle cx="16" cy="27" fill="currentColor" r="2"></circle>
+<circle cx="5" cy="16" fill="currentColor" r="2"></circle>
+</svg>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-lg text-headline-lg font-bold tracking-tight text-on-surface">SyncPod</span>
+<span class="font-label-code-sm text-label-code-sm uppercase tracking-wider text-on-surface-variant">Sprint Workspace v2.4</span>
+</div>
+</div>
+<span class="font-label-code-sm text-label-code-sm px-2.5 py-1 rounded bg-surface-container text-primary border border-primary/30 tracking-wide font-semibold">
+              STACK 2026 · CASE 1
+            </span>
+</div>
+<div class="flex flex-col gap-2 pt-2">
+<h1 class="font-headline-lg text-display-lg-mobile md:text-headline-lg font-bold text-on-surface tracking-tight leading-tight">
+              Masuk ke Ruang Sprint Akademik
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+              Kolaborasi belajar terstruktur dalam pod 4 mahasiswa berbasis silabus aktif dan ritme Pomodoro deterministik.
+            </p>
+</div>
+</header>
+<!-- Primary Single Sign-On (SSO ITATS) Card -->
+<div class="bg-surface-container-low rounded-xl p-5 border border-outline-variant/30 shadow-md">
+<form class="flex flex-col gap-4" id="sso-form" onsubmit="event.preventDefault(); window.handleSSOLogin();">
+<div class="flex flex-col gap-2">
+<label class="flex items-center gap-2 font-body-md text-body-md font-medium text-on-surface" for="sso-email">
+<span class="material-symbols-outlined text-[18px] text-primary">account_balance</span>
+                Email Kampus (SSO Mahasiswa)
+              </label>
+<div class="relative flex items-center">
+<input class="w-full h-11 px-3.5 pr-10 rounded-lg bg-surface-container text-on-surface font-label-code-md text-label-code-md border border-outline-variant/60 focus:border-secondary focus:outline-none transition" id="sso-email" required="" type="email" value="062025107900@mhs.itats.ac.id"/>
+<span class="absolute right-3 text-primary flex items-center pointer-events-none" title="Terverifikasi Institusi">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</span>
+</div>
+</div>
+<button class="w-full h-12 rounded-lg bg-primary hover:bg-primary-fixed text-on-primary font-body-lg font-semibold flex items-center justify-center gap-2 transition duration-150 shadow-sm cursor-pointer" type="submit">
+<span>Lanjutkan dengan Akun Kampus</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<div class="flex items-center gap-2 pt-1">
+<span class="material-symbols-outlined text-[16px] text-outline">info</span>
+<p class="font-body-sm text-body-sm text-outline">
+                Mendukung SSO Google Workspace Institusi (@mhs.itats.ac.id)
+              </p>
+</div>
+</form>
+</div>
+<!-- Prototype Switcher (Simulasi Juri / Juror Sandbox) -->
+<div class="bg-surface-container-low rounded-xl p-5 border border-primary/40 border-dashed shadow-md flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-headline-md text-body-lg font-semibold text-on-surface">Mode Prototipe Deterministik</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Simulasi cepat tim Cah Kacawww untuk evaluasi juri</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 rounded bg-primary/10 text-primary border border-primary/40 font-bold uppercase tracking-wider">
+              Tanpa Login
+            </span>
+</div>
+<!-- Selectable Preset Rows -->
+<div class="flex flex-col gap-2" id="preset-container">
+<!-- Row 1: Selected by default -->
+<button class="w-full flex items-center justify-between p-3 rounded-lg bg-surface-container border border-primary/60 text-left transition cursor-pointer" id="preset-btn-0" onclick="window.selectPreset(0)" type="button">
+<div class="flex items-center gap-3">
+<span class="w-4 h-4 rounded-full border border-primary flex items-center justify-center p-0.5">
+<span class="w-2 h-2 rounded-full bg-primary block" id="radio-dot-0"></span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface">Ahmad Rizqi Mubarok</span>
+<span class="font-label-code-sm text-label-code-sm text-outline">NRP: 06.2025.1.07900</span>
+</div>
+</div>
+<span class="font-label-code-sm text-label-code-sm px-2 py-1 rounded bg-primary-container/20 text-primary border border-primary/30 font-medium">
+                Lead · T. Informatika
+              </span>
+</button>
+<!-- Row 2 -->
+<button class="w-full flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-left hover:border-outline transition cursor-pointer" id="preset-btn-1" onclick="window.selectPreset(1)" type="button">
+<div class="flex items-center gap-3">
+<span class="w-4 h-4 rounded-full border border-outline flex items-center justify-center p-0.5">
+<span class="w-2 h-2 rounded-full bg-transparent block" id="radio-dot-1"></span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-medium text-on-surface">Muhammad Rifqi</span>
+<span class="font-label-code-sm text-label-code-sm text-outline">NRP: 06.2025.1.07892</span>
+</div>
+</div>
+<span class="font-label-code-sm text-label-code-sm px-2 py-1 rounded bg-surface-container text-on-surface-variant font-medium">
+                Anggota · ITATS
+              </span>
+</button>
+<!-- Row 3 -->
+<button class="w-full flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-left hover:border-outline transition cursor-pointer" id="preset-btn-2" onclick="window.selectPreset(2)" type="button">
+<div class="flex items-center gap-3">
+<span class="w-4 h-4 rounded-full border border-outline flex items-center justify-center p-0.5">
+<span class="w-2 h-2 rounded-full bg-transparent block" id="radio-dot-2"></span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-medium text-on-surface">Rivan Pramudya Erlangga</span>
+<span class="font-label-code-sm text-label-code-sm text-outline">NRP: 06.2025.1.07885</span>
+</div>
+</div>
+<span class="font-label-code-sm text-label-code-sm px-2 py-1 rounded bg-surface-container text-on-surface-variant font-medium">
+                Anggota · ITATS
+              </span>
+</button>
+<!-- Row 4 -->
+<button class="w-full flex items-center justify-between p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-left hover:border-outline transition cursor-pointer" id="preset-btn-3" onclick="window.selectPreset(3)" type="button">
+<div class="flex items-center gap-3">
+<span class="w-4 h-4 rounded-full border border-outline flex items-center justify-center p-0.5">
+<span class="w-2 h-2 rounded-full bg-transparent block" id="radio-dot-3"></span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-medium text-on-surface">M. Farhan Magribi</span>
+<span class="font-label-code-sm text-label-code-sm text-outline">NRP: 06.2025.1.07914</span>
+</div>
+</div>
+<span class="font-label-code-sm text-label-code-sm px-2 py-1 rounded bg-surface-container text-on-surface-variant font-medium">
+                Anggota · ITATS
+              </span>
+</button>
+</div>
+<button class="w-full h-11 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary border border-primary/40 font-body-md font-medium flex items-center justify-center gap-2 transition duration-150 cursor-pointer" onclick="window.launchSandbox()" type="button">
+<span>Masuk Langsung ke Matchmaking Pod</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- RIGHT COLUMN: LIVE SPRINT BENTO PREVIEW (~58% / 7 cols) -->
+<section class="lg:col-span-7 flex flex-col gap-6">
+<!-- Live Telemetry Stats Bar -->
+<div class="grid grid-cols-3 gap-3 md:gap-4 p-4 rounded-xl bg-surface-container-low border border-outline-variant/30">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pod Aktif</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-label-code-lg text-headline-lg font-bold text-on-surface">14</span>
+<span class="font-label-code-sm text-label-code-sm text-outline">unit</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 border-l border-outline-variant/30 pl-3 md:pl-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-secondary">groups</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Mahasiswa Fokus</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-label-code-lg text-headline-lg font-bold text-on-surface">56</span>
+<span class="font-label-code-sm text-label-code-sm text-outline">online</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 border-l border-outline-variant/30 pl-3 md:pl-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-primary">speed</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Rata-rata Match</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-label-code-lg text-headline-lg font-bold text-primary">4.2s</span>
+<span class="font-label-code-sm text-label-code-sm text-outline">koneksi</span>
+</div>
+</div>
+</div>
+<!-- Cockpit Core Preview Card: Signature PodRing SVG -->
+<div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant/30 flex flex-col gap-6 relative overflow-hidden shadow-lg">
+<!-- Cockpit Header -->
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-[22px]">radar</span>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface font-semibold tracking-tight">
+                  Pratinjau Ruang Cockpit · Pod-042
+                </span>
+<span class="font-label-code-sm text-label-code-sm text-outline">
+                  Siklus 1/4 · Algoritma Dijkstra ITATS
+                </span>
+</div>
+</div>
+<span class="font-label-code-sm text-label-code-sm px-2.5 py-1 rounded bg-primary/10 text-primary border border-primary/30 font-medium">
+              FASE FOKUS 1 (25 MNT)
+            </span>
+</div>
+<!-- Central PodRing Interactive Assembly -->
+<div class="relative w-full flex items-center justify-center py-6">
+<div class="relative w-72 h-72 sm:w-80 sm:h-80 flex items-center justify-center">
+<!-- Pure SVG Orbital Visualization -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 320 320">
+<!-- Background Guide Ring -->
+<circle class="text-outline-variant/20" cx="160" cy="160" fill="none" r="120" stroke="currentColor" stroke-width="1.5"></circle>
+<!-- Inner Track -->
+<circle class="text-outline-variant/30" cx="160" cy="160" fill="none" r="85" stroke="currentColor" stroke-dasharray="2 4" stroke-width="1"></circle>
+<!-- Countdown Progress Arc (24:18 elapsed out of 25:00) -->
+<circle class="text-primary transition-all duration-1000" cx="160" cy="160" fill="none" r="120" stroke="currentColor" stroke-dasharray="753.98" stroke-dashoffset="36" stroke-linecap="round" stroke-width="3.5"></circle>
+<!-- Radar Scan Sweep Ray -->
+<line class="text-primary/40 animate-spin origin-center" stroke="currentColor" stroke-width="1.5" style="animation-duration: 6s; transform-origin: 160px 160px;" x1="160" x2="280" y1="160" y2="160"></line>
+</svg>
+<!-- Center Digital Telemetry Display -->
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
+<span class="font-label-code-sm text-label-code-sm tracking-widest text-outline uppercase font-semibold">
+                  Sisa Fokus
+                </span>
+<span class="font-label-code-lg text-display-lg font-bold text-on-surface tracking-tight tabular-nums my-0.5" id="countdown-timer">
+                  24:18
+                </span>
+<div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container border border-outline-variant/40">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-code-sm text-[10px] text-on-surface-variant font-mono">SYNCPOD AUDIO ON</span>
+</div>
+</div>
+<!-- Seat Node 1: Top (12 o'clock) -> Ahmad Rizqi (Lead) -->
+<div class="absolute top-1 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer" title="Ahmad Rizqi Mubarok - Ketua Pod">
+<div class="w-11 h-11 rounded-full bg-surface-container border-2 border-primary flex items-center justify-center shadow-lg relative">
+<span class="font-label-code-md text-label-code-md font-bold text-primary">AR</span>
+<span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-primary text-on-primary rounded-full flex items-center justify-center text-[9px] font-bold">★</span>
+</div>
+<span class="mt-1 font-label-code-sm text-[10px] text-primary px-1.5 py-0.2 rounded bg-surface-container-highest/80">AR · Lead</span>
+</div>
+<!-- Seat Node 2: Right (3 o'clock) -> Muhammad Rifqi -->
+<div class="absolute right-1 top-1/2 translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer" title="Muhammad Rifqi - Catatan Sprint">
+<div class="w-11 h-11 rounded-full bg-surface-container border border-secondary flex items-center justify-center shadow-md">
+<span class="font-label-code-md text-label-code-md font-bold text-secondary">MR</span>
+</div>
+<span class="mt-1 font-label-code-sm text-[10px] text-secondary px-1.5 py-0.2 rounded bg-surface-container-highest/80">MR · Notula</span>
+</div>
+<!-- Seat Node 3: Bottom (6 o'clock) -> Rivan Pramudya -->
+<div class="absolute bottom-1 left-1/2 -translate-x-1/2 translate-y-1/2 flex flex-col items-center group cursor-pointer" title="Rivan Pramudya - Solver">
+<div class="w-11 h-11 rounded-full bg-surface-container border border-primary flex items-center justify-center shadow-md">
+<span class="font-label-code-md text-label-code-md font-bold text-primary">RP</span>
+</div>
+<span class="mt-1 font-label-code-sm text-[10px] text-on-surface-variant px-1.5 py-0.2 rounded bg-surface-container-highest/80">RP · Solver</span>
+</div>
+<!-- Seat Node 4: Left (9 o'clock) -> M. Farhan Magribi -->
+<div class="absolute left-1 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer" title="M. Farhan Magribi - Reviewer">
+<div class="w-11 h-11 rounded-full bg-surface-container border border-tertiary flex items-center justify-center shadow-md">
+<span class="font-label-code-md text-label-code-md font-bold text-tertiary">FM</span>
+</div>
+<span class="mt-1 font-label-code-sm text-[10px] text-tertiary px-1.5 py-0.2 rounded bg-surface-container-highest/80">FM · Review</span>
+</div>
+</div>
+</div>
+<!-- Bottom Telemetry Ribbon -->
+<div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-outline-variant/20 font-body-sm text-body-sm">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">terminal</span>
+<span>Workspace: Visual Studio Code Collab Live Share</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-label-code-sm text-label-code-sm text-outline">Target: Milestone 1 / Dijkstra</span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</div>
+</div>
+</div>
+<!-- Lower Bento Split: Active Syllabus & Socratic Assistant Preview -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Syllabus Module Card -->
+<div class="bg-surface-container-low rounded-xl p-4 border border-outline-variant/30 flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">account_tree</span>
+<span class="font-headline-md text-body-md font-semibold text-on-surface">Silabus Berjalan ITATS</span>
+</div>
+<span class="font-label-code-sm text-[10px] px-1.5 py-0.5 rounded bg-surface-container text-secondary">Semester Genap</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="p-2.5 rounded-lg bg-surface-container border border-primary/40 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-body-sm text-body-sm font-medium text-on-surface">Traversal Graf &amp; Dijkstra</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-primary">Aktif di Pod</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/20 flex items-center justify-between opacity-70">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Struktur Data B+ Tree</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-outline">3 Pod Siaga</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/20 flex items-center justify-between opacity-70">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sistem Berkas &amp; Deadlock</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-outline">2 Pod Siaga</span>
+</div>
+</div>
+</div>
+<!-- Socratic Assistant Micro Card -->
+<div class="bg-surface-container-low rounded-xl p-4 border border-tertiary/30 flex flex-col gap-3 justify-between">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">psychology</span>
+<span class="font-headline-md text-body-md font-semibold text-on-surface">Pemandu Sokratik AI</span>
+</div>
+<span class="font-label-code-sm text-[10px] px-1.5 py-0.5 rounded bg-tertiary/10 text-tertiary font-mono">Gemini 2.5 Pro</span>
+</div>
+<div class="p-3 rounded-lg bg-surface-container border border-outline-variant/30 flex flex-col gap-2">
+<div class="flex items-center gap-1.5">
+<span class="font-label-code-sm text-tertiary font-mono">&gt;</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface font-medium">Mode Pertanyaan Terarah:</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">
+                “Bagaimana prioritas relaksasi node tetangga jika bobot edge bernilai negatif? Apakah antrean prioritas masih valid?”
+              </p>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">lock</span>
+                Tanpa Pembocoran Kode
+              </span>
+<span class="font-label-code-sm text-label-code-sm text-outline">3 Petunjuk Tersedia</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+<script>
+  window.selectedPresetIndex = 0;
+  const presets = [
+    { name: "Ahmad Rizqi Mubarok", email: "062025107900@mhs.itats.ac.id", role: "Lead · Teknik Informatika" },
+    { name: "Muhammad Rifqi", email: "062025107892@mhs.itats.ac.id", role: "Anggota · ITATS" },
+    { name: "Rivan Pramudya Erlangga", email: "062025107885@mhs.itats.ac.id", role: "Anggota · ITATS" },
+    { name: "M. Farhan Magribi", email: "062025107914@mhs.itats.ac.id", role: "Anggota · ITATS" }
+  ];
+
+  window.selectPreset = function(index) {
+    window.selectedPresetIndex = index;
+    const emailInput = document.getElementById("sso-email");
+    if (emailInput) {
+      emailInput.value = presets[index].email;
+    }
+
+    for (let i = 0; i < 4; i++) {
+      const btn = document.getElementById("preset-btn-" + i);
+      const dot = document.getElementById("radio-dot-" + i);
+      if (!btn || !dot) continue;
+
+      if (i === index) {
+        btn.classList.add("border-primary/60", "bg-surface-container");
+        btn.classList.remove("border-outline-variant/30", "bg-surface-container-low");
+        dot.classList.remove("bg-transparent");
+        dot.classList.add("bg-primary");
+      } else {
+        btn.classList.remove("border-primary/60", "bg-surface-container");
+        btn.classList.add("border-outline-variant/30", "bg-surface-container-low");
+        dot.classList.remove("bg-primary");
+        dot.classList.add("bg-transparent");
+      }
+    }
+  };
+
+  window.handleSSOLogin = function() {
+    const email = document.getElementById("sso-email")?.value || "";
+    const activeUser = presets[window.selectedPresetIndex]?.name || "Mahasiswa";
+    alert("Otentikasi Berhasil: " + email + "\\nMengarahkan " + activeUser + " ke Ruang Pod-042...");
+  };
+
+  window.launchSandbox = function() {
+    const selected = presets[window.selectedPresetIndex];
+    alert("Menjalankan Simulasi Deterministik sebagai: " + selected.name + " (" + selected.role + ")");
+  };
+
+  // Micro countdown effect in preview cockpit
+  (function initTimer() {
+    let seconds = 24 * 60 + 18;
+    const timerElem = document.getElementById("countdown-timer");
+    if (!timerElem) return;
+    
+    setInterval(() => {
+      if (seconds > 0) {
+        seconds--;
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        timerElem.textContent = String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
+      }
+    }, 1000);
+  })();
+</script></main></body></html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container-highest":"#31353f","tertiary-container":"#b090ff","on-error-container":"#ffdad6","inverse-on-surface":"#2c303a","surface-tint":"#4edea3","secondary-container":"#00a2e6","on-background":"#dfe2ef","primary-container":"#10b981","primary":"#4edea3","inverse-primary":"#006c49","on-secondary-container":"#00344e","on-secondary":"#00344d","surface":"#0f131c","on-tertiary-fixed":"#23005c","background":"#0f131c","primary-fixed-dim":"#4edea3","on-primary-fixed-variant":"#005236","on-surface":"#dfe2ef","on-secondary-fixed":"#001e2f","surface-container":"#1c1f29","surface-container-lowest":"#0a0e17","on-primary-fixed":"#002113","tertiary-fixed-dim":"#d0bcff","primary-fixed":"#6ffbbe","on-tertiary-fixed-variant":"#5516be","tertiary-fixed":"#e9ddff","outline":"#86948a","on-tertiary":"#3c0091","surface-container-high":"#262a34","secondary":"#89ceff","surface-container-low":"#181b25","on-error":"#690005","on-surface-variant":"#bbcabf","on-secondary-fixed-variant":"#004c6e","surface-dim":"#0f131c","surface-bright":"#353943","outline-variant":"#3c4a42","error":"#ffb4ab","surface-variant":"#31353f","inverse-surface":"#dfe2ef","on-tertiary-container":"#4600a7","tertiary":"#d0bcff","secondary-fixed":"#c9e6ff","on-primary":"#003824","error-container":"#93000a","on-primary-container":"#00422b","secondary-fixed-dim":"#89ceff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"1.5rem","space-lg":"1rem","gutter-desktop":"1rem","gutter":"0.75rem","margin-desktop":"1.5rem","space-md":"0.75rem","space-sm":"0.5rem","space-xs":"0.25rem","margin":"1rem"},"fontFamily":{"headline-lg":["Bricolage Grotesque"],"headline-md":["Bricolage Grotesque"],"body-lg":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"display-lg":["Bricolage Grotesque"],"label-code-lg":["JetBrains Mono"],"display-lg-mobile":["Bricolage Grotesque"],"label-code-md":["JetBrains Mono"],"body-md":["Plus Jakarta Sans"],"label-code-sm":["JetBrains Mono"]},"fontSize":{"headline-lg":["24px",{"lineHeight":"28px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["18px",{"lineHeight":"22px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["15px",{"lineHeight":"24px","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"display-lg":["40px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-code-lg":["18px",{"lineHeight":"22px","letterSpacing":"-0.02em","fontWeight":"600"}],"display-lg-mobile":["30px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-code-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"500"}],"body-md":["13px",{"lineHeight":"20px","fontWeight":"400"}],"label-code-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"500"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 h-16 z-50 bg-surface-container-low border-b border-outline-variant/40"><div class="w-full h-16 px-margin-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md min-w-0"><div class="flex items-center gap-space-sm shrink-0"><svg class="w-7 h-7 text-primary-container" fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="13" stroke="currentColor" stroke-dasharray="3 3" stroke-width="1.5"></circle><circle cx="16" cy="16" r="8" stroke="currentColor" stroke-width="1.5"></circle><circle cx="16" cy="3" fill="currentColor" r="2"></circle><circle cx="29" cy="16" fill="currentColor" r="2"></circle><circle cx="16" cy="29" fill="currentColor" r="2"></circle><circle cx="3" cy="16" fill="currentColor" r="2"></circle></svg><span class="font-headline-md text-headline-md text-on-surface tracking-tight">SyncPod</span></div><span class="text-outline-variant select-none">/</span><div class="flex items-center gap-space-xs text-on-surface-variant font-label-code-md text-label-code-md truncate"><span class="hover:text-on-surface cursor-pointer transition-colors">Matchmaking</span><span class="text-outline-variant">/</span><span class="text-primary font-medium truncate">Cari Pod Sprint</span></div></div><div class="flex items-center gap-space-md shrink-0"><div class="hidden sm:flex items-center gap-space-sm bg-surface-container px-space-md py-space-xs rounded border border-outline-variant/30"><div class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></div><span class="font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[200px] md:max-w-none">Ahmad Rizqi Mubarok · ITATS</span><span class="px-space-xs py-0.5 rounded border border-amber-500/50 bg-amber-500/10 text-amber-400 font-label-code-sm text-label-code-sm uppercase tracking-wider">Mode Simulasi</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest border-r border-outline-variant/40 z-40 flex flex-col justify-between p-space-md"><div class="flex flex-col gap-space-lg"><div class="px-space-sm py-space-xs font-label-code-sm text-label-code-sm text-outline uppercase tracking-widest">Konsol Navigasi</div><nav class="flex flex-col gap-space-xs" data-active-classes="bg-surface-container-high text-primary font-semibold border-l-2 border-primary"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-r text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-body-md text-body-md" data-path="cari-pod" href="#"><span class="material-symbols-outlined text-[18px]">radar</span><span>Cari Pod</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-r text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-body-md text-body-md" data-path="kokpit-sprint" href="#"><span class="material-symbols-outlined text-[18px]">terminal</span><span>Kokpit Sprint</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-r text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-body-md text-body-md" data-path="arsip-sesi" href="#"><span class="material-symbols-outlined text-[18px]">data_object</span><span>Arsip Sesi</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-r text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-body-md text-body-md" data-path="telemetri-pod" href="#"><span class="material-symbols-outlined text-[18px]">monitoring</span><span>Telemetri Pod</span></a></nav></div><div class="p-space-sm bg-surface-container-low rounded border border-outline-variant/30 flex flex-col gap-space-xs"><div class="flex items-center justify-between font-label-code-sm text-label-code-sm text-outline"><span>KONEKSI POD</span><span class="text-primary">24ms</span></div><div class="h-1 w-full bg-surface-container rounded-full overflow-hidden"><div class="h-full bg-primary-container w-4/5"></div></div></div></aside><div class="pl-64"><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] overflow-hidden select-none bg-[#090D16] text-[#F8FAFC]">
+<!-- Sticky Context Header -->
+<header class="h-14 shrink-0 bg-[#0F172A] border-b border-white/[0.08] px-5 flex items-center justify-between z-20">
+<!-- Left: Breadcrumb / Title -->
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-[#111827] border border-white/[0.08] flex items-center justify-center shrink-0 text-[#10B981]">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<circle cx="12" cy="12" r="6" stroke-dasharray="3 3"></circle>
+<circle cx="12" cy="3" fill="currentColor" r="1.5"></circle>
+<circle cx="21" cy="12" fill="currentColor" r="1.5"></circle>
+<circle cx="12" cy="21" fill="currentColor" r="1.5"></circle>
+<circle cx="3" cy="12" fill="currentColor" r="1.5"></circle>
+</svg>
+</div>
+<div class="flex items-center gap-2 truncate">
+<h1 class="font-headline-md text-white text-[16px] leading-tight font-bold tracking-tight truncate">
+          Traversal Graf dan Dijkstra <span class="text-white/40 font-normal">·</span> Pod 042
+        </h1>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-label-code-sm font-medium bg-[#181b25] border border-white/10 text-slate-300 shrink-0">
+          Sesi Sprint #1
+        </span>
+</div>
+</div>
+<!-- Center: Phase Indicator Pill -->
+<div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 shadow-[0_0_12px_rgba(16,185,129,0.15)]">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]"></span>
+</span>
+<span class="font-label-code-md text-xs font-semibold text-[#10B981] tracking-wider uppercase">
+        Fase Fokus Aktif
+      </span>
+</div>
+<!-- Right: Action Buttons -->
+<div class="flex items-center gap-2 shrink-0">
+<button class="h-[38px] px-3.5 py-1.5 rounded-lg text-xs font-body-md font-medium text-slate-200 bg-[#1E293B] hover:bg-slate-700 border border-white/10 transition-colors flex items-center gap-1.5 focus:outline-none focus:ring-1 focus:ring-slate-400" id="btn-pause" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24">
+<rect height="16" rx="1" width="4" x="6" y="4"></rect>
+<rect height="16" rx="1" width="4" x="14" y="4"></rect>
+</svg>
+<span>Jeda Sprint</span>
+</button>
+<button class="h-[38px] px-3.5 py-1.5 rounded-lg text-xs font-body-md font-medium text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 transition-colors flex items-center gap-1.5 focus:outline-none focus:ring-1 focus:ring-red-400" id="btn-end" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+<polyline points="16 17 21 12 16 7"></polyline>
+<line x1="21" x2="9" y1="12" y2="12"></line>
+</svg>
+<span>Akhiri Sesi</span>
+</button>
+</div>
+</header>
+<!-- 3-Column Bento Workspace Grid -->
+<div class="flex-1 p-4 gap-4 flex flex-row overflow-hidden min-h-0 bg-[#090D16]">
+<!-- COLUMN 1: LEFT RAIL (320px) -->
+<aside class="w-[320px] shrink-0 flex flex-col gap-3.5 h-full overflow-hidden">
+<!-- Top Card: PodRing Timer Mode -->
+<section class="bg-[#111827] border border-white/10 rounded-xl p-3.5 flex flex-col items-center justify-between relative shadow-sm">
+<!-- Header row -->
+<div class="w-full flex items-center justify-between border-b border-white/[0.06] pb-2">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+<span class="font-label-code-sm text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Ritme Deterministik</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-label-code-sm text-slate-300 bg-[#0F172A] border border-white/10">SIKLUS 1/4</span>
+</div>
+<!-- Signature SVG PodRing Timer -->
+<div class="relative w-[190px] h-[190px] my-1 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 200 200">
+<!-- Background base track -->
+<circle cx="100" cy="100" fill="transparent" r="76" stroke="#1E293B" stroke-width="6"></circle>
+<!-- Depleting active arc: circumference ~477.5. Remaining 48s out of 1500s (~3.2%) or visual sprint arc (~78) -->
+<circle class="transition-all duration-1000" cx="100" cy="100" fill="transparent" r="76" stroke="#10B981" stroke-dasharray="477.5" stroke-dashoffset="390" stroke-linecap="round" stroke-width="6"></circle>
+<!-- Inner decorative ring -->
+<circle cx="100" cy="100" fill="transparent" r="62" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 4" stroke-width="1.5"></circle>
+<!-- 4 Seat Node Indicators with initials & glow -->
+<!-- 12 o'clock: Node 1 (AR) -->
+<g transform="rotate(90 100 100)">
+<circle cx="100" cy="24" fill="#0F172A" r="14" stroke="#10B981" stroke-width="1.5"></circle>
+<circle cx="100" cy="24" fill="none" opacity="0.3" r="17" stroke="#10B981" stroke-width="1"></circle>
+<text fill="#F8FAFC" font-family="JetBrains Mono" font-size="10" font-weight="600" text-anchor="middle" x="100" y="28">AR</text>
+</g>
+<!-- 3 o'clock: Node 2 (MR) -->
+<g transform="rotate(90 100 100)">
+<circle cx="176" cy="100" fill="#0F172A" r="14" stroke="#00a2e6" stroke-width="1.5"></circle>
+<circle cx="176" cy="100" fill="none" opacity="0.3" r="17" stroke="#00a2e6" stroke-width="1"></circle>
+<text fill="#F8FAFC" font-family="JetBrains Mono" font-size="10" font-weight="600" text-anchor="middle" x="176" y="104">MR</text>
+</g>
+<!-- 6 o'clock: Node 3 (RP) -->
+<g transform="rotate(90 100 100)">
+<circle cx="100" cy="176" fill="#0F172A" r="14" stroke="#8B5CF6" stroke-width="1.5"></circle>
+<circle cx="100" cy="176" fill="none" opacity="0.3" r="17" stroke="#8B5CF6" stroke-width="1"></circle>
+<text fill="#F8FAFC" font-family="JetBrains Mono" font-size="10" font-weight="600" text-anchor="middle" x="100" y="180">RP</text>
+</g>
+<!-- 9 o'clock: Node 4 (FM - disconnected) -->
+<g transform="rotate(90 100 100)">
+<circle cx="24" cy="100" fill="#0F172A" r="14" stroke="#EF4444" stroke-dasharray="3 2" stroke-width="1.5"></circle>
+<text fill="#EF4444" font-family="JetBrains Mono" font-size="10" font-weight="600" text-anchor="middle" x="24" y="104">FM</text>
+</g>
+</svg>
+<!-- Inside Ring Center Display -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+<span class="font-label-code-lg text-[38px] leading-none font-bold text-white tracking-tight tabular-nums">00:48</span>
+<span class="text-[9px] font-label-code-sm text-slate-400 font-mono tracking-wider mt-1">SISA WAKTU FOKUS</span>
+<div class="bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[9px] font-mono px-2 py-0.5 rounded-full mt-1.5 flex items-center gap-1 animate-pulse">
+<span class="w-1 h-1 rounded-full bg-amber-400"></span>
+<span>60 DETIK TERAKHIR</span>
+</div>
+</div>
+</div>
+<div class="w-full flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1.5 border-t border-white/[0.04]">
+<span>Blok Pomodoro: 25m</span>
+<span class="text-slate-300">Target: Rekursi Base Case</span>
+</div>
+</section>
+<!-- Bottom Card: MemberRow List (Presence) -->
+<section class="bg-[#111827] border border-white/10 rounded-xl p-3.5 flex-1 flex flex-col justify-between overflow-hidden shadow-sm">
+<div>
+<div class="flex items-center justify-between pb-2.5 border-b border-white/[0.06]">
+<h2 class="font-label-code-sm text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+<svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+<circle cx="9" cy="7" r="4"></circle>
+<path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+</svg>
+<span>Presensi Pod</span>
+</h2>
+<span class="font-label-code-sm text-[10px] text-[#10B981] bg-[#10B981]/10 px-2 py-0.5 rounded border border-[#10B981]/20 font-medium">4/4 Hadir</span>
+</div>
+<!-- List of 4 members -->
+<div class="flex flex-col gap-2 mt-2.5">
+<!-- Member 1: Ahmad Rizqi -->
+<div class="p-2 rounded-lg bg-[#0F172A] border border-white/5 flex items-center justify-between hover:border-white/10 transition-colors">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-7 h-7 rounded bg-[#10B981]/15 text-[#10B981] font-mono text-xs font-semibold flex items-center justify-center shrink-0 border border-[#10B981]/30">
+                  AR
+                </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-body-md text-xs font-semibold text-slate-100 truncate">Ahmad Rizqi Mubarok</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-slate-400 truncate">Anda · Lead Sprint</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-[#10B981] bg-[#10B981]/10 border border-[#10B981]/30 px-2 py-0.5 rounded text-[10px] font-mono shrink-0">
+<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<path d="m9 12 2 2 4-4"></path>
+</svg>
+<span>Fokus</span>
+</div>
+</div>
+<!-- Member 2: Muhammad Rifqi -->
+<div class="p-2 rounded-lg bg-[#0F172A] border border-white/5 flex items-center justify-between hover:border-white/10 transition-colors">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-7 h-7 rounded bg-[#00a2e6]/15 text-[#89ceff] font-mono text-xs font-semibold flex items-center justify-center shrink-0 border border-[#00a2e6]/30">
+                  MR
+                </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-body-md text-xs font-medium text-slate-200 truncate">Muhammad Rifqi</span>
+<span class="font-label-code-sm text-[9px] text-slate-400 bg-white/5 px-1 py-0.2 rounded">Simulasi</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-slate-400 truncate">Node 2 · Tab 1</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-[#89ceff] bg-[#00a2e6]/10 border border-[#00a2e6]/30 px-2 py-0.5 rounded text-[10px] font-mono shrink-0">
+<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M12 20h9"></path>
+<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+</svg>
+<span>Mencatat</span>
+</div>
+</div>
+<!-- Member 3: Rivan Pramudya -->
+<div class="p-2 rounded-lg bg-[#0F172A] border border-white/5 flex items-center justify-between hover:border-white/10 transition-colors">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-7 h-7 rounded bg-[#8B5CF6]/15 text-[#C084FC] font-mono text-xs font-semibold flex items-center justify-center shrink-0 border border-[#8B5CF6]/30">
+                  RP
+                </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-body-md text-xs font-medium text-slate-200 truncate">Rivan Pramudya E.</span>
+<span class="font-label-code-sm text-[9px] text-slate-400 bg-white/5 px-1 py-0.2 rounded">Simulasi</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-slate-400 truncate">Node 3 · Sokratik</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-[#C084FC] bg-[#8B5CF6]/15 border border-[#8B5CF6]/30 px-2 py-0.5 rounded text-[10px] font-mono shrink-0">
+<svg class="w-3 h-3" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"></path>
+</svg>
+<span>Tanya Pemandu</span>
+</div>
+</div>
+<!-- Member 4: M. Farhan Magribi (Disconnected) -->
+<div class="p-2 rounded-lg bg-[#0F172A]/70 border border-white/5 flex items-center justify-between opacity-80 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-7 h-7 rounded bg-red-500/10 text-red-400 font-mono text-xs font-semibold flex items-center justify-center shrink-0 border border-red-500/20">
+                  FM
+                </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-body-md text-xs font-medium text-slate-300 truncate">M. Farhan Magribi</span>
+<span class="font-label-code-sm text-[9px] text-slate-400 bg-white/5 px-1 py-0.2 rounded">Simulasi</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-slate-500 truncate">Node 4 · Reconnecting...</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-red-400 bg-red-500/10 border border-red-500/30 px-2 py-0.5 rounded text-[10px] font-mono shrink-0">
+<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+<line x1="2" x2="22" y1="2" y2="22"></line>
+<path d="M18.5 8a9 9 0 0 0-13-1.5"></path>
+<path d="M15 11.5a5 5 0 0 0-5.5-.5"></path>
+<circle cx="12" cy="18" r="1"></circle>
+</svg>
+<span>Terputus</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Micro telemetry info footer -->
+<div class="pt-2 border-t border-white/[0.04] flex flex-col gap-1">
+<div class="flex items-center justify-between text-[10px] font-mono text-slate-400">
+<span class="flex items-center gap-1 text-slate-400">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+              Mesh WebRTC P2P
+            </span>
+<span class="text-slate-300">Jitter: &lt;2ms (NTP Synced)</span>
+</div>
+<div class="w-full bg-[#0F172A] rounded-full h-1 overflow-hidden">
+<div class="bg-[#10B981] h-full w-[94%]"></div>
+</div>
+</div>
+</section>
+</aside>
+<!-- COLUMN 2: CENTER CANVAS - COLLABORATIVE MARKDOWN SCRATCHPAD -->
+<main class="flex-1 h-full flex flex-col bg-[#111827] border border-white/10 rounded-xl overflow-hidden shadow-sm min-w-0">
+<!-- Card Header -->
+<div class="h-10 px-4 bg-[#0F172A]/80 border-b border-white/10 flex items-center justify-between shrink-0">
+<!-- Left: Document name & sync status -->
+<div class="flex items-center gap-2.5 min-w-0">
+<svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+<polyline points="14 2 14 8 20 8"></polyline>
+<line x1="16" x2="8" y1="13" y2="13"></line>
+<line x1="16" x2="8" y1="17" y2="17"></line>
+<line x1="10" x2="8" y1="9" y2="9"></line>
+</svg>
+<span class="font-body-md text-xs font-semibold text-slate-200 truncate">
+            Catatan Bersama (CodeMirror 6 Markdown)
+          </span>
+<span class="hidden sm:inline-flex items-center gap-1 text-[11px] font-mono text-[#10B981] pl-2 border-l border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
+            Tersinkronisasi otomatis (Yjs CRDT)
+          </span>
+</div>
+<!-- Right: Segmented Toggle pill & active cursor counters -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1 text-[10px] font-mono text-slate-400">
+<span class="inline-flex -space-x-1.5 overflow-hidden">
+<span class="inline-block h-3.5 w-3.5 rounded-full ring-1 ring-[#0F172A] bg-[#10B981]"></span>
+<span class="inline-block h-3.5 w-3.5 rounded-full ring-1 ring-[#0F172A] bg-[#00a2e6]"></span>
+<span class="inline-block h-3.5 w-3.5 rounded-full ring-1 ring-[#0F172A] bg-[#8B5CF6]"></span>
+</span>
+<span class="text-slate-300 font-medium ml-1">3 Kursor Aktif</span>
+</div>
+<div class="inline-flex p-0.5 rounded-lg bg-[#090D16] border border-white/10 text-xs">
+<button class="px-2.5 py-0.5 rounded text-[11px] font-mono font-medium bg-[#10B981]/20 text-[#10B981] border border-[#10B981]/40">
+              Tulis
+            </button>
+<button class="px-2.5 py-0.5 rounded text-[11px] font-mono text-slate-400 hover:text-slate-200 transition-colors">
+              Pratinjau
+            </button>
+</div>
+</div>
+</div>
+<!-- Editor Body: Code Editor Surface with Line Numbers -->
+<div class="flex-1 bg-[#090D16] p-3 font-mono text-xs overflow-y-auto flex gap-3 leading-relaxed">
+<!-- Line numbers -->
+<div class="text-slate-600 select-none text-right pr-2 border-r border-white/5 font-mono text-[11px] flex flex-col shrink-0 leading-6">
+<span>01</span>
+<span>02</span>
+<span>03</span>
+<span>04</span>
+<span>05</span>
+<span>06</span>
+<span>07</span>
+<span>08</span>
+<span>09</span>
+<span>10</span>
+<span>11</span>
+<span>12</span>
+<span>13</span>
+<span>14</span>
+<span>15</span>
+<span>16</span>
+<span>17</span>
+<span>18</span>
+</div>
+<!-- Right: Formatted Technical Markdown Study Notes -->
+<div class="flex-1 text-slate-200 font-mono text-xs leading-6 overflow-x-hidden">
+<div class="text-[#89ceff] font-bold"># Catatan Modul: Traversal Graf &amp; Algoritma Dijkstra</div>
+<div class="text-slate-500">## 1. Kompleksitas &amp; Representasi</div>
+<!-- Table rendering inside markdown -->
+<div class="my-1.5 p-2 bg-[#0F172A] rounded border border-white/5 text-[11px]">
+<table class="w-full text-left border-collapse font-mono">
+<thead>
+<tr class="border-b border-white/10 text-slate-400">
+<th class="py-1 px-2">Representasi</th>
+<th class="py-1 px-2">Ruang Memori</th>
+<th class="py-1 px-2">Relaksasi Edge</th>
+<th class="py-1 px-2 text-[#10B981]">Total Waktu</th>
+</tr>
+</thead>
+<tbody class="text-slate-300 divide-y divide-white/[0.04]">
+<tr>
+<td class="py-1 px-2 text-slate-400">Adjacency Matrix</td>
+<td class="py-1 px-2">O(V²)</td>
+<td class="py-1 px-2">O(1)</td>
+<td class="py-1 px-2">O(V²)</td>
+</tr>
+<tr class="bg-white/[0.02]">
+<td class="py-1 px-2 text-[#89ceff]">Adjacency List + Min-Heap</td>
+<td class="py-1 px-2">O(V + E)</td>
+<td class="py-1 px-2">O(log V)</td>
+<td class="py-1 px-2 font-bold text-[#10B981]">O((V + E) log V)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="text-slate-500 mt-2">## 2. Invarian Bobot Negatif</div>
+<div class="text-slate-300 flex items-start gap-1">
+<span class="text-slate-500">−</span>
+<span>Algoritma greedy mengasumsikan jarak terpendek ke node terpilih sudah final.</span>
+</div>
+<div class="text-slate-300 flex items-start gap-1">
+<span class="text-slate-500">−</span>
+<span><em class="text-amber-300 not-italic font-semibold">Problem:</em> Jika ada edge berbobot negatif, relaksasi berikutnya dapat memangkas jalur yang sudah ditandai <code class="px-1.5 py-0.5 rounded bg-white/10 text-emerald-300 font-mono text-[11px]">visited = true</code>.</span>
+</div>
+<!-- Live cursor highlight from teammate Rifqi -->
+<div class="mt-2.5 p-2 rounded bg-[#00a2e6]/10 border-l-2 border-[#00a2e6] flex items-center justify-between text-[11px]">
+<div class="flex items-center gap-2">
+<span class="px-1.5 py-0.5 rounded bg-[#00a2e6] text-[#090D16] font-mono text-[10px] font-bold">Kursor Rifqi</span>
+<span class="text-slate-200 italic">“Perlu cek Bellman-Ford untuk deteksi negative cycle!”</span>
+</div>
+<span class="w-2 h-4 bg-[#00a2e6] animate-pulse"></span>
+</div>
+</div>
+</div>
+<!-- Bottom Status Strip -->
+<footer class="h-7 px-4 bg-[#0F172A] border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0">
+<div class="flex items-center gap-2 truncate">
+<span>UTF-8</span>
+<span>·</span>
+<span>Markdown GFM</span>
+<span>·</span>
+<span class="text-slate-300">1.428 Karakter</span>
+<span>·</span>
+<span>4 Paragraf</span>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="text-slate-500 hidden sm:inline">Sanitized GFM (Zero Script Injection)</span>
+<span class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300 text-[10px]">
+            Snapshot ID: 042-REV-18
+          </span>
+</div>
+</footer>
+</main>
+<!-- COLUMN 3: RIGHT RAIL - QUESTION QUEUE & SOCRATIC COPILOT (360px) -->
+<aside class="w-[360px] shrink-0 flex flex-col gap-3.5 h-full overflow-hidden">
+<!-- Top Half Card: Question Queue -->
+<section class="bg-[#111827] border border-white/10 rounded-xl p-3.5 flex flex-col gap-2.5 shadow-sm">
+<div class="flex items-center justify-between border-b border-white/[0.06] pb-2">
+<h2 class="font-headline-md text-sm font-bold text-white tracking-tight flex items-center gap-1.5">
+<svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+<line x1="12" x2="12.01" y1="17" y2="17"></line>
+</svg>
+<span>Antrean Pertanyaan</span>
+</h2>
+<span class="bg-[#0F172A] text-slate-300 font-mono text-[10px] px-2 py-0.5 rounded border border-white/10 font-medium">
+            1/1 Kuota per Anggota
+          </span>
+</div>
+<!-- Active Question Box -->
+<div class="bg-[#0F172A] border border-white/10 rounded-lg p-2.5 flex flex-col gap-1.5 hover:border-white/20 transition-colors">
+<div class="flex items-center justify-between text-[11px] font-mono">
+<span class="text-slate-200 font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></span>
+              Ahmad Rizqi <span class="text-slate-400 font-normal">(Lead)</span>
+</span>
+<span class="text-slate-400 text-[10px]">1 menit lalu</span>
+</div>
+<p class="font-body-md text-xs text-slate-100 leading-snug font-medium">
+            “Bagaimana cara membuktikan relaksasi edge tidak bekerja pada bobot negatif?”
+          </p>
+</div>
+<!-- Socratic Dispatch Action Button -->
+<button class="h-9 w-full bg-[#8B5CF6] hover:bg-[#7C3AED] active:bg-[#6D28D9] text-white font-body-md font-medium text-xs rounded-lg flex items-center justify-center gap-2 shadow-[0_2px_10px_rgba(139,92,246,0.3)] transition-all focus:outline-none focus:ring-1 focus:ring-purple-300" id="btn-ask-gemini" type="button">
+<svg class="w-3.5 h-3.5" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"></path>
+</svg>
+<span>Tanya Pemandu Sokratik</span>
+</button>
+</section>
+<!-- Bottom Half Card: Scoped Socratic Copilot Panel -->
+<section class="bg-[#111827] border border-[#8B5CF6]/50 rounded-xl p-3.5 flex-1 flex flex-col justify-between overflow-hidden shadow-[0_0_16px_rgba(139,92,246,0.08)]">
+<div class="flex flex-col gap-2 overflow-y-auto pr-0.5">
+<!-- Copilot Header -->
+<div class="flex items-center justify-between pb-1.5 border-b border-white/[0.06]">
+<div class="flex items-center gap-1.5">
+<svg class="w-4 h-4 text-[#8B5CF6]" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"></path>
+</svg>
+<h3 class="font-headline-md text-xs font-bold text-white tracking-tight">Pemandu Sokratik AI</h3>
+</div>
+<span class="bg-[#8B5CF6]/15 text-[#C084FC] border border-[#8B5CF6]/30 text-[9px] font-mono px-2 py-0.5 rounded font-semibold tracking-wider">
+              GEMINI 2.5 PRO
+            </span>
+</div>
+<p class="text-[11px] text-slate-400 leading-tight">
+            Memandu alur logika berpikir tanpa langsung membocorkan blok kode solusi.
+          </p>
+<!-- 3 Numbered Guiding Questions -->
+<div class="bg-[#0F172A]/90 border border-white/5 rounded-md p-2 flex flex-col gap-2 text-[11px] text-slate-300">
+<div class="flex items-start gap-1.5 leading-snug">
+<span class="text-[#8B5CF6] font-mono font-bold">1.</span>
+<span>Jika node B selesai diekstraksi dari priority queue, apakah relaksasi edge negatif berikutnya bisa memperpendek jarak asal ke B?</span>
+</div>
+<div class="flex items-start gap-1.5 leading-snug">
+<span class="text-[#8B5CF6] font-mono font-bold">2.</span>
+<span>Bayangkan graf 3 node (A→B: 3, A→C: 5, C→B: -5). Urutan node mana yang pertama kali dieksekusi Dijkstra?</span>
+</div>
+<div class="flex items-start gap-1.5 leading-snug">
+<span class="text-[#8B5CF6] font-mono font-bold">3.</span>
+<span>Apakah priority queue konvensional memiliki mekanisme untuk memindahkan kembali node yang sudah berstatus final?</span>
+</div>
+</div>
+<!-- Analogy Card -->
+<div class="bg-[#8B5CF6]/10 border-l-2 border-[#8B5CF6] p-2 rounded-r text-[11px] text-purple-200 leading-snug">
+<span class="font-semibold text-purple-300 block mb-0.5">Analogi Konsep:</span>
+            Seperti memilih gerbang tol termurah secara langsung di depan tanpa mengetahui ada voucher pengembalian dana besar di rute memutar.
+          </div>
+<!-- Reference hint -->
+<div class="bg-slate-900/90 p-1.5 rounded border border-white/5 text-[10px] font-mono text-slate-400 flex items-center gap-1.5">
+<svg class="w-3 h-3 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+</svg>
+<span class="truncate">Referensi: Cormen (CLRS) Bab 24.3: Shortest Paths</span>
+</div>
+</div>
+<!-- Footer Privacy Note (Fixed bottom of right rail) -->
+<div class="pt-2 border-t border-white/[0.06] text-[10px] text-[#8393A8] leading-tight flex items-start gap-1">
+<svg class="w-3 h-3 text-[#8393A8] shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+<rect height="11" rx="2" ry="2" width="18" x="3" y="11"></rect>
+<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+</svg>
+<span>Privasi: Catatan pod tidak dikirim ke AI; hanya pertanyaan aktif dan modul silabus yang diproses.</span>
+</div>
+</section>
+</aside>
+</div>
+</div>
+<script>
+  (function () {
+    // Micro-interaction handlers for sprint actions
+    const pauseBtn = document.getElementById('btn-pause');
+    const endBtn = document.getElementById('btn-end');
+    const askGeminiBtn = document.getElementById('btn-ask-gemini');
+
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', function () {
+        const isPaused = this.getAttribute('data-paused') === 'true';
+        if (!isPaused) {
+          this.setAttribute('data-paused', 'true');
+          this.innerHTML = `
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <span>Lanjutkan</span>
+          `;
+          this.classList.add('bg-emerald-600', 'text-white');
+          this.classList.remove('bg-[#1E293B]', 'text-slate-200');
+        } else {
+          this.setAttribute('data-paused', 'false');
+          this.innerHTML = `
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+            <span>Jeda Sprint</span>
+          `;
+          this.classList.remove('bg-emerald-600', 'text-white');
+          this.classList.add('bg-[#1E293B]', 'text-slate-200');
+        }
+      });
+    }
+
+    if (endBtn) {
+      endBtn.addEventListener('click', function () {
+        if (confirm('Konfirmasi: Selesaikan Sprint Pod 042 dan simpan seluruh catatan ke Arsip Sesi?')) {
+          alert('Sesi Sprint Pod 042 berhasil disinkronkan ke Arsip Sesi.');
+        }
+      });
+    }
+
+    if (askGeminiBtn) {
+      askGeminiBtn.addEventListener('click', function () {
+        const originalText = this.innerHTML;
+        this.innerHTML = `
+          <svg class="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"></path></svg>
+          <span>Menghubungi Gemini 2.5...</span>
+        `;
+        setTimeout(() => {
+          this.innerHTML = originalText;
+        }, 1200);
+      });
+    }
+  })();
+</script></main></div></body></html>
