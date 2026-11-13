@@ -66,6 +66,22 @@ describe('PodRing rendering across radar, timer, and presence states', () => {
     expect(htmlFour).toContain('4/4');
     expect(htmlFour).toContain('Simulasi');
     expect(htmlFour).not.toContain('kosong');
+
+    const htmlMatched = renderToStaticMarkup(
+      <PodRing
+        mode="radar"
+        seats={seatsFour}
+        progress={0}
+        phase="LOBBY"
+        isMatched={true}
+      />,
+    );
+    expect(htmlMatched).toContain('data-matched="true"');
+    expect(htmlMatched).toContain('data-matched-circle="true"');
+    expect(htmlMatched).toContain('data-matched-feedback="true"');
+    expect(htmlMatched).toContain('Pod lengkap!');
+    expect(htmlMatched).toContain('Memulai sprint belajar...');
+    expect(htmlMatched).not.toContain('data-radar-sweep="active"');
   });
 
   it('renders timer FOCUS, BREAK, paused, and last 60s pulse with polite phase announcement', () => {

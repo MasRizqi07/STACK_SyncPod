@@ -1,5 +1,5 @@
 import type { PodPhase } from '@syncpod/shared';
-import { Pause } from 'lucide-react';
+import { CheckCircle2, Pause } from 'lucide-react';
 import { COPY } from '@/copy';
 import { formatCountdown, isLastSixtySeconds } from '@/features/realtime';
 import { MiniSeatDot, SeatDot, type PodSeatState, type SeatPosition } from './SeatDot';
@@ -17,6 +17,7 @@ export interface PodRingProps {
   radarLabel?: string;
   variant?: 'full' | 'compact' | 'mini';
   announcePhase?: boolean;
+  isMatched?: boolean;
 }
 
 const SEAT_POSITIONS: readonly [SeatPosition, SeatPosition, SeatPosition, SeatPosition] = [
@@ -104,6 +105,7 @@ export function PodRing({
   radarLabel,
   variant = 'full',
   announcePhase = true,
+  isMatched = false,
 }: PodRingProps) {
   const orderedSeats = normalizeSeats(seats);
   const occupiedCount = orderedSeats.filter((s) => s.member !== undefined).length;
@@ -187,6 +189,7 @@ export function PodRing({
       data-paused={isPaused ? 'true' : 'false'}
       data-last-minute={lastMinute ? 'true' : 'false'}
       data-occupied-seats={occupiedCount}
+      data-matched={isMatched ? 'true' : 'false'}
       className="flex w-full flex-col items-center"
     >
       {mode === 'timer' && announcePhase && (
@@ -208,7 +211,7 @@ export function PodRing({
                 strokeWidth="1"
                 strokeDasharray="3 5"
               />
-              {radarActive && (
+              {radarActive && !isMatched && (
                 <g className="syncpod-radar-sweep" data-radar-sweep="active">
                   <path
                     d={`M ${RING_CENTER} ${RING_CENTER} L ${RING_CENTER} ${RING_CENTER - RING_RADIUS} A ${RING_RADIUS} ${RING_RADIUS} 0 0 1 ${
@@ -240,6 +243,24 @@ export function PodRing({
             strokeWidth={strokeWidth}
             strokeOpacity={mode === 'radar' && !radarActive ? 0.45 : 1}
           />
+
+          {mode === 'radar' && (
+            <circle
+              cx={RING_CENTER}
+              cy={RING_CENTER}
+              r={RING_RADIUS}
+              fill="none"
+              stroke="var(--color-emerald)"
+              strokeWidth={strokeWidth}
+              strokeLinecap="round"
+              strokeDasharray={RING_CIRCUMFERENCE}
+              strokeDashoffset={isMatched ? 0 : RING_CIRCUMFERENCE}
+              transform={`rotate(-90 ${RING_CENTER} ${RING_CENTER})`}
+              className="syncpod-matched-track"
+              style={{ opacity: isMatched ? 1 : 0 }}
+              data-matched-circle="true"
+            />
+          )}
 
           {mode === 'timer' && (
             <circle
@@ -276,14 +297,30 @@ export function PodRing({
 
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-10 text-center">
           {mode === 'radar' ? (
-            <>
-              <span className="tabular-nums text-3xl font-bold text-ink-primary sm:text-4xl">
-                {occupiedCount}/4
-              </span>
-              <span className="mt-1 max-w-[124px] text-xs font-medium leading-tight text-ink-secondary sm:text-sm">
-                {COPY.matchmaking.seatsCount(occupiedCount)}
-              </span>
-            </>
+            isMatched ? (
+              <div
+                className="flex flex-col items-center justify-center gap-1.5"
+                data-matched-feedback="true"
+              >
+                <CheckCircle2
+                  className="h-10 w-10 text-emerald sm:h-12 sm:w-12"
+                  strokeWidth={2.5}
+                  aria-hidden="true"
+                />
+                <span className="font-display text-sm font-bold text-emerald sm:text-base">
+                  {COPY.matchmaking.matchedTitle}
+                </span>
+              </div>
+            ) : (
+              <>
+                <span className="tabular-nums text-3xl font-bold text-ink-primary sm:text-4xl">
+                  {occupiedCount}/4
+                </span>
+                <span className="mt-1 max-w-[124px] text-xs font-medium leading-tight text-ink-secondary sm:text-sm">
+                  {COPY.matchmaking.seatsCount(occupiedCount)}
+                </span>
+              </>
+            )
           ) : (
             <>
               <span
@@ -319,9 +356,13 @@ export function PodRing({
         </div>
       </div>
 
-      {mode === 'radar' && radarLabel && (
-        <p className="mt-3 max-w-[260px] text-center text-sm font-medium text-ink-secondary">
-          {radarLabel}
+      {mode === 'radar' && (isMatched ? COPY.matchmaking.matchedSubtitle : radarLabel) && (
+        <p
+          className={`mt-3 max-w-[260px] text-center text-sm font-medium ${
+            isMatched ? 'text-emerald' : 'text-ink-secondary'
+          }`}
+        >
+          {isMatched ? COPY.matchmaking.matchedSubtitle : radarLabel}
         </p>
       )}
     </div>

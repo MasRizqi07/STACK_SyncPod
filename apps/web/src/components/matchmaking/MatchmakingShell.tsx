@@ -65,6 +65,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
   const [connectionState, setConnectionState] = useState<ConnectionState>('connected');
   const [activePodId, setActivePodId] = useState<string | null>(null);
   const [isSearching, setIsSearching] = useState(false);
+  const [isMatched, setIsMatched] = useState(false);
   const [seatsCount, setSeatsCount] = useState(0);
   const [fallbackOffer, setFallbackOffer] = useState<MatchFallbackOfferEvent | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -100,14 +101,20 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
       setNowMs(Date.now());
     });
 
+    let matchTimer: ReturnType<typeof setTimeout> | null = null;
     const unsubFound = client.on('match:found', (ev) => {
-      setIsSearching(false);
       setFallbackOffer(null);
-      router.push(`/pod/${ev.podId}`);
+      setSeatsCount(4);
+      setIsMatched(true);
+      matchTimer = setTimeout(() => {
+        setIsSearching(false);
+        router.push(`/pod/${ev.podId}`);
+      }, 600);
     });
 
     return () => {
       cancelled = true;
+      if (matchTimer) clearTimeout(matchTimer);
       unsubConn();
       unsubUpdate();
       unsubFallback();
@@ -137,7 +144,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
   );
 
   const ringSeats: PodSeatState[] = useMemo(() => {
-    if (!isSearching || seatsCount <= 0) {
+    if ((!isSearching && !isMatched) || seatsCount <= 0) {
       return [1, 2, 3, 4].map((num) => ({ seatNumber: num as 1 | 2 | 3 | 4 }));
     }
 
@@ -161,7 +168,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
         member: DEMO_SIMULATED_PEERS[idx - 1],
       };
     });
-  }, [isSearching, seatsCount]);
+  }, [isSearching, isMatched, seatsCount]);
 
   const fallbackRemainingSec = fallbackOffer
     ? Math.max(0, Math.ceil((fallbackOffer.expiresAt - nowMs) / 1000))
@@ -219,6 +226,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
     if (!client) return;
     await client.matchCancel({});
     setIsSearching(false);
+    setIsMatched(false);
     setSeatsCount(0);
     setFallbackOffer(null);
     setSubmitError(null);
@@ -547,18 +555,21 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
                 <PodRing
                   mode="radar"
                   variant="full"
-                  radarActive={isSearching}
+                  radarActive={isSearching && !isMatched}
                   seats={ringSeats}
                   progress={0}
                   phase="LOBBY"
+                  isMatched={isMatched}
                   radarLabel={
-                    isSearching
-                      ? COPY.matchmaking.radarFinding(seatsCount)
-                      : COPY.matchmaking.radarIdle
+                    isMatched
+                      ? COPY.matchmaking.matchedSubtitle
+                      : isSearching
+                        ? COPY.matchmaking.radarFinding(seatsCount)
+                        : COPY.matchmaking.radarIdle
                   }
                 />
 
-                {isSearching && (
+                {isSearching && !isMatched && (
                   <div className="mt-5 flex w-full max-w-xs flex-col gap-2.5">
                     <button
                       type="button"

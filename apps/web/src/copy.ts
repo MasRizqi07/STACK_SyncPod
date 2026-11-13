@@ -44,6 +44,8 @@ export const COPY = {
     fallbackCountdown: (sec: number) => `Menutup dalam ${sec} detik`,
     demoFillBots: 'Isi dengan bot',
     botsFillingNotice: 'Mengisi kursi tersisa dengan anggota simulasi.',
+    matchedTitle: 'Pod lengkap!',
+    matchedSubtitle: 'Memulai sprint belajar...',
     activePodNotice: 'Kamu masih tergabung dalam sprint aktif.',
     returnToPod: 'Kembali ke pod',
     realModeNotice: 'Pencocokan server realtime terhubung setelah backend diaktifkan.',
