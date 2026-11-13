@@ -17,6 +17,17 @@ export interface SeatDotProps {
   compact?: boolean;
 }
 
+export function getMemberInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  const first = parts[0];
+  if (!first) return '?';
+  if (parts.length === 1) return first.slice(0, 2).toUpperCase();
+  const last = parts[parts.length - 1] ?? first;
+  const firstChar = first[0] ?? '';
+  const lastChar = last[0] ?? '';
+  return `${firstChar}${lastChar}`.toUpperCase() || '?';
+}
+
 const POSITION_COORDS: Record<SeatPosition, { left: string; top: string }> = {
   top: { left: '50%', top: '11.6667%' },
   right: { left: '88.3333%', top: '50%' },
@@ -69,8 +80,7 @@ export function SeatDot({
   compact = false,
 }: SeatDotProps) {
   const coords = POSITION_COORDS[position];
-  const sizeClass = compact ? 'h-6 w-6' : 'h-8 w-8';
-  const iconClass = compact ? 'h-3 w-3' : 'h-3.5 w-3.5';
+  const sizeClass = compact ? 'h-6 w-6' : 'h-8 w-8 sm:h-9 sm:w-9';
 
   if (!member) {
     return (
@@ -90,6 +100,7 @@ export function SeatDot({
 
   const meta = getStatusStyles(member.status, mode);
   const StatusIcon = meta.icon;
+  const initials = getMemberInitials(member.name);
   const occupiedLabel = member.isSimulated
     ? `${COPY.cockpit.seatOccupied(seatNumber, member.name, meta.label)} (${COPY.demo.simulatedBadge})`
     : COPY.cockpit.seatOccupied(seatNumber, member.name, meta.label);
@@ -103,9 +114,22 @@ export function SeatDot({
         data-seat-occupied="true"
         data-seat-status={member.status}
         title={occupiedLabel}
-        className={`syncpod-seat-enter flex ${sizeClass} items-center justify-center rounded-full border-2 ${meta.ringClass} transition-colors duration-200`}
+        className={`syncpod-seat-enter relative flex ${sizeClass} items-center justify-center rounded-full border-2 ${meta.ringClass} transition-colors duration-200`}
       >
-        <StatusIcon className={iconClass} strokeWidth={2.25} aria-hidden="true" />
+        <span
+          className="text-xs font-bold uppercase tracking-tight leading-none sm:text-sm"
+          aria-hidden="true"
+        >
+          {initials}
+        </span>
+        {mode === 'timer' && (
+          <span
+            className="absolute -bottom-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-border-subtle bg-surface"
+            aria-hidden="true"
+          >
+            <StatusIcon className="h-2 w-2" strokeWidth={2.5} />
+          </span>
+        )}
         <span className="sr-only">{occupiedLabel}</span>
       </span>
     </li>

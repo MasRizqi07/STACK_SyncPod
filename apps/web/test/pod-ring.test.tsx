@@ -31,6 +31,9 @@ describe('PodRing rendering across radar, timer, and presence states', () => {
     expect(htmlOne).toContain('Kursi 2 kosong');
     expect(htmlOne).toContain('border-dashed');
     expect(htmlOne).toContain('syncpod-radar-sweep');
+    expect(htmlOne).toContain('syncpod-seat-enter');
+    expect(htmlOne).toContain('min-w-[300px]');
+    expect(htmlOne).toContain('RI');
 
     const seatsThree: PodSeatState[] = [
       { seatNumber: 1, member: makeMember('u1', 'Rizqi', 'IN_FOCUS') },

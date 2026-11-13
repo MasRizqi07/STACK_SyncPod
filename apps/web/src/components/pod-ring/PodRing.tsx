@@ -171,7 +171,11 @@ export function PodRing({
   }
 
   const sizeClass =
-    variant === 'compact' ? 'h-[156px] w-[156px]' : 'h-[224px] w-[224px] sm:h-[236px] sm:w-[236px]';
+    variant === 'compact'
+      ? 'h-[156px] w-[156px]'
+      : mode === 'radar'
+        ? 'w-full max-w-[340px] min-w-[300px] aspect-square'
+        : 'h-[224px] w-[224px] sm:h-[236px] sm:w-[236px]';
   const strokeWidth = variant === 'compact' ? 7 : 6;
   const arcColor = getArcColorVar(phase, isPaused);
 
@@ -183,7 +187,7 @@ export function PodRing({
       data-paused={isPaused ? 'true' : 'false'}
       data-last-minute={lastMinute ? 'true' : 'false'}
       data-occupied-seats={occupiedCount}
-      className="flex flex-col items-center"
+      className="flex w-full flex-col items-center"
     >
       {mode === 'timer' && announcePhase && (
         <div aria-live="polite" aria-atomic="true" className="sr-only">
@@ -273,10 +277,10 @@ export function PodRing({
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-10 text-center">
           {mode === 'radar' ? (
             <>
-              <span className="tabular-nums text-3xl font-bold text-ink-primary">
+              <span className="tabular-nums text-3xl font-bold text-ink-primary sm:text-4xl">
                 {occupiedCount}/4
               </span>
-              <span className="mt-1 max-w-[116px] text-xs font-medium leading-tight text-ink-secondary">
+              <span className="mt-1 max-w-[124px] text-xs font-medium leading-tight text-ink-secondary sm:text-sm">
                 {COPY.matchmaking.seatsCount(occupiedCount)}
               </span>
             </>
