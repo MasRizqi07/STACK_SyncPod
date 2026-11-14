@@ -38,6 +38,7 @@ import {
   type RealtimeClient,
 } from '@/features/realtime';
 import { CopilotPanel } from './CopilotPanel';
+import { getFocusableElements, handleDrawerKeyDown } from './drawer-focus-trap';
 import { MemberRow } from './MemberRow';
 import { QuestionQueue } from './QuestionQueue';
 import { ScratchpadEditor } from './ScratchpadEditor';
@@ -52,20 +53,6 @@ type MobileTab = 'notes' | 'queue' | 'guide' | 'pod';
 function formatPodCode(podId: string): string {
   const cleaned = podId.replace(/^pod-/i, '');
   return cleaned || podId;
-}
-
-function getFocusableElements(container: HTMLElement): HTMLElement[] {
-  const selector = [
-    'a[href]',
-    'button:not([disabled])',
-    'textarea:not([disabled])',
-    'input:not([disabled])',
-    'select:not([disabled])',
-    '[tabindex]:not([tabindex="-1"])',
-  ].join(',');
-  return Array.from(container.querySelectorAll<HTMLElement>(selector)).filter(
-    (el) => !el.hasAttribute('aria-hidden') && el.offsetParent !== null,
-  );
 }
 
 export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
@@ -253,24 +240,12 @@ export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        closeDrawer();
-        return;
-      }
-      if (event.key === 'Tab') {
-        const items = getFocusableElements(drawerEl);
-        const first = items[0];
-        const last = items[items.length - 1];
-        if (!first || !last) return;
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first.focus();
-        }
-      }
+      handleDrawerKeyDown(
+        event,
+        drawerEl,
+        document.activeElement as HTMLElement | null,
+        closeDrawer,
+      );
     };
 
     const mediaQuery = window.matchMedia('(min-width: 1280px)');
