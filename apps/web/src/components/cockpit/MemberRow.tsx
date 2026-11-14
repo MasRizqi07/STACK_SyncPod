@@ -41,7 +41,7 @@ function getPresenceMeta(status: PresenceStatus) {
   }
 }
 
-export function MemberRow({ member, isCurrentUser = false, compact = false }: MemberRowProps) {
+export function MemberRow({ member, isCurrentUser = false, compact = true }: MemberRowProps) {
   const meta = getPresenceMeta(member.status);
   const Icon = meta.icon;
 
@@ -49,46 +49,44 @@ export function MemberRow({ member, isCurrentUser = false, compact = false }: Me
     <li
       data-member-id={member.userId}
       data-presence-status={member.status}
-      className={`flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-canvas/50 ${
-        compact ? 'px-2.5 py-1.5' : 'px-3 py-2'
-      }`}
+      className="flex items-center justify-between gap-2 rounded-[var(--radius-control)] border border-border-subtle bg-canvas/50 px-2.5 py-1.5"
     >
-      <div className="flex min-w-[120px] flex-1 items-center gap-2">
+      <div className="flex min-w-0 flex-1 items-center gap-2">
         <span
           className={`h-2 w-2 shrink-0 rounded-full ${meta.dotClass}`}
           aria-hidden="true"
         />
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-sm font-medium text-ink-primary">
+          <div className="flex items-center gap-1.5">
+            <span className="truncate text-xs font-semibold text-ink-primary">
               {member.name}
               {isCurrentUser ? ' (Kamu)' : ''}
             </span>
             {member.role === 'LEADER' && (
               <span
-                className="inline-flex items-center gap-0.5 rounded bg-surface-elevated px-1.5 py-0.5 text-[0.75rem] font-medium text-primary"
+                className="inline-flex shrink-0 items-center gap-0.5 rounded bg-surface-elevated px-1 py-0.5 text-[0.6875rem] font-medium text-primary"
                 title={COPY.cockpit.roleLeader}
               >
-                <Crown className="h-3 w-3" aria-hidden="true" />
+                <Crown className="h-2.5 w-2.5" aria-hidden="true" />
                 <span>{COPY.cockpit.roleLeader}</span>
               </span>
             )}
             {member.isSimulated && (
-              <span className="rounded bg-surface-elevated px-1.5 py-0.5 text-[0.75rem] font-medium text-ink-secondary">
+              <span className="shrink-0 rounded bg-surface-elevated px-1 py-0.5 text-[0.6875rem] font-medium text-ink-secondary">
                 {COPY.demo.simulatedBadge}
               </span>
             )}
           </div>
-          {!compact && member.universityName && (
-            <p className="truncate text-xs text-ink-muted">{member.universityName}</p>
+          {member.universityName && (
+            <p className="truncate text-[0.6875rem] text-ink-muted">{member.universityName}</p>
           )}
         </div>
       </div>
 
       <span
-        className={`inline-flex shrink-0 items-center gap-1 text-xs font-medium ${meta.badgeClass}`}
+        className={`inline-flex shrink-0 items-center gap-1 text-[0.6875rem] font-medium ${meta.badgeClass}`}
       >
-        <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+        <Icon className="h-3 w-3 shrink-0" aria-hidden="true" />
         <span>{meta.label}</span>
       </span>
     </li>

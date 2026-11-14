@@ -15,7 +15,7 @@ import {
   Play,
   SkipForward,
   Sparkles,
-  Square,
+  Flag,
   Users,
   X,
 } from 'lucide-react';
@@ -606,13 +606,13 @@ export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
                       <span>{COPY.cockpit.timer.start}</span>
                     </button>
                   ) : (
-                    <>
+                    <div className="flex w-full flex-col gap-2">
                       {/* Jeda / Lanjut: PRIMARY */}
                       <button
                         type="button"
                         disabled={isDisconnected}
                         onClick={() => void handleTimerAction(isPaused ? 'RESUME' : 'PAUSE')}
-                        className="inline-flex min-h-[44px] flex-1 items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-3.5 py-2 text-sm font-semibold text-on-primary shadow-sm transition-all duration-200 hover:bg-primary-hover active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-primary px-3.5 py-2 text-sm font-semibold text-on-primary shadow-sm transition-all duration-200 hover:bg-primary-hover active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {isPaused ? (
                           <Play className="h-4 w-4" aria-hidden="true" />
@@ -624,28 +624,30 @@ export function CockpitShell({ podId, initialClient }: CockpitShellProps) {
                         </span>
                       </button>
 
-                      {/* Lewati: SECONDARY */}
-                      <button
-                        type="button"
-                        disabled={isDisconnected}
-                        onClick={() => void handleTimerAction('SKIP')}
-                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-surface px-3 py-2 text-sm font-medium text-ink-primary transition-all duration-200 hover:border-border-active hover:bg-surface-elevated active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        <SkipForward className="h-4 w-4 text-ink-secondary" aria-hidden="true" />
-                        <span>{COPY.cockpit.timer.skip}</span>
-                      </button>
+                      <div className="grid w-full grid-cols-2 gap-2">
+                        {/* Lewati: SECONDARY */}
+                        <button
+                          type="button"
+                          disabled={isDisconnected}
+                          onClick={() => void handleTimerAction('SKIP')}
+                          className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-surface px-2.5 py-2 text-xs font-medium text-ink-primary transition-all duration-200 hover:border-border-active hover:bg-surface-elevated active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          <SkipForward className="h-3.5 w-3.5 text-ink-secondary" aria-hidden="true" />
+                          <span>{COPY.cockpit.timer.skip}</span>
+                        </button>
 
-                      {/* Akhiri sprint: QUIET DANGER */}
-                      <button
-                        type="button"
-                        disabled={isDisconnected}
-                        onClick={() => void handleTimerAction('END')}
-                        className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle/80 bg-canvas px-2.5 py-2 text-xs font-medium text-ink-muted transition-all duration-200 hover:border-danger/60 hover:text-danger active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-danger focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        <Square className="h-3.5 w-3.5" aria-hidden="true" />
-                        <span>{COPY.cockpit.timer.end}</span>
-                      </button>
-                    </>
+                        {/* Akhiri sprint: QUIET DANGER */}
+                        <button
+                          type="button"
+                          disabled={isDisconnected}
+                          onClick={() => void handleTimerAction('END')}
+                          className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle/80 bg-canvas px-2.5 py-2 text-xs font-medium text-ink-muted transition-all duration-200 hover:border-danger/60 hover:text-danger active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-danger focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          <Flag className="h-3.5 w-3.5" aria-hidden="true" />
+                          <span>{COPY.cockpit.timer.end}</span>
+                        </button>
+                      </div>
+                    </div>
                   )}
                 </div>
               )}

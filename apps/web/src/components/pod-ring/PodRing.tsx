@@ -177,7 +177,7 @@ export function PodRing({
       ? 'h-[156px] w-[156px]'
       : mode === 'radar'
         ? 'w-full max-w-[340px] min-w-[300px] aspect-square'
-        : 'h-[224px] w-[224px] sm:h-[236px] sm:w-[236px]';
+        : 'h-[184px] w-[184px] xl:h-[180px] xl:w-[180px]';
   const strokeWidth = variant === 'compact' ? 7 : 6;
   const arcColor = getArcColorVar(phase, isPaused);
 
