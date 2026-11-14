@@ -310,7 +310,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
       <main className="mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-8">
         <ConnectionBanner connectionState={connectionState} className="mb-4" />
 
-        {activePodId && (
+        {activePodId && !isMatched && (
           <div
             data-active-pod-banner="true"
             className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-panel)] border border-border-active bg-surface-elevated px-4 py-3"
