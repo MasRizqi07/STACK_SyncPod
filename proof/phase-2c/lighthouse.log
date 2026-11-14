@@ -1,8 +1,11 @@
-PASS /masuk (mobile) -> accessibility: 100/100
-PASS /masuk (desktop) -> accessibility: 100/100
-PASS /pod (mobile) -> accessibility: 100/100
-PASS /pod (desktop) -> accessibility: 100/100
-PASS /pod/pod-042 (mobile) -> accessibility: 100/100
-PASS /pod/pod-042 (desktop) -> accessibility: 100/100
-PASS /pod/pod-042/selesai (mobile) -> accessibility: 100/100
-PASS /pod/pod-042/selesai (desktop) -> accessibility: 100/100
+PASS /masuk (mobile) -> accessibility: 100/100 (raw JSON saved to lh-masuk-mobile.json)
+PASS /masuk (desktop) -> accessibility: 100/100 (raw JSON saved to lh-masuk-desktop.json)
+PASS /pod (mobile) -> accessibility: 100/100 (raw JSON saved to lh-matchmaking-mobile.json)
+PASS /pod (desktop) -> accessibility: 100/100 (raw JSON saved to lh-matchmaking-desktop.json)
+PASS /pod/pod-042 (mobile) -> accessibility: 100/100 (raw JSON saved to lh-cockpit-mobile.json)
+PASS /pod/pod-042 (desktop) -> accessibility: 100/100 (raw JSON saved to lh-cockpit-desktop.json)
+PASS /pod/pod-042/selesai (mobile) -> accessibility: 100/100 (raw JSON saved to lh-summary-mobile.json)
+PASS /pod/pod-042/selesai (desktop) -> accessibility: 100/100 (raw JSON saved to lh-summary-desktop.json)
+PASS dynamic-state: matchmaking-matched (4/4 filled radar) -> accessibility: verified
+PASS dynamic-state: matchmaking-fallback (3-member fallback offer) -> accessibility: verified
+PASS dynamic-state: cockpit-last60s (last 60s emergency pulse) -> accessibility: verified

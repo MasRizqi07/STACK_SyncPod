@@ -1,11 +1,44 @@
+OK document.documentElement.scrollWidth <= innerWidth on masuk-375: (375px <= 375px)
+OK document.documentElement.scrollWidth <= innerWidth on masuk-768: (768px <= 768px)
+OK document.documentElement.scrollWidth <= innerWidth on masuk-1280: (1280px <= 1280px)
 OK masuk captured at 375, 768, 1280
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-idle-375: (375px <= 375px)
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-idle-768: (753px <= 768px)
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-idle-1280: (1265px <= 1280px)
 OK matchmaking-idle captured at 375, 768, 1280
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-active-375: (375px <= 375px)
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-active-768: (768px <= 768px)
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-active-1280: (1265px <= 1280px)
 OK matchmaking-active captured at 375, 768, 1280
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-fallback-375: (375px <= 375px)
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-fallback-768: (768px <= 768px)
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-fallback-1280: (1265px <= 1280px)
+OK a11y audit passed on dynamic state fallback: 0 violations
 OK matchmaking-fallback captured at 375, 768, 1280
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-matched-375: (375px <= 375px)
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-matched-768: (768px <= 768px)
+OK document.documentElement.scrollWidth <= innerWidth on matchmaking-matched-1280: (1265px <= 1280px)
+OK a11y audit passed on dynamic state matched: 0 violations
 OK matchmaking-matched captured at 375, 768, 1280
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-normal-375: (375px <= 375px)
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-normal-768: (768px <= 768px)
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-normal-1280: (1280px <= 1280px)
 OK cockpit-normal captured at 375, 768, 1280
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-last60s-375: (375px <= 375px)
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-last60s-768: (768px <= 768px)
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-last60s-1280: (1280px <= 1280px)
+OK a11y audit passed on dynamic state last60s: 0 violations
 OK cockpit-last60s captured at 375, 768, 1280
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-paused-375: (375px <= 375px)
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-paused-768: (768px <= 768px)
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-paused-1280: (1280px <= 1280px)
 OK cockpit-paused captured at 375, 768, 1280
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-break-375: (375px <= 375px)
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-break-768: (768px <= 768px)
+OK document.documentElement.scrollWidth <= innerWidth on cockpit-break-1280: (1280px <= 1280px)
 OK cockpit-break captured at 375, 768, 1280
+OK document.documentElement.scrollWidth <= innerWidth on summary-375: (375px <= 375px)
+OK document.documentElement.scrollWidth <= innerWidth on summary-768: (753px <= 768px)
+OK document.documentElement.scrollWidth <= innerWidth on summary-1280: (1265px <= 1280px)
 OK summary captured at 375, 768, 1280
 OK tap target verification: ALL >= 44px

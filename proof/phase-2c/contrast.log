@@ -1,0 +1,109 @@
+========================================================================================
+SYNCPOD DESIGN TOKEN CONTRAST AUDIT (WCAG 2.1 AA Standard)
+Formula: WCAG 2.1 Relative Luminance (L = 0.2126*R + 0.7152*G + 0.0722*B)
+Generated: 2026-11-14T11:01:41.307Z
+========================================================================================
+
+[PASS] Primary text on canvas background
+       Foreground: --text-primary (#F8FAFC)
+       Background: --bg-canvas (#090D16)
+       Contrast Ratio: 18.57:1 (Required: >= 4.5:1)
+
+[PASS] Primary text on surface background
+       Foreground: --text-primary (#F8FAFC)
+       Background: --bg-surface (#0F172A)
+       Contrast Ratio: 17.06:1 (Required: >= 4.5:1)
+
+[PASS] Primary text on elevated surface
+       Foreground: --text-primary (#F8FAFC)
+       Background: --bg-surface-elevated (#1E293B)
+       Contrast Ratio: 13.98:1 (Required: >= 4.5:1)
+
+[PASS] Secondary text on canvas background
+       Foreground: --text-secondary (#94A3B8)
+       Background: --bg-canvas (#090D16)
+       Contrast Ratio: 7.58:1 (Required: >= 4.5:1)
+
+[PASS] Secondary text on surface background
+       Foreground: --text-secondary (#94A3B8)
+       Background: --bg-surface (#0F172A)
+       Contrast Ratio: 6.96:1 (Required: >= 4.5:1)
+
+[PASS] Secondary text on elevated surface
+       Foreground: --text-secondary (#94A3B8)
+       Background: --bg-surface-elevated (#1E293B)
+       Contrast Ratio: 5.71:1 (Required: >= 4.5:1)
+
+[PASS] Muted text on canvas background
+       Foreground: --text-muted (#8393A8)
+       Background: --bg-canvas (#090D16)
+       Contrast Ratio: 6.20:1 (Required: >= 4.5:1)
+
+[PASS] Muted text on surface background
+       Foreground: --text-muted (#8393A8)
+       Background: --bg-surface (#0F172A)
+       Contrast Ratio: 5.70:1 (Required: >= 4.5:1)
+
+[PASS] Muted text on elevated surface
+       Foreground: --text-muted (#8393A8)
+       Background: --bg-surface-elevated (#1E293B)
+       Contrast Ratio: 4.67:1 (Required: >= 4.5:1)
+
+[PASS] Button text (on-primary) on primary button
+       Foreground: --color-on-primary (#04121F)
+       Background: --color-primary (#38BDF8)
+       Contrast Ratio: 8.82:1 (Required: >= 4.5:1)
+
+[PASS] Button text (on-primary) on primary hover
+       Foreground: --color-on-primary (#04121F)
+       Background: --color-primary-hover (#0EA5E9)
+       Contrast Ratio: 6.82:1 (Required: >= 4.5:1)
+
+[PASS] Primary accent text on canvas
+       Foreground: --color-primary (#38BDF8)
+       Background: --bg-canvas (#090D16)
+       Contrast Ratio: 9.07:1 (Required: >= 4.5:1)
+
+[PASS] Primary accent text on surface
+       Foreground: --color-primary (#38BDF8)
+       Background: --bg-surface (#0F172A)
+       Contrast Ratio: 8.33:1 (Required: >= 4.5:1)
+
+[PASS] Emerald status text on surface (TAKING_NOTES)
+       Foreground: --color-emerald (#10B981)
+       Background: --bg-surface (#0F172A)
+       Contrast Ratio: 7.04:1 (Required: >= 4.5:1)
+
+[PASS] Emerald status text on canvas (TAKING_NOTES)
+       Foreground: --color-emerald (#10B981)
+       Background: --bg-canvas (#090D16)
+       Contrast Ratio: 7.66:1 (Required: >= 4.5:1)
+
+[PASS] Purple status text on surface (ASKING_GEMINI)
+       Foreground: --color-purple-text (#C084FC)
+       Background: --bg-surface (#0F172A)
+       Contrast Ratio: 6.76:1 (Required: >= 4.5:1)
+
+[PASS] Purple status text on canvas (ASKING_GEMINI)
+       Foreground: --color-purple-text (#C084FC)
+       Background: --bg-canvas (#090D16)
+       Contrast Ratio: 7.35:1 (Required: >= 4.5:1)
+
+[PASS] Danger text on surface (Error / End sprint)
+       Foreground: --color-danger (#F87171)
+       Background: --bg-surface (#0F172A)
+       Contrast Ratio: 6.45:1 (Required: >= 4.5:1)
+
+[PASS] Danger text on canvas (Error / End sprint)
+       Foreground: --color-danger (#F87171)
+       Background: --bg-canvas (#090D16)
+       Contrast Ratio: 7.02:1 (Required: >= 4.5:1)
+
+[PASS] Amber accent on canvas (Break UI ring indicator)
+       Foreground: --color-amber (#F59E0B)
+       Background: --bg-canvas (#090D16)
+       Contrast Ratio: 9.05:1 (Required: >= 3.0:1)
+
+========================================================================================
+AUDIT RESULT: ALL PASS (WCAG 2.1 AA Compliant)
+========================================================================================
