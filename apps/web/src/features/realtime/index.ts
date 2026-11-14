@@ -19,6 +19,7 @@ export {
   DEMO_BOT_JOIN_STEP_MS,
   DEMO_CURRENT_USER,
   DEMO_FALLBACK_TTL_MS,
+  DEMO_FALLBACK_WAIT_MS,
   DEMO_FOCUS_SECONDS,
   DEMO_GEMINI_DELAY_MS,
   DEMO_INITIAL_NOTES,
@@ -37,6 +38,12 @@ export {
   type FakeRealtimeClientOptions,
   type PersistedFakeState,
 } from './fake-client';
+export {
+  FakeWorldStore,
+  type ActiveOffer,
+  type FakeStoreClient,
+  type PodRecord,
+} from './fake-world-store';
 export {
   getSharedFakeRealtimeClient,
   isFakeSessionAuthenticated,

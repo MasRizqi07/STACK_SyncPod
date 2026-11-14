@@ -38,6 +38,7 @@ import {
   DEMO_BREAK_SECONDS,
   DEMO_CURRENT_USER,
   DEMO_FALLBACK_TTL_MS,
+  DEMO_FALLBACK_WAIT_MS,
   DEMO_FOCUS_SECONDS,
   DEMO_GEMINI_DELAY_MS,
   DEMO_INITIAL_NOTES,
@@ -49,33 +50,13 @@ import {
   buildModuleInitialNotes,
   createDemoSeedQuestion,
 } from './constants';
+import {
+  FakeWorldStore,
+  type ActiveOffer,
+  type FakeStoreClient,
+  type PodRecord,
+} from './fake-world-store';
 import type { ConnectionState, RealtimeClient, Unsubscribe } from './types';
-
-interface PodRecord {
-  podId: string;
-  module: { id: string; title: string; path: string[] };
-  phase: 'LOBBY' | 'FOCUS' | 'BREAK' | 'COMPLETED';
-  round: number;
-  phaseEndsAt: number | null;
-  pausedRemainingMs: number | null;
-  phaseDurationSec: number;
-  focusDurationSec: number;
-  breakDurationSec: number;
-  focusSegmentStartedAt: number | null;
-  leaderId: string;
-  members: PodMemberDTO[];
-  questions: QuestionDTO[];
-  notes: string;
-  endorsements: Set<string>;
-}
-
-interface ActiveOffer {
-  offerId: string;
-  requestId: string;
-  module: ModuleTreeNode;
-  expiresAt: number;
-  timer: ReturnType<typeof setTimeout>;
-}
 
 export interface PersistedFakeState {
   activeJoinedPodId: string | null;
@@ -119,6 +100,13 @@ export interface FakeRealtimeClientOptions {
   matchBehavior?: FakeMatchBehavior;
   fallbackTtlMs?: number;
   onStatePersist?: (state: PersistedFakeState) => void;
+  store?: FakeWorldStore;
+  user?: {
+    userId: string;
+    name: string;
+    universityName?: string;
+  };
+  scenario?: 'happy' | 'fallback';
 }
 
 function fail<T>(code: ErrorCode, message: string): Ack<T> {
@@ -129,7 +117,7 @@ function ok<T>(data: T): Ack<T> {
   return { ok: true, data };
 }
 
-export class FakeRealtimeClient implements RealtimeClient {
+export class FakeRealtimeClient implements RealtimeClient, FakeStoreClient {
   private readonly now: () => number;
   private readonly focusDurationSec: number;
   private readonly breakDurationSec: number;
@@ -138,6 +126,11 @@ export class FakeRealtimeClient implements RealtimeClient {
   private readonly matchBehavior: FakeMatchBehavior;
   private readonly fallbackTtlMs: number;
   private onStatePersist?: (state: PersistedFakeState) => void;
+
+  private readonly store: FakeWorldStore;
+  private readonly currentUser: { userId: string; name: string; universityName?: string };
+  private readonly scenario: 'happy' | 'fallback';
+  private readonly isExternalStore: boolean;
 
   private connectionState: ConnectionState = 'connected';
   private readonly connectionListeners = new Set<(state: ConnectionState) => void>();
@@ -152,9 +145,6 @@ export class FakeRealtimeClient implements RealtimeClient {
     'socratic:error': new Set(),
   };
 
-  private readonly pods = new Map<string, PodRecord>();
-  private readonly notesListeners = new Map<string, Set<(content: string) => void>>();
-  private readonly activePhaseTimers = new Map<string, ReturnType<typeof setTimeout>>();
   private readonly matchTimers = new Set<ReturnType<typeof setTimeout>>();
   private readonly socraticInFlight = new Map<string, Promise<void>>();
   private activeMatchRequestId: string | null = null;
@@ -162,7 +152,6 @@ export class FakeRealtimeClient implements RealtimeClient {
   private activeOffer: ActiveOffer | null = null;
   private activeJoinedPodId: string | null = null;
   private matchCounter = 0;
-  private questionCounter = 1;
 
   constructor(options: FakeRealtimeClientOptions = {}) {
     this.now = options.now ?? (() => Date.now());
@@ -174,7 +163,27 @@ export class FakeRealtimeClient implements RealtimeClient {
     this.fallbackTtlMs = options.fallbackTtlMs ?? DEMO_FALLBACK_TTL_MS;
     this.onStatePersist = options.onStatePersist;
 
-    this.seedDefaultPod();
+    this.currentUser = options.user ?? DEMO_CURRENT_USER;
+    this.scenario =
+      options.scenario ?? (this.matchBehavior === 'fallback-offer' ? 'fallback' : 'happy');
+    this.isExternalStore = options.store !== undefined;
+    this.store = options.store ?? new FakeWorldStore();
+    this.store.registerClient(this);
+
+    // If standalone client without external store, seed the default demo pod
+    if (!this.isExternalStore && !this.store.pods.has('pod-042')) {
+      this.seedDefaultPod();
+    }
+  }
+
+  public emitLocal<K extends keyof ServerToClientEvents>(
+    event: K,
+    payload: Parameters<ServerToClientEvents[K]>[0],
+  ): void {
+    const bucket = this.listeners[event] as Set<ServerToClientEvents[K]>;
+    for (const listener of bucket) {
+      (listener as (arg: unknown) => void)(payload);
+    }
   }
 
   public setStatePersistHandler(handler: ((state: PersistedFakeState) => void) | undefined): void {
@@ -190,12 +199,12 @@ export class FakeRealtimeClient implements RealtimeClient {
   }
 
   public exportState(): PersistedFakeState | null {
-    const pod = this.pods.get('pod-042');
+    const pod = this.store.pods.get('pod-042');
     if (!pod) return null;
     const snap = this.toSnapshot(pod);
     return {
       activeJoinedPodId: this.activeJoinedPodId,
-      questionCounter: this.questionCounter,
+      questionCounter: this.store.getQuestionCounter(),
       pod: {
         podId: snap.podId,
         module: snap.module,
@@ -215,7 +224,7 @@ export class FakeRealtimeClient implements RealtimeClient {
   }
 
   public importState(persisted: PersistedFakeState): void {
-    this.clearPhaseTimer('pod-042');
+    this.store.clearPhaseTimer('pod-042');
     const t = this.now();
     const p = persisted.pod;
     const record: PodRecord = {
@@ -236,7 +245,6 @@ export class FakeRealtimeClient implements RealtimeClient {
       endorsements: new Set(),
     };
 
-    // Fast-forward expired active timer cleanly if reload occurred after expiry
     if (
       record.phaseEndsAt !== null &&
       record.pausedRemainingMs === null &&
@@ -250,8 +258,8 @@ export class FakeRealtimeClient implements RealtimeClient {
     }
 
     this.activeJoinedPodId = persisted.activeJoinedPodId;
-    this.questionCounter = persisted.questionCounter;
-    this.pods.set(record.podId, record);
+    this.store.resetQuestionCounter(persisted.questionCounter);
+    this.store.pods.set(record.podId, record);
     this.schedulePhaseTransition(record.podId);
   }
 
@@ -259,9 +267,9 @@ export class FakeRealtimeClient implements RealtimeClient {
     const t = this.now();
     const members: PodMemberDTO[] = [
       {
-        userId: DEMO_CURRENT_USER.userId,
-        name: DEMO_CURRENT_USER.name,
-        universityName: DEMO_CURRENT_USER.universityName,
+        userId: this.currentUser.userId,
+        name: this.currentUser.name,
+        universityName: this.currentUser.universityName,
         role: 'LEADER',
         status: 'IN_FOCUS',
         focusedSec: 120,
@@ -280,26 +288,26 @@ export class FakeRealtimeClient implements RealtimeClient {
       focusDurationSec: this.focusDurationSec,
       breakDurationSec: this.breakDurationSec,
       focusSegmentStartedAt: t,
-      leaderId: DEMO_CURRENT_USER.userId,
+      leaderId: this.currentUser.userId,
       members,
       questions: [createDemoSeedQuestion('pod-042', t - 45_000)],
       notes: DEMO_INITIAL_NOTES,
       endorsements: new Set(),
     };
 
-    this.pods.set(record.podId, record);
+    this.store.pods.set(record.podId, record);
     this.schedulePhaseTransition(record.podId);
   }
 
   private resetMatchedPod(moduleNode: ModuleTreeNode, memberCount: 3 | 4): PodRecord {
-    this.clearPhaseTimer('pod-042');
+    this.store.clearPhaseTimer('pod-042');
     const t = this.now();
     const peerLimit = memberCount === 3 ? 2 : 3;
     const members: PodMemberDTO[] = [
       {
-        userId: DEMO_CURRENT_USER.userId,
-        name: DEMO_CURRENT_USER.name,
-        universityName: DEMO_CURRENT_USER.universityName,
+        userId: this.currentUser.userId,
+        name: this.currentUser.name,
+        universityName: this.currentUser.universityName,
         role: 'LEADER',
         status: 'IN_FOCUS',
         focusedSec: 0,
@@ -313,6 +321,10 @@ export class FakeRealtimeClient implements RealtimeClient {
     const notes = buildModuleInitialNotes(moduleNode.title);
     const seedQuestion = createDemoSeedQuestion('pod-042', t, moduleNode.id, moduleNode.title);
 
+    // If external store is provided (contract test suite), matched pod starts in LOBBY (S3 / D21)
+    // If standalone default client, start in FOCUS for demo/tests
+    const initialPhase = this.isExternalStore ? 'LOBBY' : 'FOCUS';
+
     const record: PodRecord = {
       podId: 'pod-042',
       module: {
@@ -320,25 +332,27 @@ export class FakeRealtimeClient implements RealtimeClient {
         title: moduleNode.title,
         path: [...moduleNode.path],
       },
-      phase: 'FOCUS',
-      round: 1,
-      phaseEndsAt: t + this.focusDurationSec * 1000,
+      phase: initialPhase,
+      round: initialPhase === 'LOBBY' ? 0 : 1,
+      phaseEndsAt: initialPhase === 'LOBBY' ? null : t + this.focusDurationSec * 1000,
       pausedRemainingMs: null,
       phaseDurationSec: this.focusDurationSec,
       focusDurationSec: this.focusDurationSec,
       breakDurationSec: this.breakDurationSec,
-      focusSegmentStartedAt: t,
-      leaderId: DEMO_CURRENT_USER.userId,
+      focusSegmentStartedAt: initialPhase === 'LOBBY' ? null : t,
+      leaderId: this.currentUser.userId,
       members,
       questions: [seedQuestion],
       notes,
       endorsements: new Set(),
     };
 
-    this.questionCounter = 1;
-    this.pods.set(record.podId, record);
+    this.store.resetQuestionCounter(1);
+    this.store.pods.set(record.podId, record);
     this.activeJoinedPodId = record.podId;
-    this.schedulePhaseTransition(record.podId);
+    if (initialPhase !== 'LOBBY') {
+      this.schedulePhaseTransition(record.podId);
+    }
     this.persistNow();
     return record;
   }
@@ -348,7 +362,7 @@ export class FakeRealtimeClient implements RealtimeClient {
       pod.focusSegmentStartedAt = null;
       return;
     }
-    const elapsedSec = Math.max(0, Math.round((atMs - pod.focusSegmentStartedAt) / 1000));
+    const elapsedSec = Math.max(0, Math.floor((atMs - pod.focusSegmentStartedAt) / 1000));
     if (elapsedSec > 0) {
       for (const member of pod.members) {
         if (member.status !== 'DISCONNECTED') {
@@ -376,31 +390,13 @@ export class FakeRealtimeClient implements RealtimeClient {
         aiHint: q.aiHint
           ? {
               concept: q.aiHint.concept,
-              guidingQuestions: [...q.aiHint.guidingQuestions] as [string, string, string],
+              guidingQuestions: [...q.aiHint.guidingQuestions],
               analogy: q.aiHint.analogy,
-              ...(q.aiHint.docHint ? { docHint: { ...q.aiHint.docHint } } : {}),
+              docHint: q.aiHint.docHint ? { ...q.aiHint.docHint } : undefined,
             }
           : null,
       })),
     };
-  }
-
-  private emit<K extends keyof EventMap>(
-    event: K,
-    ...args: Parameters<ServerToClientEvents[K]>
-  ): void {
-    const bucket = this.listeners[event] as Set<(...a: Parameters<ServerToClientEvents[K]>) => void>;
-    for (const listener of bucket) {
-      listener(...args);
-    }
-  }
-
-  private clearPhaseTimer(podId: string): void {
-    const existing = this.activePhaseTimers.get(podId);
-    if (existing !== undefined) {
-      clearTimeout(existing);
-      this.activePhaseTimers.delete(podId);
-    }
   }
 
   private clearAllMatchTimers(): void {
@@ -415,76 +411,63 @@ export class FakeRealtimeClient implements RealtimeClient {
   }
 
   private schedulePhaseTransition(podId: string): void {
-    this.clearPhaseTimer(podId);
-    const pod = this.pods.get(podId);
+    this.store.clearPhaseTimer(podId);
+    const pod = this.store.pods.get(podId);
     if (!pod || pod.phaseEndsAt === null || pod.pausedRemainingMs !== null) {
       return;
     }
-    if (pod.phase !== 'FOCUS' && pod.phase !== 'BREAK') {
-      return;
-    }
-    const delayMs = Math.max(0, pod.phaseEndsAt - this.now());
-    const handle = setTimeout(() => {
-      this.activePhaseTimers.delete(podId);
+    const delay = Math.max(0, pod.phaseEndsAt - this.now());
+    const timer = setTimeout(() => {
       this.advancePhase(podId);
-    }, delayMs);
-    this.activePhaseTimers.set(podId, handle);
+    }, delay);
+    this.store.activePhaseTimers.set(podId, timer);
   }
 
   private advancePhase(podId: string): void {
-    const pod = this.pods.get(podId);
+    const pod = this.store.pods.get(podId);
     if (!pod) return;
-
-    const currentTime = this.now();
-    this.accrueFocusSeconds(pod, currentTime);
+    const t = this.now();
 
     if (pod.phase === 'FOCUS') {
+      this.accrueFocusSeconds(pod, t);
       if (pod.round >= this.maxRounds) {
         pod.phase = 'COMPLETED';
         pod.phaseEndsAt = null;
         pod.pausedRemainingMs = null;
         pod.focusSegmentStartedAt = null;
+        this.store.clearPhaseTimer(podId);
         if (this.activeJoinedPodId === podId) {
           this.activeJoinedPodId = null;
         }
       } else {
         pod.phase = 'BREAK';
         pod.phaseDurationSec = pod.breakDurationSec;
-        pod.phaseEndsAt = currentTime + pod.breakDurationSec * 1000;
+        pod.phaseEndsAt = t + pod.breakDurationSec * 1000;
         pod.pausedRemainingMs = null;
         pod.focusSegmentStartedAt = null;
+        this.schedulePhaseTransition(podId);
       }
     } else if (pod.phase === 'BREAK') {
-      if (pod.round >= this.maxRounds) {
-        pod.phase = 'COMPLETED';
-        pod.phaseEndsAt = null;
-        pod.pausedRemainingMs = null;
-        pod.focusSegmentStartedAt = null;
-        if (this.activeJoinedPodId === podId) {
-          this.activeJoinedPodId = null;
-        }
-      } else {
-        pod.phase = 'FOCUS';
-        pod.round += 1;
-        pod.phaseDurationSec = pod.focusDurationSec;
-        pod.phaseEndsAt = currentTime + pod.focusDurationSec * 1000;
-        pod.pausedRemainingMs = null;
-        pod.focusSegmentStartedAt = currentTime;
-      }
+      pod.phase = 'FOCUS';
+      pod.round += 1;
+      pod.phaseDurationSec = pod.focusDurationSec;
+      pod.phaseEndsAt = t + pod.focusDurationSec * 1000;
+      pod.pausedRemainingMs = null;
+      pod.focusSegmentStartedAt = t;
+      this.schedulePhaseTransition(podId);
     }
 
-    this.schedulePhaseTransition(podId);
     this.persistNow();
-    this.emit('pod:state', this.toSnapshot(pod));
+    this.store.broadcast('pod:state', this.toSnapshot(pod));
   }
 
   public getCurrentUserId(): string {
-    return DEMO_CURRENT_USER.userId;
+    return this.currentUser.userId;
   }
 
   public getActivePodId(): string | null {
     if (!this.activeJoinedPodId) return null;
-    const pod = this.pods.get(this.activeJoinedPodId);
+    const pod = this.store.pods.get(this.activeJoinedPodId);
     if (!pod || pod.phase === 'COMPLETED') {
       return null;
     }
@@ -568,17 +551,23 @@ export class FakeRealtimeClient implements RealtimeClient {
     this.activeMatchRequestId = requestId;
     this.activeMatchModule = moduleNode;
 
-    this.emit('match:update', { waitingCount: 1, seats: 1 });
+    this.emitLocal('match:update', { waitingCount: 1, seats: 1 });
+
+    const isFallbackMode =
+      this.scenario === 'fallback' || this.matchBehavior === 'fallback-offer';
 
     DEMO_MATCH_SCHEDULE_MS.forEach((delayMs, index) => {
       const seatCount = index + 2;
-      const timer = setTimeout(() => {
-        this.matchTimers.delete(timer);
-        if (this.activeMatchRequestId !== requestId) {
-          return;
-        }
 
-        if (seatCount === 4 && this.matchBehavior === 'fallback-offer') {
+      // In fallback mode, seat 4 is NOT emitted; fallback offer is emitted after DEMO_FALLBACK_WAIT_MS
+      if (isFallbackMode && seatCount === 4) {
+        const fallbackOfferDelay = DEMO_MATCH_SCHEDULE_MS[1] + DEMO_FALLBACK_WAIT_MS;
+        const offerTimer = setTimeout(() => {
+          this.matchTimers.delete(offerTimer);
+          if (this.activeMatchRequestId !== requestId) {
+            return;
+          }
+
           const offerId = `offer-demo-${this.matchCounter}`;
           const expiresAt = this.now() + this.fallbackTtlMs;
           const expireTimer = setTimeout(() => {
@@ -594,20 +583,28 @@ export class FakeRealtimeClient implements RealtimeClient {
             expiresAt,
             timer: expireTimer,
           };
-          this.emit('match:fallback-offer', {
+          this.emitLocal('match:fallback-offer', {
             offerId,
             count: 3,
             expiresAt,
           });
+        }, fallbackOfferDelay);
+        this.matchTimers.add(offerTimer);
+        return;
+      }
+
+      const timer = setTimeout(() => {
+        this.matchTimers.delete(timer);
+        if (this.activeMatchRequestId !== requestId) {
           return;
         }
 
-        this.emit('match:update', { waitingCount: seatCount, seats: seatCount });
+        this.emitLocal('match:update', { waitingCount: seatCount, seats: seatCount });
         if (seatCount === 4) {
           this.activeMatchRequestId = null;
           this.activeMatchModule = null;
           const pod = this.resetMatchedPod(moduleNode, 4);
-          this.emit('match:found', { podId: pod.podId });
+          this.emitLocal('match:found', { podId: pod.podId });
         }
       }, delayMs);
       this.matchTimers.add(timer);
@@ -629,9 +626,9 @@ export class FakeRealtimeClient implements RealtimeClient {
     this.activeMatchRequestId = null;
     this.activeMatchModule = null;
 
-    this.emit('match:update', { waitingCount: 4, seats: 4 });
+    this.emitLocal('match:update', { waitingCount: 4, seats: 4 });
     const pod = this.resetMatchedPod(moduleNode, 4);
-    this.emit('match:found', { podId: pod.podId });
+    this.emitLocal('match:found', { podId: pod.podId });
     return true;
   }
 
@@ -671,7 +668,7 @@ export class FakeRealtimeClient implements RealtimeClient {
       this.activeMatchRequestId = null;
       this.activeMatchModule = null;
       const pod = this.resetMatchedPod(offer.module, 3);
-      this.emit('match:found', { podId: pod.podId });
+      this.emitLocal('match:found', { podId: pod.podId });
       return ok({ accepted: true });
     }
 
@@ -683,11 +680,11 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Identitas pod tidak valid.');
     }
-    const pod = this.pods.get(parsed.data.podId);
+    const pod = this.store.pods.get(parsed.data.podId);
     if (!pod) {
       return fail('POD_NOT_FOUND', 'Pod tidak ditemukan.');
     }
-    const member = pod.members.find((m) => m.userId === DEMO_CURRENT_USER.userId);
+    const member = pod.members.find((m) => m.userId === this.getCurrentUserId());
     if (!member) {
       return fail('NOT_A_MEMBER', 'Kamu bukan anggota pod ini.');
     }
@@ -701,7 +698,7 @@ export class FakeRealtimeClient implements RealtimeClient {
     }
     this.persistNow();
     const snapshot = this.toSnapshot(pod);
-    this.emit('pod:state', snapshot);
+    this.store.broadcast('pod:state', snapshot);
     return ok(snapshot);
   }
 
@@ -710,11 +707,11 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Identitas pod tidak valid.');
     }
-    const pod = this.pods.get(parsed.data.podId);
+    const pod = this.store.pods.get(parsed.data.podId);
     if (!pod) {
       return fail('POD_NOT_FOUND', 'Pod tidak ditemukan.');
     }
-    const member = pod.members.find((m) => m.userId === DEMO_CURRENT_USER.userId);
+    const member = pod.members.find((m) => m.userId === this.getCurrentUserId());
     if (!member) {
       return fail('NOT_A_MEMBER', 'Kamu bukan anggota pod ini.');
     }
@@ -726,8 +723,8 @@ export class FakeRealtimeClient implements RealtimeClient {
       this.activeJoinedPodId = pod.podId;
     }
     this.persistNow();
-    this.emit('presence:update', { userId: member.userId, status: 'DISCONNECTED' });
-    this.emit('pod:state', this.toSnapshot(pod));
+    this.store.broadcast('presence:update', { userId: member.userId, status: 'DISCONNECTED' });
+    this.store.broadcast('pod:state', this.toSnapshot(pod));
     return ok({ left: true });
   }
 
@@ -736,11 +733,11 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Identitas pod tidak valid.');
     }
-    const pod = this.pods.get(parsed.data.podId);
+    const pod = this.store.pods.get(parsed.data.podId);
     if (!pod) {
       return fail('POD_NOT_FOUND', 'Pod tidak ditemukan.');
     }
-    if (pod.leaderId !== DEMO_CURRENT_USER.userId) {
+    if (pod.leaderId !== this.getCurrentUserId()) {
       return fail('FORBIDDEN', 'Hanya leader yang bisa memulai sprint.');
     }
     if (pod.phase !== 'LOBBY') {
@@ -757,7 +754,7 @@ export class FakeRealtimeClient implements RealtimeClient {
     this.schedulePhaseTransition(pod.podId);
     this.persistNow();
     const snapshot = this.toSnapshot(pod);
-    this.emit('pod:state', snapshot);
+    this.store.broadcast('pod:state', snapshot);
     return ok(snapshot);
   }
 
@@ -766,11 +763,11 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Kontrol timer tidak valid.');
     }
-    const pod = this.pods.get(parsed.data.podId);
+    const pod = this.store.pods.get(parsed.data.podId);
     if (!pod) {
       return fail('POD_NOT_FOUND', 'Pod tidak ditemukan.');
     }
-    if (pod.leaderId !== DEMO_CURRENT_USER.userId) {
+    if (pod.leaderId !== this.getCurrentUserId()) {
       return fail('FORBIDDEN', 'Hanya leader yang dapat mengatur timer.');
     }
     if (pod.phase === 'COMPLETED') {
@@ -788,7 +785,7 @@ export class FakeRealtimeClient implements RealtimeClient {
       pod.pausedRemainingMs = Math.max(0, pod.phaseEndsAt - t);
       pod.phaseEndsAt = null;
       pod.focusSegmentStartedAt = null;
-      this.clearPhaseTimer(pod.podId);
+      this.store.clearPhaseTimer(pod.podId);
     } else if (action === 'RESUME') {
       if ((pod.phase !== 'FOCUS' && pod.phase !== 'BREAK') || pod.pausedRemainingMs === null) {
         return fail('INVALID_STATE', 'Timer tidak dalam status jeda.');
@@ -803,12 +800,12 @@ export class FakeRealtimeClient implements RealtimeClient {
       if (pod.phase !== 'FOCUS' && pod.phase !== 'BREAK') {
         return fail('INVALID_STATE', 'Fase tidak bisa dilewati sekarang.');
       }
-      this.clearPhaseTimer(pod.podId);
+      this.store.clearPhaseTimer(pod.podId);
       this.advancePhase(pod.podId);
       return ok(this.toSnapshot(pod));
     } else if (action === 'END') {
       this.accrueFocusSeconds(pod, t);
-      this.clearPhaseTimer(pod.podId);
+      this.store.clearPhaseTimer(pod.podId);
       pod.phase = 'COMPLETED';
       pod.phaseEndsAt = null;
       pod.pausedRemainingMs = null;
@@ -820,7 +817,7 @@ export class FakeRealtimeClient implements RealtimeClient {
 
     this.persistNow();
     const snapshot = this.toSnapshot(pod);
-    this.emit('pod:state', snapshot);
+    this.store.broadcast('pod:state', snapshot);
     return ok(snapshot);
   }
 
@@ -829,11 +826,11 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Status kehadiran tidak valid.');
     }
-    const pod = this.pods.get(parsed.data.podId);
+    const pod = this.store.pods.get(parsed.data.podId);
     if (!pod) {
       return fail('POD_NOT_FOUND', 'Pod tidak ditemukan.');
     }
-    const member = pod.members.find((m) => m.userId === DEMO_CURRENT_USER.userId);
+    const member = pod.members.find((m) => m.userId === this.getCurrentUserId());
     if (!member) {
       return fail('NOT_A_MEMBER', 'Kamu bukan anggota pod ini.');
     }
@@ -842,7 +839,7 @@ export class FakeRealtimeClient implements RealtimeClient {
     }
     member.status = parsed.data.status;
     this.persistNow();
-    this.emit('presence:update', { userId: member.userId, status: member.status });
+    this.store.broadcast('presence:update', { userId: member.userId, status: member.status });
     return ok({ updated: true });
   }
 
@@ -851,26 +848,25 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Teks pertanyaan harus 1 sampai 280 karakter.');
     }
-    const pod = this.pods.get(parsed.data.podId);
+    const pod = this.store.pods.get(parsed.data.podId);
     if (!pod) {
       return fail('POD_NOT_FOUND', 'Pod tidak ditemukan.');
     }
-    const member = pod.members.find((m) => m.userId === DEMO_CURRENT_USER.userId);
+    const member = pod.members.find((m) => m.userId === this.getCurrentUserId());
     if (!member) {
       return fail('NOT_A_MEMBER', 'Kamu bukan anggota pod ini.');
     }
     // D14: One question per member per pod, ever (resolved questions still occupy slot)
-    const alreadyExists = pod.questions.some((q) => q.authorId === DEMO_CURRENT_USER.userId);
+    const alreadyExists = pod.questions.some((q) => q.authorId === this.getCurrentUserId());
     if (alreadyExists) {
       return fail('QUESTION_LIMIT', COPY.errors.questionLimit);
     }
 
-    this.questionCounter += 1;
     const question: QuestionDTO = {
-      id: `q-042-${this.questionCounter}`,
+      id: this.store.nextQuestionId(pod.podId),
       podId: pod.podId,
-      authorId: DEMO_CURRENT_USER.userId,
-      authorName: DEMO_CURRENT_USER.name,
+      authorId: this.getCurrentUserId(),
+      authorName: this.currentUser.name,
       text: parsed.data.text,
       aiHint: null,
       resolved: false,
@@ -879,7 +875,7 @@ export class FakeRealtimeClient implements RealtimeClient {
 
     pod.questions.push(question);
     this.persistNow();
-    this.emit('queue:update', { questions: this.toSnapshot(pod).questions });
+    this.store.broadcast('queue:update', { questions: this.toSnapshot(pod).questions });
     return ok({ ...question });
   }
 
@@ -888,7 +884,7 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Permintaan selesai tidak valid.');
     }
-    const pod = this.pods.get(parsed.data.podId);
+    const pod = this.store.pods.get(parsed.data.podId);
     if (!pod) {
       return fail('POD_NOT_FOUND', 'Pod tidak ditemukan.');
     }
@@ -896,15 +892,15 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!question) {
       return fail('VALIDATION_FAILED', 'Pertanyaan tidak ditemukan.');
     }
-    const isAuthor = question.authorId === DEMO_CURRENT_USER.userId;
-    const isLeader = pod.leaderId === DEMO_CURRENT_USER.userId;
+    const isAuthor = question.authorId === this.getCurrentUserId();
+    const isLeader = pod.leaderId === this.getCurrentUserId();
     if (!isAuthor && !isLeader) {
       return fail('FORBIDDEN', 'Hanya penulis atau leader yang bisa menandai selesai.');
     }
 
     question.resolved = true;
     this.persistNow();
-    this.emit('queue:update', { questions: this.toSnapshot(pod).questions });
+    this.store.broadcast('queue:update', { questions: this.toSnapshot(pod).questions });
     return ok({ resolved: true });
   }
 
@@ -913,11 +909,11 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Permintaan pemandu tidak valid.');
     }
-    const pod = this.pods.get(parsed.data.podId);
+    const pod = this.store.pods.get(parsed.data.podId);
     if (!pod) {
       return fail('POD_NOT_FOUND', 'Pod tidak ditemukan.');
     }
-    const member = pod.members.find((m) => m.userId === DEMO_CURRENT_USER.userId);
+    const member = pod.members.find((m) => m.userId === this.getCurrentUserId());
     if (!member) {
       return fail('NOT_A_MEMBER', 'Kamu bukan anggota pod ini.');
     }
@@ -928,7 +924,7 @@ export class FakeRealtimeClient implements RealtimeClient {
 
     // D5: Idempotent if aiHint is already generated
     if (question.aiHint) {
-      this.emit('socratic:result', { questionId: question.id, hint: question.aiHint });
+      this.store.broadcast('socratic:result', { questionId: question.id, hint: question.aiHint });
       return ok({ accepted: true });
     }
 
@@ -936,26 +932,36 @@ export class FakeRealtimeClient implements RealtimeClient {
     const key = `${pod.podId}:${question.id}`;
     const existingFlight = this.socraticInFlight.get(key);
     if (existingFlight) {
-      void existingFlight;
       return ok({ accepted: true });
     }
 
     const prevStatus = member.status;
     member.status = 'ASKING_GEMINI';
-    this.emit('presence:update', { userId: member.userId, status: 'ASKING_GEMINI' });
+    this.store.broadcast('presence:update', { userId: member.userId, status: 'ASKING_GEMINI' });
 
     const flight = new Promise<void>((resolve) => {
       setTimeout(() => {
         try {
+          if (this.store.failNextSocraticCode) {
+            const code = this.store.failNextSocraticCode;
+            this.store.failNextSocraticCode = undefined;
+            this.store.broadcast('socratic:error', {
+              questionId: question.id,
+              code,
+              retryAfterMs: 3000,
+            });
+            return;
+          }
+
           const hint = buildDeterministicSocraticHint(question.text);
           question.aiHint = hint;
           this.persistNow();
-          this.emit('socratic:result', { questionId: question.id, hint });
-          this.emit('queue:update', { questions: this.toSnapshot(pod).questions });
+          this.store.broadcast('socratic:result', { questionId: question.id, hint });
+          this.store.broadcast('queue:update', { questions: this.toSnapshot(pod).questions });
         } finally {
           member.status = prevStatus === 'ASKING_GEMINI' ? 'IN_FOCUS' : prevStatus;
           this.persistNow();
-          this.emit('presence:update', { userId: member.userId, status: member.status });
+          this.store.broadcast('presence:update', { userId: member.userId, status: member.status });
           this.socraticInFlight.delete(key);
           resolve();
         }
@@ -971,36 +977,40 @@ export class FakeRealtimeClient implements RealtimeClient {
     if (!parsed.success) {
       return fail('VALIDATION_FAILED', 'Data apresiasi tidak valid.');
     }
-    const pod = this.pods.get(parsed.data.podId);
+    const pod = this.store.pods.get(parsed.data.podId);
     if (!pod) {
       return fail('POD_NOT_FOUND', 'Pod tidak ditemukan.');
     }
     if (pod.phase !== 'COMPLETED') {
       return fail('INVALID_STATE', 'Apresiasi hanya tersedia setelah sprint selesai.');
     }
-    if (parsed.data.toUserId === DEMO_CURRENT_USER.userId) {
+    if (parsed.data.toUserId === this.getCurrentUserId()) {
       return fail('FORBIDDEN', 'Kamu tidak bisa memberi apresiasi ke diri sendiri.');
     }
     const targetExists = pod.members.some((m) => m.userId === parsed.data.toUserId);
     if (!targetExists) {
       return fail('NOT_A_MEMBER', 'Penerima bukan anggota pod ini.');
     }
-    pod.endorsements.add(parsed.data.toUserId);
+    const endorseKey = `${this.getCurrentUserId()}->${parsed.data.toUserId}`;
+    if (pod.endorsements.has(endorseKey)) {
+      return fail('INVALID_STATE', 'Apresiasi sudah diberikan.');
+    }
+    pod.endorsements.add(endorseKey);
     return ok({ endorsed: true });
   }
 
   public getNotes(podId: string): string {
-    return this.pods.get(podId)?.notes ?? '';
+    return this.store.pods.get(podId)?.notes ?? '';
   }
 
   public updateNotes(podId: string, content: string): void {
-    const pod = this.pods.get(podId);
+    const pod = this.store.pods.get(podId);
     if (!pod || pod.notes === content) {
       return;
     }
     pod.notes = content;
     this.persistNow();
-    const bucket = this.notesListeners.get(podId);
+    const bucket = this.store.notesListeners.get(podId);
     if (bucket) {
       for (const listener of bucket) {
         listener(content);
@@ -1009,29 +1019,28 @@ export class FakeRealtimeClient implements RealtimeClient {
   }
 
   public subscribeNotes(podId: string, listener: (content: string) => void): Unsubscribe {
-    let bucket = this.notesListeners.get(podId);
+    let bucket = this.store.notesListeners.get(podId);
     if (!bucket) {
       bucket = new Set();
-      this.notesListeners.set(podId, bucket);
+      this.store.notesListeners.set(podId, bucket);
     }
     bucket.add(listener);
     return () => {
       bucket.delete(listener);
       if (bucket.size === 0) {
-        this.notesListeners.delete(podId);
+        this.store.notesListeners.delete(podId);
       }
     };
   }
 
   public dispose(): void {
-    for (const timer of this.activePhaseTimers.values()) {
-      clearTimeout(timer);
+    this.store.unregisterClient(this);
+    if (!this.isExternalStore) {
+      this.store.dispose();
     }
-    this.activePhaseTimers.clear();
     this.clearAllMatchTimers();
     this.socraticInFlight.clear();
     this.connectionListeners.clear();
-    this.notesListeners.clear();
     for (const key of Object.keys(this.listeners) as (keyof EventMap)[]) {
       this.listeners[key].clear();
     }

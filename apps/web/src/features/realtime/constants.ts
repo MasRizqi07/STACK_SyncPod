@@ -6,6 +6,7 @@ export const DEMO_MAX_ROUNDS = 4;
 
 // Fixed deterministic delays (ms) for semifinal prototype video reproducibility (D19)
 export const DEMO_MATCH_SCHEDULE_MS = [1200, 2600, 4200] as const;
+export const DEMO_FALLBACK_WAIT_MS = 1600;
 export const DEMO_FALLBACK_TTL_MS = 60_000;
 export const DEMO_GEMINI_DELAY_MS = 650;
 export const DEMO_BOT_JOIN_STEP_MS = 900;
