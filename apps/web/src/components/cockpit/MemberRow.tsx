@@ -41,7 +41,7 @@ function getPresenceMeta(status: PresenceStatus) {
   }
 }
 
-export function MemberRow({ member, isCurrentUser = false, compact = true }: MemberRowProps) {
+export function MemberRow({ member, isCurrentUser = false, compact: _compact = true }: MemberRowProps) {
   const meta = getPresenceMeta(member.status);
   const Icon = meta.icon;
 
