@@ -25,7 +25,8 @@
     "db:reset": "prisma migrate reset --force"
   },
   "dependencies": {
-    "@prisma/client": "6.19.3"
+    "@prisma/client": "6.19.3",
+    "@syncpod/shared": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "26.6.6",
