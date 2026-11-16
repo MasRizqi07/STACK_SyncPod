@@ -203,6 +203,34 @@ Untuk men-deploy prototipe frontend standalone ke Vercel (mode simulasi, tanpa s
 
 ---
 
+## Skrip Verifikasi & Audit Lokal (`scripts/`)
+
+SyncPod menyertakan skrip verifikasi otomatis berbasis browser headless (Chrome DevTools Protocol dan Lighthouse CLI) yang menghasilkan bukti visual dan audit aksesibilitas WCAG 2.1 AA di folder `proof/phase-2c/`.
+
+### Konfigurasi Lingkungan (`CHROME_PATH`) & Alokasi Port
+
+| Konfigurasi / Port | Nilai Standar | Keterangan & Penggunaan |
+|---|---|---|
+| `CHROME_PATH` | `C:/Program Files/Google/Chrome/Application/chrome.exe` (Windows)<br>`/usr/bin/google-chrome` (Linux) | Path binary Google Chrome headless. Dapat di-override melalui environment variable `CHROME_PATH` di sistem operasi atau CI runner. |
+| **Port `3114`** | `http://127.0.0.1:3114` | Port HTTP server internal yang dipakai oleh `scripts/phase2c-verify.mjs` untuk melayani bundel harness pengujian komponen mandiri. |
+| **Port `9332`** | `http://127.0.0.1:9332` | Port remote debugging Chrome DevTools Protocol (CDP) untuk inspeksi DOM, pengukuran batas elemen, audit a11y, dan tangkapan layar. |
+| **Port `3118`** | `http://127.0.0.1:3118` | Port Next.js production server yang dijalankan oleh `scripts/lighthouse-2c.mjs` untuk audit resmi Lighthouse CLI. |
+
+### Menjalankan Skrip Bukti
+
+```bash
+# 1. Audit kontras token desain terhadap WCAG 2.1 AA (membaca langsung tokens.css)
+node scripts/measure-contrast.mjs
+
+# 2. Verifikasi responsif (375/768/1280), clearance numeral timer, tap targets >= 44px, dan tangkapan layar
+node scripts/phase2c-verify.mjs
+
+# 3. Audit aksesibilitas Lighthouse resmi per rute dan state fallback (menghasilkan skor 100/100)
+node scripts/lighthouse-2c.mjs
+```
+
+---
+
 ## Tim Pengembang
 
 **Tim Cah Kacawww** — Institut Teknologi Adhi Tama Surabaya (ITATS)  
