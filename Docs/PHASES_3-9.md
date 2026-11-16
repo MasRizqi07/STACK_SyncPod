@@ -162,6 +162,9 @@ Stop after the report. Wait for APPROVED PHASE 3.
 8. **Pemulihan (NFR-2):** server restart, pod non-`COMPLETED` dipulihkan dari DB (`phase`, `round`, `phaseEndsAt`, `pausedRemainingMs`).
 9. **`RealRealtimeClient`** di `apps/web`: implementasi antarmuka `RealtimeClient` yang sama (D19), 5 sampel `time:ping`, offset dari sampel RTT terkecil, ukur ulang tiap 60 detik dan setelah reconnect (B6). Dipilih lewat `NEXT_PUBLIC_REALTIME_MODE`.
 10. **Keamanan:** `helmet`, CORS allowlist `WEB_ORIGIN`, rate limit dasar (token bucket di memori) sebagai utilitas yang dipakai fase berikutnya. Bekerja di LAN HTTP tanpa HSTS.
+11. **Tambahan C1.6 (a) Recovery rule:** on boot, for a FOCUS/BREAK pod whose persisted `phaseEndsAt` is already in the past, advance phases sequentially, computing each next `phaseEndsAt` from the previous one plus its duration, until a future `phaseEndsAt` or `COMPLETED`. Do not credit `focusedSec` for downtime. Test it.
+12. **Tambahan C1.6 (b) Per-pod async mutex:** a per-pod async mutex so timer expiry, PAUSE/RESUME/SKIP/END, and `pod:leave` transitions never interleave. Test with concurrent calls.
+13. **Tambahan C1.6 (c) Single-instance guard:** `pg_try_advisory_lock` at boot; a second instance must refuse to start and exit non-zero. Test it.
 
 ### Prompt
 
@@ -412,6 +415,9 @@ Stop after the report. Wait for APPROVED PHASE 8.
 8. **Runbook venue Bandung:** README bagian "Final Day": cara menyalakan Postgres lokal, `db:reset` + seed, `.env` untuk LAN, IP LAN di `WEB_ORIGIN`, Windows dan Linux, 5 menit pemulihan jika crash.
 9. **Naskah demo** diperbarui: klaim `real` hanya untuk hal yang terbukti.
 10. **Latihan penuh dua kali**, direkam waktunya.
+11. **Tambahan C1.6 (a) Forced-colors fallback:** `@media (forced-colors: active)` fallback so PodRing arcs and seat dots stay visible (use `CanvasText`/`Highlight`).
+12. **Tambahan C1.6 (b) Inert background:** Make the page background inert while the drawer is open.
+13. **Tambahan C1.6 (c) Real a11y audit on dynamic states:** Axe or Lighthouse a11y run on the `matched`, `fallback`, `last60s` states, replacing the custom probe.
 
 ### Prompt
 
