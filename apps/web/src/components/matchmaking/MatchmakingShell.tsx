@@ -86,6 +86,18 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
       if (client instanceof FakeRealtimeClient) {
         setActivePodId(client.getActivePodId());
       }
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('scenario') === 'fallback') {
+          setIsSearching(true);
+          setSeatsCount(3);
+          setFallbackOffer({
+            offerId: 'demo-fallback-offer',
+            count: 3,
+            expiresAt: Date.now() + 30000,
+          });
+        }
+      }
     });
 
     const unsubConn = client.onConnectionStateChange((next) => {
