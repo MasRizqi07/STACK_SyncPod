@@ -80,11 +80,16 @@ export function SeatDot({
   compact = false,
 }: SeatDotProps) {
   const coords = POSITION_COORDS[position];
-  const sizeClass = compact ? 'h-6 w-6' : 'h-8 w-8 sm:h-9 sm:w-9';
+  const sizeClass = compact
+    ? 'h-6 w-6'
+    : mode === 'timer'
+      ? 'h-7 w-7'
+      : 'h-8 w-8 sm:h-9 sm:w-9';
 
   if (!member) {
     return (
       <li
+        data-seat-dot={seatNumber}
         style={{ left: coords.left, top: coords.top }}
         className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 list-none"
       >
@@ -107,6 +112,7 @@ export function SeatDot({
 
   return (
     <li
+      data-seat-dot={seatNumber}
       style={{ left: coords.left, top: coords.top }}
       className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 list-none"
     >
@@ -117,17 +123,19 @@ export function SeatDot({
         className={`syncpod-seat-enter relative flex ${sizeClass} items-center justify-center rounded-full border-2 ${meta.ringClass} transition-colors duration-200`}
       >
         <span
-          className="text-xs font-bold uppercase tracking-tight leading-none sm:text-sm"
+          className={`${
+            compact || mode === 'timer' ? 'text-[10px]' : 'text-xs sm:text-sm'
+          } font-bold uppercase tracking-tight leading-none`}
           aria-hidden="true"
         >
           {initials}
         </span>
         {mode === 'timer' && (
           <span
-            className="absolute -bottom-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-border-subtle bg-surface"
+            className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3 items-center justify-center rounded-full border border-border-subtle bg-surface"
             aria-hidden="true"
           >
-            <StatusIcon className="h-2 w-2" strokeWidth={2.5} />
+            <StatusIcon className="h-1.5 w-1.5" strokeWidth={2.5} />
           </span>
         )}
         <span className="sr-only">{occupiedLabel}</span>

@@ -295,7 +295,7 @@ export function PodRing({
           ))}
         </ul>
 
-        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-10 text-center">
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
           {mode === 'radar' ? (
             isMatched ? (
               <div
@@ -324,16 +324,17 @@ export function PodRing({
           ) : (
             <>
               <span
+                data-timer-countdown="true"
                 className={`tabular-nums font-bold text-ink-primary ${
                   variant === 'compact'
-                    ? 'text-[1.75rem]'
-                    : 'text-[clamp(2.25rem,3.6vw,3rem)] leading-none'
+                    ? 'text-lg leading-none'
+                    : 'text-[1.375rem] leading-none'
                 }`}
               >
                 {countdownText}
               </span>
               <span
-                className={`mt-1.5 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${
+                className={`mt-1 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[0.6875rem] font-medium ${
                   isPaused
                     ? 'bg-surface-elevated text-ink-secondary'
                     : phase === 'BREAK'
@@ -343,11 +344,11 @@ export function PodRing({
                         : 'text-ink-secondary'
                 }`}
               >
-                {isPaused && <Pause className="h-3 w-3 text-ink-secondary" aria-hidden="true" />}
+                {isPaused && <Pause className="h-2.5 w-2.5 text-ink-secondary" aria-hidden="true" />}
                 <span>{phaseLabel}</span>
               </span>
               {variant === 'full' && (phase === 'FOCUS' || phase === 'BREAK') && (
-                <span className="mt-1 tabular-nums text-[0.75rem] text-ink-muted">
+                <span className="mt-0.5 tabular-nums text-[0.6875rem] text-ink-muted">
                   {COPY.cockpit.timer.roundProgress(round, maxRounds)}
                 </span>
               )}

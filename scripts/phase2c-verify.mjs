@@ -397,6 +397,39 @@ try {
     }
   }
 
+  async function assertNumeralsDoNotIntersectSeats(stateLabel) {
+    const check = await cdp.evalExpr(`(() => {
+      const numeral = document.querySelector('[data-timer-countdown="true"]');
+      if (!numeral) return { ok: true, reason: 'no-countdown-on-page', auditedSeats: 0 };
+      const nRect = numeral.getBoundingClientRect();
+      const container = numeral.closest('[data-pod-ring-mode="timer"]');
+      const seats = container ? Array.from(container.querySelectorAll('[data-seat-dot]')) : [];
+      const overlaps = [];
+      for (const seat of seats) {
+        const sRect = seat.getBoundingClientRect();
+        const intersects = !(
+          nRect.right <= sRect.left ||
+          nRect.left >= sRect.right ||
+          nRect.bottom <= sRect.top ||
+          nRect.top >= sRect.bottom
+        );
+        if (intersects) {
+          overlaps.push({
+            seat: seat.getAttribute('data-seat-dot'),
+            numeralRect: { left: nRect.left, right: nRect.right, top: nRect.top, bottom: nRect.bottom },
+            seatRect: { left: sRect.left, right: sRect.right, top: sRect.top, bottom: sRect.bottom }
+          });
+        }
+      }
+      return { ok: overlaps.length === 0, overlaps, auditedSeats: seats.length };
+    })()`);
+
+    if (!check.ok) {
+      throw new Error(`PodRing numerals intersect seat dot on ${stateLabel}: ${JSON.stringify(check.overlaps)}`);
+    }
+    log(`OK PodRing numerals clear all seat dots on ${stateLabel} (audited ${check.auditedSeats} seats, 0 intersections)`);
+  }
+
   const viewports = [
     { label: '375', w: 375, h: 760 },
     { label: '768', w: 768, h: 860 },
@@ -490,6 +523,7 @@ try {
     await setViewport(vp.w, vp.h);
     await navigateAndWait('cockpit-normal', '[data-scratchpad-mode="write"]');
     await assertNoOverflow(`cockpit-normal-${vp.label}`);
+    await assertNumeralsDoNotIntersectSeats(`cockpit-normal-${vp.label}`);
     await captureScreenshot(`cockpit-normal-${vp.label}.png`);
   }
   log('OK cockpit-normal captured at 375, 768, 1280');
@@ -499,6 +533,7 @@ try {
     await setViewport(vp.w, vp.h);
     await navigateAndWait('cockpit-last60s', '[data-last-minute="true"]');
     await assertNoOverflow(`cockpit-last60s-${vp.label}`);
+    await assertNumeralsDoNotIntersectSeats(`cockpit-last60s-${vp.label}`);
     await captureScreenshot(`cockpit-last60s-${vp.label}.png`);
   }
   await auditDynamicStateA11y('last60s');
@@ -509,6 +544,7 @@ try {
     await setViewport(vp.w, vp.h);
     await navigateAndWait('cockpit-paused', '[data-paused="true"]');
     await assertNoOverflow(`cockpit-paused-${vp.label}`);
+    await assertNumeralsDoNotIntersectSeats(`cockpit-paused-${vp.label}`);
     await captureScreenshot(`cockpit-paused-${vp.label}.png`);
   }
   log('OK cockpit-paused captured at 375, 768, 1280');
@@ -518,6 +554,7 @@ try {
     await setViewport(vp.w, vp.h);
     await navigateAndWait('cockpit-break', '[data-phase="BREAK"]');
     await assertNoOverflow(`cockpit-break-${vp.label}`);
+    await assertNumeralsDoNotIntersectSeats(`cockpit-break-${vp.label}`);
     await captureScreenshot(`cockpit-break-${vp.label}.png`);
   }
   log('OK cockpit-break captured at 375, 768, 1280');

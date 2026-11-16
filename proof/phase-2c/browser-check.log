@@ -21,21 +21,33 @@ OK document.documentElement.scrollWidth <= innerWidth on matchmaking-matched-128
 OK a11y audit passed on dynamic state matched: 0 violations (saved to a11y-dynamic-matched.json)
 OK matchmaking-matched captured at 375, 768, 1280
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-normal-375: (375px <= 375px)
+OK PodRing numerals clear all seat dots on cockpit-normal-375 (audited 4 seats, 0 intersections)
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-normal-768: (768px <= 768px)
+OK PodRing numerals clear all seat dots on cockpit-normal-768 (audited 4 seats, 0 intersections)
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-normal-1280: (1280px <= 1280px)
+OK PodRing numerals clear all seat dots on cockpit-normal-1280 (audited 4 seats, 0 intersections)
 OK cockpit-normal captured at 375, 768, 1280
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-last60s-375: (375px <= 375px)
+OK PodRing numerals clear all seat dots on cockpit-last60s-375 (audited 4 seats, 0 intersections)
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-last60s-768: (768px <= 768px)
+OK PodRing numerals clear all seat dots on cockpit-last60s-768 (audited 4 seats, 0 intersections)
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-last60s-1280: (1280px <= 1280px)
+OK PodRing numerals clear all seat dots on cockpit-last60s-1280 (audited 4 seats, 0 intersections)
 OK a11y audit passed on dynamic state last60s: 0 violations (saved to a11y-dynamic-last60s.json)
 OK cockpit-last60s captured at 375, 768, 1280
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-paused-375: (375px <= 375px)
+OK PodRing numerals clear all seat dots on cockpit-paused-375 (audited 4 seats, 0 intersections)
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-paused-768: (768px <= 768px)
+OK PodRing numerals clear all seat dots on cockpit-paused-768 (audited 4 seats, 0 intersections)
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-paused-1280: (1280px <= 1280px)
+OK PodRing numerals clear all seat dots on cockpit-paused-1280 (audited 4 seats, 0 intersections)
 OK cockpit-paused captured at 375, 768, 1280
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-break-375: (375px <= 375px)
+OK PodRing numerals clear all seat dots on cockpit-break-375 (audited 4 seats, 0 intersections)
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-break-768: (768px <= 768px)
+OK PodRing numerals clear all seat dots on cockpit-break-768 (audited 4 seats, 0 intersections)
 OK document.documentElement.scrollWidth <= innerWidth on cockpit-break-1280: (1280px <= 1280px)
+OK PodRing numerals clear all seat dots on cockpit-break-1280 (audited 4 seats, 0 intersections)
 OK cockpit-break captured at 375, 768, 1280
 OK document.documentElement.scrollWidth <= innerWidth on summary-375: (375px <= 375px)
 OK document.documentElement.scrollWidth <= innerWidth on summary-768: (753px <= 768px)
