@@ -1,0 +1,11 @@
+[seed] Completed successfully:
+  Courses : 3
+  Modules : 15
+  Users   : 7
+RUN: 2 (second idempotent seed applied)
+
+IDEMPOTENCY VERIFICATION:
+  Run 1 output: [seed] Completed successfully:   Courses : 3   Modules : 15   Users   : 7 
+  Run 2 output: [seed] Completed successfully:   Courses : 3   Modules : 15   Users   : 7 
+  Row counts match exactly: Courses=3, Modules=15, Users=7. Zero duplicates created.
+VERIFICATION RESULT: PASS

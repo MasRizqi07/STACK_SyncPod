@@ -26,14 +26,45 @@ export function MasukCard({ demoModeEnabled, initialError = null }: MasukCardPro
   const [noticeMessage, setNoticeMessage] = useState<string | null>(initialError);
   const [isNavigating, setIsNavigating] = useState(false);
 
-  function handleSignIn(): void {
+  function handleGoogleSignIn(): void {
     if (mode === 'fake') {
       setIsNavigating(true);
       setFakeSessionAuthenticated(true);
       router.push('/pod');
       return;
     }
-    setNoticeMessage(COPY.auth.realModeNotice);
+    router.push('/api/auth/signin/google');
+  }
+
+  async function handleDemoSignIn(): Promise<void> {
+    if (mode === 'fake') {
+      setIsNavigating(true);
+      setFakeSessionAuthenticated(true);
+      router.push('/pod');
+      return;
+    }
+
+    setIsNavigating(true);
+    setNoticeMessage(null);
+    try {
+      const res = await fetch('/api/demo/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: 'demo-1@demo.syncpod.local' }),
+      });
+      if (!res.ok) {
+        const data = (await res.json().catch(() => ({}))) as {
+          error?: { message?: string };
+        };
+        setNoticeMessage(data?.error?.message || 'Gagal masuk sebagai akun demo');
+        setIsNavigating(false);
+        return;
+      }
+      router.push('/pod');
+    } catch {
+      setNoticeMessage('Koneksi terputus. Gagal masuk demo.');
+      setIsNavigating(false);
+    }
   }
 
   return (
@@ -86,7 +117,7 @@ export function MasukCard({ demoModeEnabled, initialError = null }: MasukCardPro
           <button
             type="button"
             disabled={isNavigating}
-            onClick={handleSignIn}
+            onClick={handleGoogleSignIn}
             className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-[var(--radius-control)] bg-primary px-4 py-2.5 text-sm font-semibold text-on-primary shadow-sm transition-all duration-200 hover:bg-primary-hover active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <LogIn className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -98,7 +129,7 @@ export function MasukCard({ demoModeEnabled, initialError = null }: MasukCardPro
               <button
                 type="button"
                 disabled={isNavigating}
-                onClick={handleSignIn}
+                onClick={handleDemoSignIn}
                 className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-4 py-2 text-sm font-medium text-ink-primary transition-all duration-200 hover:border-border-active hover:bg-surface-elevated active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <UserCheck className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />

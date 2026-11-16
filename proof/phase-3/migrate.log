@@ -1,0 +1,10 @@
+Datasource "db": PostgreSQL database "syncpod_test"
+Applying migration 20261116095753_init
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "syncpod_test", schema "public" at "localhost:5433"
+
+1 migration found in prisma/migrations
+
+
+No pending migrations to apply.
+MIGRATE DEPLOY STATUS: EXIT 0 (CLEAN MIGRATION CONFIRMED)

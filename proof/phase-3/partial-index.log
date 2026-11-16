@@ -1,0 +1,11 @@
+PASS: User created (id: cmwj3xjlz0000gupstb4ezl5l, email: index-tester-1794824106075@example.local)
+PASS: 1st MatchRequest (WAITING) inserted successfully (id: cmwj3xjmc0005gups6wll8xsd, status: WAITING)
+PASS: 2nd MatchRequest (WAITING) rejected with unique violation: P2002
+DETAIL: 
+PASS: 1st MatchRequest (CANCELLED) inserted successfully (id: cmwj3xjmn0009gupsn6jhvnow, status: CANCELLED)
+PASS: 2nd MatchRequest (CANCELLED) inserted successfully (id: cmwj3xjmp000bgupss8a1jsqr, status: CANCELLED)
+
+SUMMARY: partial unique index "one_waiting_per_user" strictly enforced:
+  - Second WAITING insert for same user: REJECTED (unique violation)
+  - Second CANCELLED insert for same user: ACCEPTED
+VERIFICATION RESULT: PASS
