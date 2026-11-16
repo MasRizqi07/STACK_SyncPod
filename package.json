@@ -12,7 +12,10 @@
     "build:prototype": "pnpm --filter @syncpod/shared build && pnpm --filter @syncpod/db build && pnpm --filter @syncpod/web build",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test",
+    "db:migrate": "pnpm --filter @syncpod/db db:migrate",
+    "db:seed": "pnpm --filter @syncpod/db db:seed",
+    "db:reset": "pnpm --filter @syncpod/db db:reset"
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",

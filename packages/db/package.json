@@ -19,13 +19,17 @@
     "test": "vitest run",
     "build": "prisma generate && tsc -p tsconfig.json",
     "db:validate": "prisma validate",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "tsx src/seed.ts",
+    "db:reset": "prisma migrate reset --force"
   },
   "dependencies": {
     "@prisma/client": "6.19.3"
   },
   "devDependencies": {
     "@types/node": "26.6.6",
-    "prisma": "6.19.3"
+    "prisma": "6.19.3",
+    "tsx": "4.23.15"
   }
 }

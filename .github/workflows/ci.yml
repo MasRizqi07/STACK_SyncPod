@@ -72,6 +72,13 @@ jobs:
       - name: Workspace Lint
         run: pnpm -r lint
 
+      - name: Setup Database & Run Migrations
+        run: |
+          docker exec ${{ job.services.postgres.id }} psql -U postgres -d syncpod -c "CREATE DATABASE syncpod_test;" || true
+          pnpm db:migrate
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/syncpod
+
       - name: Workspace Test
         run: pnpm -r test
 
