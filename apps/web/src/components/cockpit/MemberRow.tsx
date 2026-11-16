@@ -44,11 +44,13 @@ function getPresenceMeta(status: PresenceStatus) {
 export function MemberRow({ member, isCurrentUser = false, compact: _compact = true }: MemberRowProps) {
   const meta = getPresenceMeta(member.status);
   const Icon = meta.icon;
+  const displayName = `${member.name}${isCurrentUser ? ' (Kamu)' : ''}`;
 
   return (
     <li
       data-member-id={member.userId}
       data-presence-status={member.status}
+      title={displayName}
       className="flex items-center justify-between gap-2 rounded-[var(--radius-control)] border border-border-subtle bg-canvas/50 px-2.5 py-1.5"
     >
       <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -57,14 +59,19 @@ export function MemberRow({ member, isCurrentUser = false, compact: _compact = t
           aria-hidden="true"
         />
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-1.5">
-            <span className="truncate text-xs font-semibold text-ink-primary">
-              {member.name}
-              {isCurrentUser ? ' (Kamu)' : ''}
+          <div className="min-w-0">
+            <span
+              className="block truncate text-xs font-semibold text-ink-primary leading-tight"
+              title={displayName}
+            >
+              {displayName}
             </span>
+          </div>
+          <div className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[0.6875rem] text-ink-muted leading-tight">
+            {member.universityName && <span>{member.universityName}</span>}
             {member.role === 'LEADER' && (
               <span
-                className="inline-flex shrink-0 items-center gap-0.5 rounded bg-surface-elevated px-1 py-0.5 text-[0.6875rem] font-medium text-primary"
+                className="inline-flex shrink-0 items-center gap-0.5 rounded bg-surface-elevated px-1 py-0.5 text-[0.625rem] font-medium text-primary"
                 title={COPY.cockpit.roleLeader}
               >
                 <Crown className="h-2.5 w-2.5" aria-hidden="true" />
@@ -72,14 +79,14 @@ export function MemberRow({ member, isCurrentUser = false, compact: _compact = t
               </span>
             )}
             {member.isSimulated && (
-              <span className="shrink-0 rounded bg-surface-elevated px-1 py-0.5 text-[0.6875rem] font-medium text-ink-secondary">
+              <span
+                className="shrink-0 rounded bg-surface-elevated px-1 py-0.5 text-[0.625rem] font-medium text-ink-secondary"
+                title={COPY.demo.simulatedBadge}
+              >
                 {COPY.demo.simulatedBadge}
               </span>
             )}
           </div>
-          {member.universityName && (
-            <p className="truncate text-[0.6875rem] text-ink-muted">{member.universityName}</p>
-          )}
         </div>
       </div>
 
