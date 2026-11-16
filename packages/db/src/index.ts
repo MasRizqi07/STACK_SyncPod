@@ -1,14 +1,20 @@
-export interface DatabaseConfig {
-  url: string;
-}
+import { PrismaClient } from '@prisma/client';
 
-export function readDatabaseConfig(
-  env: Record<string, string | undefined> = process.env,
-): DatabaseConfig {
-  const url = env.DATABASE_URL?.trim();
-  if (!url) {
-    throw new Error('DATABASE_URL environment variable is required');
-  }
-  return { url };
-}
+export * from '@prisma/client';
 
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+export const db =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    log:
+      process.env.NODE_ENV === 'development'
+        ? ['error', 'warn']
+        : ['error'],
+  });
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = db;
+}

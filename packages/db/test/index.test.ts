@@ -1,21 +1,26 @@
 import { describe, expect, it } from 'vitest';
-import { readDatabaseConfig } from '../src/index.js';
+import { db } from '../src/index.js';
 
-describe('readDatabaseConfig', () => {
-  it('returns trimmed DATABASE_URL when set', () => {
-    const config = readDatabaseConfig({
-      DATABASE_URL: '  postgresql://syncpod:syncpod@localhost:5432/syncpod  ',
-    });
-    expect(config).toEqual({
-      url: 'postgresql://syncpod:syncpod@localhost:5432/syncpod',
-    });
+describe('db singleton', () => {
+  it('exports a valid PrismaClient singleton with all model delegates', () => {
+    expect(db).toBeDefined();
+    expect(typeof db.user.findMany).toBe('function');
+    expect(typeof db.course.findMany).toBe('function');
+    expect(typeof db.module.findMany).toBe('function');
+    expect(typeof db.matchRequest.findMany).toBe('function');
+    expect(typeof db.sprintPod.findMany).toBe('function');
+    expect(typeof db.podMember.findMany).toBe('function');
+    expect(typeof db.question.findMany).toBe('function');
+    expect(typeof db.endorsement.findMany).toBe('function');
   });
 
-  it('throws when DATABASE_URL is missing or empty', () => {
-    expect(() => readDatabaseConfig({})).toThrow('DATABASE_URL environment variable is required');
-    expect(() => readDatabaseConfig({ DATABASE_URL: '   ' })).toThrow(
-      'DATABASE_URL environment variable is required',
-    );
+  it('persists singleton reference on globalThis in non-production environments', () => {
+    const globalObj = globalThis as unknown as { prisma?: unknown };
+    expect(globalObj.prisma).toBe(db);
+  });
+
+  it('executes a query against the test database successfully', async () => {
+    const count = await db.user.count();
+    expect(typeof count).toBe('number');
   });
 });
-
