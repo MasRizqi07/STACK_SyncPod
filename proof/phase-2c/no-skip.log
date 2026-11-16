@@ -1,0 +1,29 @@
+========================================================================================
+SYNCPOD TEST SUITE INTEGRITY AUDIT (no-skip / no-only check)
+Generated: 2026-11-16T09:30:00.000Z
+Pattern checked: \.skip|\.only across all *.test.* files
+========================================================================================
+Results:
+- packages/db/test/index.test.ts: 0 skipped, 2 active
+- packages/shared/test/syllabus.test.ts: 0 skipped, 2 active
+- packages/shared/test/schemas.test.ts: 0 skipped, 4 active
+- packages/shared/test/summary-markdown.test.ts: 0 skipped, 2 active
+- apps/realtime/test/health.test.ts: 0 skipped, 2 active
+- apps/web/test/clock.test.ts: 0 skipped, 5 active
+- apps/web/test/copy.test.ts: 0 skipped, 2 active
+- apps/web/test/drawer-focus-trap.test.tsx: 0 skipped, 6 active
+- apps/web/test/fake-client.test.ts: 0 skipped, 2 active
+- apps/web/test/fake-client-phase2b.test.ts: 0 skipped, 4 active
+- apps/web/test/markdown-sanitize.test.tsx: 0 skipped, 1 active
+- apps/web/test/matchmaking-logic.test.ts: 0 skipped, 4 active
+- apps/web/test/pod-ring.test.tsx: 0 skipped, 2 active
+- apps/web/test/realtime-contract.test.ts: 0 skipped, 4 active
+- apps/web/test/resilience-components.test.tsx: 0 skipped, 5 active
+- apps/web/test/summary-export.test.ts: 0 skipped, 2 active
+
+TOTAL SUITES: 16 test files
+TOTAL TESTS: 49 active tests
+SKIPPED TESTS: 0
+ONLY FILTERS: 0
+AUDIT RESULT: ALL ACTIVE - ZERO SKIPPED
+========================================================================================

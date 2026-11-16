@@ -1,7 +1,8 @@
 ========================================================================================
 SYNCPOD DESIGN TOKEN CONTRAST AUDIT (WCAG 2.1 AA Standard)
+Parsed from: apps/web/src/styles/tokens.css (26 CSS tokens parsed)
 Formula: WCAG 2.1 Relative Luminance (L = 0.2126*R + 0.7152*G + 0.0722*B)
-Generated: 2026-11-14T11:06:14.207Z
+Generated: 2026-11-16T09:21:39.433Z
 ========================================================================================
 
 [PASS] Primary text on canvas background

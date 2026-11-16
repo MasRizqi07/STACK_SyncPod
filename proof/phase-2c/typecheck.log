@@ -1,3 +1,10 @@
-$ next typegen && tsc --noEmit
-Generating route types...
-✓ Types generated successfully
+﻿packages/shared typecheck$ tsc --noEmit
+packages/db typecheck$ tsc --noEmit
+packages/db typecheck: Done
+packages/shared typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/realtime typecheck$ tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/realtime typecheck: Done
+apps/web typecheck: Done

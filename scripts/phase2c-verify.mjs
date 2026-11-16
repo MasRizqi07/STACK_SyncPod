@@ -3,18 +3,25 @@ import fs from 'node:fs';
 import http from 'node:http';
 import { createRequire } from 'node:module';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const require = createRequire(import.meta.url);
-const { build: esbuild } = require(
-  'D:/MY CODE/STACK_SyncPod/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild/lib/main.js',
-);
-
-const REPO_ROOT = 'D:/MY CODE/STACK_SyncPod';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const REPO_ROOT = path.resolve(__dirname, '..');
 const WEB_DIR = path.join(REPO_ROOT, 'apps/web');
 const PROOF_DIR = path.join(REPO_ROOT, 'proof/phase-2c');
-const SCRATCH_DIR =
-  'C:/Users/rrgtet47/.gemini/antigravity/brain/fda24f70-9617-4c58-b6fd-0e5740efd216/scratch';
-const CHROME_PATH = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+
+const defaultScratch = 'C:/Users/rrgtet47/.gemini/antigravity/brain/fda24f70-9617-4c58-b6fd-0e5740efd216/scratch';
+const SCRATCH_DIR = fs.existsSync(defaultScratch) ? defaultScratch : path.join(REPO_ROOT, '.scratch');
+fs.mkdirSync(SCRATCH_DIR, { recursive: true });
+
+const require = createRequire(import.meta.url);
+const esbuildPnpmDirect = path.join(REPO_ROOT, 'node_modules/.pnpm/node_modules/esbuild/lib/main.js');
+const esbuildVersioned = path.join(REPO_ROOT, 'node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild/lib/main.js');
+const esbuildPath = fs.existsSync(esbuildPnpmDirect) ? esbuildPnpmDirect : esbuildVersioned;
+const { build: esbuild } = require(esbuildPath);
+
+const CHROME_PATH = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const HARNESS_PORT = 3114;
 const CDP_PORT = 9332;
 const USER_DATA_DIR = path.join(SCRATCH_DIR, 'chrome-profile-2c');
@@ -39,16 +46,18 @@ function findBuiltCssHref() {
 
 const cssHrefs = findBuiltCssHref();
 
+const posixRoot = REPO_ROOT.replace(/\\/g, '/');
+
 fs.writeFileSync(
   HARNESS_ENTRY,
   `
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { MasukCard } from '${REPO_ROOT}/apps/web/src/components/auth/MasukCard';
-import { MatchmakingShell } from '${REPO_ROOT}/apps/web/src/components/matchmaking/MatchmakingShell';
-import { CockpitShell } from '${REPO_ROOT}/apps/web/src/components/cockpit/CockpitShell';
-import { SummaryShell } from '${REPO_ROOT}/apps/web/src/components/summary/SummaryShell';
-import { FakeRealtimeClient } from '${REPO_ROOT}/apps/web/src/features/realtime/fake-client';
+import { MasukCard } from '${posixRoot}/apps/web/src/components/auth/MasukCard';
+import { MatchmakingShell } from '${posixRoot}/apps/web/src/components/matchmaking/MatchmakingShell';
+import { CockpitShell } from '${posixRoot}/apps/web/src/components/cockpit/CockpitShell';
+import { SummaryShell } from '${posixRoot}/apps/web/src/components/summary/SummaryShell';
+import { FakeRealtimeClient } from '${posixRoot}/apps/web/src/features/realtime/fake-client';
 
 function App() {
   const params = new URLSearchParams(window.location.search);
@@ -331,26 +340,60 @@ try {
   }
 
   async function auditDynamicStateA11y(stateName) {
-    const a11yResult = await cdp.evalExpr(`(() => {
+    const auditData = await cdp.evalExpr(`(() => {
       const issues = [];
-      for (const btn of document.querySelectorAll('button')) {
+      const buttons = Array.from(document.querySelectorAll('button'));
+      for (const btn of buttons) {
         const text = btn.innerText.trim();
         const ariaLabel = btn.getAttribute('aria-label');
         if (!text && !ariaLabel) {
           issues.push({ el: btn.tagName, error: 'Button missing accessible text' });
         }
       }
-      for (const svg of document.querySelectorAll('svg')) {
+      const svgs = Array.from(document.querySelectorAll('svg'));
+      for (const svg of svgs) {
         if (!svg.hasAttribute('aria-hidden') && !svg.hasAttribute('aria-label') && !svg.querySelector('title')) {
           issues.push({ el: 'SVG', error: 'SVG missing aria-hidden or accessible label' });
         }
       }
-      return issues;
+      const inputs = Array.from(document.querySelectorAll('input, textarea, select'));
+      for (const inp of inputs) {
+        if (inp.type === 'hidden') continue;
+        const ariaLabel = inp.getAttribute('aria-label');
+        const ariaLabelledby = inp.getAttribute('aria-labelledby');
+        const id = inp.getAttribute('id');
+        const hasLabel = id && Boolean(document.querySelector(\`label[for="\${id}"]\`));
+        if (!ariaLabel && !ariaLabelledby && !hasLabel) {
+          issues.push({ el: inp.tagName, error: 'Input missing accessible label' });
+        }
+      }
+      return {
+        violations: issues,
+        elementsAudited: {
+          buttons: buttons.length,
+          svgs: svgs.length,
+          inputs: inputs.length,
+        },
+      };
     })()`);
-    if (a11yResult.length === 0) {
-      log(`OK a11y audit passed on dynamic state ${stateName}: 0 violations`);
+
+    const pass = auditData.violations.length === 0;
+    const resultObj = {
+      state: stateName,
+      timestamp: new Date().toISOString(),
+      pass,
+      violations: auditData.violations,
+      elementsAudited: auditData.elementsAudited,
+      summary: `${auditData.violations.length} violations found across ${auditData.elementsAudited.buttons + auditData.elementsAudited.svgs + auditData.elementsAudited.inputs} audited elements in state '${stateName}'.`,
+    };
+
+    const outPath = path.join(PROOF_DIR, `a11y-dynamic-${stateName}.json`);
+    fs.writeFileSync(outPath, JSON.stringify(resultObj, null, 2), 'utf8');
+
+    if (pass) {
+      log(`OK a11y audit passed on dynamic state ${stateName}: 0 violations (saved to ${path.basename(outPath)})`);
     } else {
-      log(`WARN a11y audit warnings on ${stateName}: ${JSON.stringify(a11yResult)}`);
+      log(`WARN a11y audit warnings on ${stateName}: ${JSON.stringify(auditData.violations)} (saved to ${path.basename(outPath)})`);
     }
   }
 
@@ -510,5 +553,6 @@ try {
   if (cdp) cdp.close();
   if (chromeProc) chromeProc.kill();
   harnessServer.close();
+  process.exit(0);
 }
 

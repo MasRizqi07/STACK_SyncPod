@@ -1,13 +1,41 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const REPO_ROOT = 'D:/MY CODE/STACK_SyncPod';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const REPO_ROOT = path.resolve(__dirname, '..');
+const TOKENS_CSS_PATH = path.join(REPO_ROOT, 'apps/web/src/styles/tokens.css');
 const PROOF_DIR = path.join(REPO_ROOT, 'proof/phase-2c');
 
 fs.mkdirSync(PROOF_DIR, { recursive: true });
 
+if (!fs.existsSync(TOKENS_CSS_PATH)) {
+  console.error(`FATAL: tokens.css not found at ${TOKENS_CSS_PATH}`);
+  process.exit(1);
+}
+
+const cssContent = fs.readFileSync(TOKENS_CSS_PATH, 'utf8');
+
+// Parse CSS custom properties from tokens.css
+const tokens = {};
+const tokenRegex = /(--[a-zA-Z0-9_-]+)\s*:\s*([^;]+);/g;
+let match;
+while ((match = tokenRegex.exec(cssContent)) !== null) {
+  const name = match[1].trim();
+  const value = match[2].trim();
+  tokens[name] = value;
+}
+
 function hexToRgb(hex) {
-  const clean = hex.replace('#', '');
+  const clean = hex.replace('#', '').trim();
+  if (clean.length === 3) {
+    return {
+      r: parseInt(clean[0] + clean[0], 16),
+      g: parseInt(clean[1] + clean[1], 16),
+      b: parseInt(clean[2] + clean[2], 16),
+    };
+  }
   return {
     r: parseInt(clean.substring(0, 2), 16),
     g: parseInt(clean.substring(2, 4), 16),
@@ -32,22 +60,6 @@ function calculateContrastRatio(hex1, hex2) {
   const darker = Math.min(l1, l2);
   return (lighter + 0.05) / (darker + 0.05);
 }
-
-const tokens = {
-  '--bg-canvas': '#090D16',
-  '--bg-surface': '#0F172A',
-  '--bg-surface-elevated': '#1E293B',
-  '--color-primary': '#38BDF8',
-  '--color-primary-hover': '#0EA5E9',
-  '--color-on-primary': '#04121F',
-  '--color-amber': '#F59E0B',
-  '--color-emerald': '#10B981',
-  '--color-purple-text': '#C084FC',
-  '--color-danger': '#F87171',
-  '--text-primary': '#F8FAFC',
-  '--text-secondary': '#94A3B8',
-  '--text-muted': '#8393A8',
-};
 
 const checks = [
   {
@@ -172,9 +184,23 @@ const checks = [
   },
 ];
 
+// Check all tokens exist; fail with exit 1 if any token is missing
+const missingTokens = [];
+for (const check of checks) {
+  if (!tokens[check.fg]) missingTokens.push(check.fg);
+  if (!tokens[check.bg]) missingTokens.push(check.bg);
+}
+
+const uniqueMissing = Array.from(new Set(missingTokens));
+if (uniqueMissing.length > 0) {
+  console.error(`FATAL: Missing tokens in ${TOKENS_CSS_PATH}: ${uniqueMissing.join(', ')}`);
+  process.exit(1);
+}
+
 const lines = [];
 lines.push('========================================================================================');
 lines.push('SYNCPOD DESIGN TOKEN CONTRAST AUDIT (WCAG 2.1 AA Standard)');
+lines.push(`Parsed from: apps/web/src/styles/tokens.css (${Object.keys(tokens).length} CSS tokens parsed)`);
 lines.push('Formula: WCAG 2.1 Relative Luminance (L = 0.2126*R + 0.7152*G + 0.0722*B)');
 lines.push('Generated: ' + new Date().toISOString());
 lines.push('========================================================================================\n');
@@ -206,6 +232,5 @@ fs.writeFileSync(path.join(PROOF_DIR, 'contrast.log'), output, 'utf8');
 console.log(output);
 
 if (!allPassed) {
-  process.exitCode = 1;
+  process.exit(1);
 }
-
