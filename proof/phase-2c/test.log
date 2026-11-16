@@ -1,0 +1,61 @@
+﻿Scope: 4 of 5 workspace projects
+packages/shared test$ vitest run
+packages/db test$ vitest run
+packages/shared test: 
+packages/shared test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/shared
+packages/shared test: 
+packages/db test: 
+packages/db test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/db
+packages/db test: 
+packages/db test:  ✓ test/index.test.ts (2 tests) 9ms
+packages/db test: 
+packages/db test:  Test Files  1 passed (1)
+packages/db test:       Tests  2 passed (2)
+packages/db test:    Start at  16:28:37
+packages/db test:    Duration  325ms (import 46%, transform 22%, tests 16%, worker 16%, environment 1%)
+packages/db test: 
+packages/db test: Done
+packages/shared test:  ✓ test/syllabus.test.ts (2 tests) 9ms
+packages/shared test:  ✓ test/schemas.test.ts (4 tests) 23ms
+packages/shared test:  ✓ test/summary-markdown.test.ts (2 tests) 36ms
+packages/shared test: 
+packages/shared test:  Test Files  3 passed (3)
+packages/shared test:       Tests  8 passed (8)
+packages/shared test:    Start at  16:28:37
+packages/shared test:    Duration  495ms (import 75%, tests 10%, transform 10%, worker 5%)
+packages/shared test: 
+packages/shared test: Done
+apps/web test$ vitest run
+apps/realtime test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/web
+apps/web test: 
+apps/realtime test: 
+apps/realtime test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/realtime
+apps/realtime test: 
+apps/realtime test:  ✓ test/health.test.ts (2 tests) 154ms
+apps/realtime test: 
+apps/realtime test:  Test Files  1 passed (1)
+apps/realtime test:       Tests  2 passed (2)
+apps/realtime test:    Start at  16:28:38
+apps/realtime test:    Duration  651ms (import 59%, tests 36%, transform 3%, worker 1%)
+apps/realtime test: 
+apps/web test:  ✓ test/clock.test.ts (5 tests) 15ms
+apps/realtime test: Done
+apps/web test:  ✓ test/drawer-focus-trap.test.tsx (6 tests) 21ms
+apps/web test:  ✓ test/summary-export.test.ts (2 tests) 48ms
+apps/web test:  ✓ test/realtime-contract.test.ts (4 tests) 74ms
+apps/web test:  ✓ test/fake-client-phase2b.test.ts (4 tests) 45ms
+apps/web test:  ✓ test/fake-client.test.ts (2 tests) 59ms
+apps/web test:  ✓ test/copy.test.ts (2 tests) 8ms
+apps/web test:  ✓ test/matchmaking-logic.test.ts (4 tests) 18ms
+apps/web test:  ✓ test/pod-ring.test.tsx (2 tests) 48ms
+apps/web test:  ✓ test/markdown-sanitize.test.tsx (1 test) 36ms
+apps/web test:  ✓ test/resilience-components.test.tsx (5 tests) 33ms
+apps/web test: 
+apps/web test:  Test Files  11 passed (11)
+apps/web test:       Tests  37 passed (37)
+apps/web test:    Start at  16:28:38
+apps/web test:    Duration  1.45s (import 76%, transform 11%, tests 8%, worker 5%, environment 1%)
+apps/web test: 
+apps/web test: Done

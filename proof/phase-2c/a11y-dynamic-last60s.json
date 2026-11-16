@@ -1,0 +1,12 @@
+{
+  "state": "last60s",
+  "timestamp": "2026-11-16T09:24:56.375Z",
+  "pass": true,
+  "violations": [],
+  "elementsAudited": {
+    "buttons": 17,
+    "svgs": 37,
+    "inputs": 1
+  },
+  "summary": "0 violations found across 55 audited elements in state 'last60s'."
+}

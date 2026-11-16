@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>SyncPod - Pusat Kendali Pod</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-fixed":"#6ffbbe","error":"#ffb4ab","outline":"#86948a","primary":"#4edea3","on-surface-variant":"#bbcabf","error-container":"#93000a","on-primary-container":"#00422b","tertiary":"#d0bcff","on-secondary-fixed":"#001e2f","on-primary-fixed":"#002113","secondary-fixed-dim":"#89ceff","on-error-container":"#ffdad6","on-tertiary-container":"#4600a7","on-error":"#690005","surface-container-high":"#262a34","tertiary-fixed":"#e9ddff","surface":"#0f131c","secondary-container":"#00a2e6","background":"#0f131c","outline-variant":"#3c4a42","on-tertiary":"#3c0091","on-primary":"#003824","inverse-primary":"#006c49","secondary-fixed":"#c9e6ff","primary-container":"#10b981","surface-dim":"#0f131c","tertiary-fixed-dim":"#d0bcff","on-tertiary-fixed-variant":"#5516be","tertiary-container":"#b090ff","surface-variant":"#31353f","inverse-surface":"#dfe2ef","surface-container":"#1c1f29","on-tertiary-fixed":"#23005c","secondary":"#89ceff","surface-bright":"#353943","on-secondary-container":"#00344e","inverse-on-surface":"#2c303a","surface-container-low":"#181b25","primary-fixed-dim":"#4edea3","on-secondary-fixed-variant":"#004c6e","surface-container-lowest":"#0a0e17","surface-tint":"#4edea3","on-background":"#dfe2ef","on-primary-fixed-variant":"#005236","surface-container-highest":"#31353f","on-secondary":"#00344d","on-surface":"#dfe2ef"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-desktop":"1.5rem","gutter":"0.75rem","gutter-desktop":"1rem","space-sm":"0.5rem","space-xl":"1.5rem","space-md":"0.75rem","space-xs":"0.25rem","margin":"1rem","space-lg":"1rem"},"fontFamily":{"label-code-sm":["JetBrains Mono"],"headline-md":["Bricolage Grotesque"],"body-md":["Plus Jakarta Sans"],"label-code-md":["JetBrains Mono"],"display-lg":["Bricolage Grotesque"],"body-lg":["Plus Jakarta Sans"],"label-code-lg":["JetBrains Mono"],"headline-lg":["Bricolage Grotesque"],"body-sm":["Plus Jakarta Sans"],"display-lg-mobile":["Bricolage Grotesque"]},"fontSize":{"label-code-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"500"}],"headline-md":["18px",{"lineHeight":"22px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-md":["13px",{"lineHeight":"20px","fontWeight":"400"}],"label-code-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"500"}],"display-lg":["40px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["15px",{"lineHeight":"24px","fontWeight":"500"}],"label-code-lg":["18px",{"lineHeight":"22px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"28px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"display-lg-mobile":["30px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface-container-lowest text-on-surface font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-16 w-full px-margin lg:px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm group" data-path="matchmaking" href="#"><div class="w-7 h-7 rounded bg-primary-container flex items-center justify-center text-on-primary-container font-headline-md text-headline-md tracking-tighter">S</div><span class="font-headline-md text-headline-md text-on-surface tracking-tight group-hover:text-primary transition-colors">SyncPod</span></a><div class="h-4 w-px bg-outline-variant/40 hidden sm:block"></div><nav class="hidden sm:flex items-center gap-space-xs" data-active-classes="bg-surface-container-high text-primary font-medium rounded"><a aria-current="page" class="px-space-md py-space-xs transition-colors bg-surface-container-high text-primary font-medium rounded" data-path="matchmaking" href="#">Pusat Sesi</a><a class="px-space-md py-space-xs text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="sprint-cockpit" href="#">Cockpit</a><a class="px-space-md py-space-xs text-on-surface-variant hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="telemetri" href="#">Telemetri</a></nav></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm bg-surface-container px-space-md py-space-xs rounded"><span class="font-label-code-sm text-label-code-sm text-on-surface uppercase">Rizqi · ITATS</span><div class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div></div><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-error transition-colors px-space-xs py-space-xs" data-path="login" href="#">Keluar</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface-container-lowest min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full px-margin lg:px-margin-desktop py-space-xl flex flex-col gap-space-lg">
+<!-- Header Page Context -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-space-sm">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs font-label-code-sm text-label-code-sm text-on-surface-variant uppercase">
+<span>Protokol Pencocokan</span>
+<span class="text-outline">/</span>
+<span class="text-secondary">Pusat Sesi Aktif</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Cari pod belajar</h1>
+</div>
+<div class="flex items-center gap-space-md font-label-code-sm text-label-code-sm text-on-surface-variant">
+<span class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+          RADAR AKTIF
+        </span>
+<span class="text-outline">|</span>
+<span>NODE: ID-SUB-01</span>
+</div>
+</div>
+<!-- 12-Column Asymmetric Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- LEFT CONFIGURATION PANEL (5 Columns) -->
+<section class="lg:col-span-5 bg-surface-container-low rounded-xl p-space-lg flex flex-col gap-space-lg shadow-sm">
+<!-- Section 1: Module Selector -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface">Modul apa yang bikin buntu?</h2>
+<span class="font-label-code-sm text-label-code-sm text-secondary bg-surface-container px-space-xs py-0.5 rounded">SILABUS</span>
+</div>
+<!-- Search Input Box -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-space-md flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">search</span>
+</div>
+<input class="w-full h-10 pl-9 pr-space-md bg-surface-container rounded text-on-surface placeholder:text-outline text-body-md font-body-md focus:outline-none focus:bg-surface-container-high transition-colors" placeholder="Cari modul silabus..." type="text" value="Traversal Graf"/>
+</div>
+<!-- 3-Level Syllabus Tree -->
+<div class="bg-surface-container rounded-lg p-space-sm flex flex-col gap-space-xs">
+<!-- Level 1 Node -->
+<div class="flex items-center gap-space-xs px-space-sm py-1.5 text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">folder_open</span>
+<span class="font-medium">Struktur Data</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant ml-auto">expand_more</span>
+</div>
+<!-- Level 2 Sub-Group: Graf -->
+<div class="ml-space-md pl-space-sm flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs px-space-sm py-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">folder</span>
+<span>Graf</span>
+<span class="material-symbols-outlined text-[14px] text-outline ml-auto">expand_more</span>
+</div>
+<!-- Level 3 Leaf: Active / Selected -->
+<div class="ml-space-md flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-space-sm py-1.5 rounded bg-surface-container-highest text-secondary font-body-sm text-body-sm cursor-pointer">
+<div class="flex items-center gap-space-xs truncate">
+<span class="material-symbols-outlined text-[16px] text-secondary">check</span>
+<span class="font-medium truncate">Traversal Graf dan Dijkstra</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-primary uppercase ml-space-xs flex-shrink-0">TERPILIH</span>
+</div>
+<!-- Level 3 Leaf: Unselected Leaf -->
+<div class="flex items-center justify-between px-space-sm py-1.5 rounded hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm cursor-pointer transition-colors">
+<div class="flex items-center gap-space-xs truncate">
+<span class="w-4 h-4 flex items-center justify-center text-outline">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+</span>
+<span class="truncate">Minimum Spanning Tree (Kruskal &amp; Prim)</span>
+</div>
+</div>
+</div>
+<!-- Level 2 Sub-Group: Pohon Seimbang -->
+<div class="flex items-center gap-space-xs px-space-sm py-1 mt-1 text-on-surface-variant font-body-sm text-body-sm cursor-pointer hover:text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-outline">folder</span>
+<span>Pohon Seimbang</span>
+<span class="material-symbols-outlined text-[14px] text-outline ml-auto">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 2: Urgency Selection -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface">Seberapa mendesak?</h3>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">PRIORITAS</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-xs">
+<!-- Chip 1: Selected -->
+<button class="h-[38px] px-space-sm rounded bg-surface-container-high text-secondary flex items-center justify-center gap-space-xs font-body-sm text-body-sm font-medium transition-colors" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="truncate">Persiapan kuis</span>
+</button>
+<!-- Chip 2: Unselected -->
+<button class="h-[38px] px-space-sm rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center font-body-sm text-body-sm transition-colors" type="button">
+<span class="truncate">Tugas macet</span>
+</button>
+<!-- Chip 3: Unselected -->
+<button class="h-[38px] px-space-sm rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center font-body-sm text-body-sm transition-colors" type="button">
+<span class="truncate">Review teori</span>
+</button>
+</div>
+</div>
+<!-- Section 3: Availability Window -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface">Kapan kamu bisa?</h3>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">SLOT WAKTU</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-xs">
+<!-- Chip 1: Selected -->
+<button class="h-[38px] px-space-sm rounded bg-surface-container-high text-secondary flex items-center justify-center gap-space-xs font-body-sm text-body-sm font-medium transition-colors" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="truncate">Sekarang (25 mnt)</span>
+</button>
+<!-- Chip 2: Unselected -->
+<button class="h-[38px] px-space-sm rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center font-body-sm text-body-sm transition-colors" type="button">
+<span class="truncate">1 jam ke depan</span>
+</button>
+<!-- Chip 3: Unselected -->
+<button class="h-[38px] px-space-sm rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center font-body-sm text-body-sm transition-colors" type="button">
+<span class="truncate">Atur sendiri</span>
+</button>
+</div>
+</div>
+<!-- Primary Action -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<button class="w-full h-11 rounded bg-secondary hover:bg-secondary-container text-on-secondary font-headline-md text-headline-md flex items-center justify-center gap-space-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary-fixed" type="button">
+<span class="material-symbols-outlined text-[18px]">hub</span>
+<span>Cari pod</span>
+</button>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center leading-normal">
+            Maksimal 4 mahasiswa per pod sprint. Tanpa negosiasi jadwal manual.
+          </p>
+</div>
+</section>
+<!-- RIGHT DISPLAY PANEL (7 Columns) -->
+<section class="lg:col-span-7 bg-surface-container-low rounded-xl p-space-lg flex flex-col gap-space-lg shadow-sm">
+<!-- Header Status Bar -->
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-headline-md text-headline-md text-on-surface">Status Pencarian Pod Ring</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant bg-surface-container px-space-sm py-1 rounded uppercase">
+            PROTOKOL POMODORO 25M
+          </span>
+</div>
+<!-- CENTERPIECE: Pod Ring in Radar Mode (320px diameter) -->
+<div class="relative w-full py-space-xl flex flex-col items-center justify-center bg-surface-container-lowest rounded-xl overflow-hidden min-h-[360px]">
+<!-- Outer Structural Guide Dots -->
+<div class="absolute inset-0 pointer-events-none opacity-20 flex items-center justify-center">
+<div class="w-[340px] h-[340px] rounded-full border border-dashed border-outline"></div>
+</div>
+<!-- Radar SVG Rig -->
+<div class="relative w-[320px] h-[320px] flex items-center justify-center">
+<svg class="absolute inset-0 w-full h-full" fill="none" viewbox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+<!-- Radial Track Rings -->
+<circle class="text-surface-container-high" cx="160" cy="160" r="140" stroke="currentColor" stroke-width="1.5"></circle>
+<circle class="text-surface-container-high" cx="160" cy="160" r="95" stroke="currentColor" stroke-dasharray="3 3" stroke-width="1"></circle>
+<circle class="text-surface-container" cx="160" cy="160" r="50" stroke="currentColor" stroke-width="1"></circle>
+<!-- Crosshairs -->
+<line class="text-surface-container-high" stroke="currentColor" stroke-dasharray="2 4" stroke-width="1" x1="160" x2="160" y1="20" y2="300"></line>
+<line class="text-surface-container-high" stroke="currentColor" stroke-dasharray="2 4" stroke-width="1" x1="20" x2="300" y1="160" y2="160"></line>
+<!-- Rotating Radar Sweep Line -->
+<g class="origin-center animate-[spin_4s_linear_infinite]">
+<line class="text-secondary" opacity="0.8" stroke="currentColor" stroke-width="1.5" x1="160" x2="160" y1="160" y2="20"></line>
+<path class="text-secondary" d="M 160 160 L 160 20 A 140 140 0 0 1 258 61 Z" fill="currentColor" opacity="0.08"></path>
+</g>
+<!-- Outer Active Arch (1/4 filled progress) -->
+<circle class="text-secondary" cx="160" cy="160" r="140" stroke="currentColor" stroke-dasharray="879.6" stroke-dashoffset="659.7" stroke-linecap="round" stroke-width="2.5" transform="rotate(-90 160 160)"></circle>
+</svg>
+<!-- 4 Radar Node Seats (12, 3, 6, 9 o'clock) -->
+<!-- Seat 12: Filled (User: Rizqi) -->
+<div class="absolute top-[6px] left-1/2 -translate-x-1/2 flex flex-col items-center group cursor-pointer z-10">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-secondary flex items-center justify-center font-label-code-md text-label-code-md shadow-sm">
+                RZ
+              </div>
+<div class="absolute -top-6 px-space-xs py-0.5 rounded bg-surface-container text-on-surface font-label-code-sm text-label-code-sm whitespace-nowrap">
+                Kamu (Rizqi)
+              </div>
+</div>
+<!-- Seat 3: Empty / Searching Seat -->
+<div class="absolute right-[6px] top-1/2 -translate-y-1/2 flex flex-col items-center z-10">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-outline">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+</div>
+</div>
+<!-- Seat 6: Empty Seat -->
+<div class="absolute bottom-[6px] left-1/2 -translate-x-1/2 flex flex-col items-center z-10">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-outline">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+</div>
+</div>
+<!-- Seat 9: Empty Seat -->
+<div class="absolute left-[6px] top-1/2 -translate-y-1/2 flex flex-col items-center z-10">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-outline">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+</div>
+</div>
+<!-- Center Telemetry Display -->
+<div class="relative z-0 flex flex-col items-center justify-center text-center pointer-events-none px-space-sm">
+<div class="font-label-code-lg text-display-lg text-on-surface tabular-nums tracking-tighter">
+                1/4
+              </div>
+<span class="font-body-sm text-body-sm text-on-surface-variant max-w-[130px] leading-tight mt-1">
+                Menemukan 1 dari 4 teman belajar
+              </span>
+</div>
+</div>
+<!-- Bottom Session Radar Actions -->
+<div class="mt-space-lg flex flex-wrap items-center justify-center gap-space-sm z-10">
+<button class="h-10 px-space-lg rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-body-sm transition-colors flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[16px] text-error">close</span>
+<span>Batal</span>
+</button>
+<button class="h-10 px-space-md rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-colors flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">smart_toy</span>
+<span>Isi dengan bot</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary bg-surface-container-highest px-1.5 py-0.5 rounded uppercase">SIMULASI</span>
+</button>
+</div>
+</div>
+<!-- Frame Progression Scenarios (Interactive Strip) -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant uppercase tracking-wider">
+              PRATINJAU ALUR PROTOKOL // PROGRESSION FRAMES
+            </span>
+<span class="font-label-code-sm text-label-code-sm text-outline">SIMULASI REAL-TIME</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<!-- Frame A Card: 2/4 Matching -->
+<div class="bg-surface-container rounded-lg p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-code-sm text-label-code-sm text-secondary uppercase font-semibold">Frame A</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant bg-surface-container-high px-space-xs rounded">2/4</span>
+</div>
+<!-- Mini Radar Display -->
+<div class="flex items-center gap-space-sm py-1">
+<div class="relative w-12 h-12 flex-shrink-0 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<circle class="text-surface-container-high" cx="18" cy="18" fill="none" r="15" stroke="currentColor" stroke-width="2.5"></circle>
+<circle class="text-secondary" cx="18" cy="18" fill="none" r="15" stroke="currentColor" stroke-dasharray="94.2" stroke-dashoffset="47.1" stroke-linecap="round" stroke-width="2.5"></circle>
+</svg>
+<span class="absolute font-label-code-sm text-[10px] text-on-surface tabular-nums">2/4</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="w-4 h-4 rounded-full bg-surface-container-high text-secondary flex items-center justify-center font-label-code-sm text-[9px]">RZ</span>
+<span class="w-4 h-4 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-code-sm text-[9px]">MR</span>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant truncate mt-0.5">Traversal Graf...</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-[11px] leading-tight">
+                Mencari 2 rekan lagi di Traversal Graf...
+              </p>
+</div>
+<!-- Frame B Card: Fallback Offer -->
+<div class="bg-surface-container rounded-lg p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-error">
+<span class="material-symbols-outlined text-[15px]">timer</span>
+<span class="font-label-code-sm text-label-code-sm text-error uppercase font-semibold">Frame B: Cadangan</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-error tabular-nums">42d</span>
+</div>
+<h4 class="font-headline-md text-[13px] leading-tight text-on-surface">
+                Baru ada 3 orang. Mulai bertiga atau tunggu lebih lama?
+              </h4>
+<div class="grid grid-cols-2 gap-space-xs pt-1">
+<button class="h-7 rounded bg-secondary text-on-secondary font-label-code-sm text-label-code-sm font-medium flex items-center justify-center" type="button">
+                  Mulai bertiga
+                </button>
+<button class="h-7 rounded bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant font-label-code-sm text-label-code-sm flex items-center justify-center" type="button">
+                  Tunggu
+                </button>
+</div>
+</div>
+<!-- Frame C Card: 4/4 Full Formed -->
+<div class="bg-surface-container rounded-lg p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[15px]">check_circle</span>
+<span class="font-label-code-sm text-label-code-sm text-primary uppercase font-semibold">Frame C: Siap</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-primary-container bg-primary-container px-space-xs rounded">4/4</span>
+</div>
+<div class="flex items-center justify-between py-0.5">
+<div class="flex items-center gap-1">
+<span class="w-5 h-5 rounded-full bg-surface-container-high text-secondary flex items-center justify-center font-label-code-sm text-[9px]">RZ</span>
+<span class="w-5 h-5 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-code-sm text-[9px]">MR</span>
+<span class="w-5 h-5 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-label-code-sm text-[9px]">RP</span>
+<span class="w-5 h-5 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-code-sm text-[9px]">FM</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface">POD 042</span>
+</div>
+<a class="h-7 rounded bg-primary text-on-primary font-label-code-sm text-label-code-sm font-semibold flex items-center justify-center gap-1 transition-colors" data-path="sprint-cockpit" href="#">
+<span>Cockpit Sekarang</span>
+<span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-lowest/80 py-space-md shadow-[0_-1px_8px_rgba(0,0,0,0.2)]"><div class="w-full px-margin lg:px-margin-desktop flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-code-sm text-label-code-sm text-on-surface-variant"><div>SYNCPOD PROTOCOL V2.4 // INSTRUMENTASI KONSOL TEKNIS</div><div class="flex items-center gap-space-md"><span>SIAP SINKRONISASI</span><span class="text-primary">LATENSI: 14MS</span></div></div></footer></body></html>

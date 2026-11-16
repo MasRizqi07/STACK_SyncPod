@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed":"#001e2f","surface-dim":"#0f131c","surface-container-high":"#262a34","background":"#0f131c","on-primary":"#003824","surface-bright":"#353943","tertiary-fixed-dim":"#d0bcff","on-secondary-fixed-variant":"#004c6e","outline":"#86948a","on-error-container":"#ffdad6","primary-fixed-dim":"#4edea3","on-error":"#690005","on-secondary-container":"#00344e","surface-container-highest":"#31353f","on-secondary":"#00344d","surface":"#0f131c","surface-container-lowest":"#0a0e17","on-primary-fixed":"#002113","on-surface":"#dfe2ef","inverse-on-surface":"#2c303a","primary-container":"#10b981","inverse-primary":"#006c49","tertiary-fixed":"#e9ddff","error":"#ffb4ab","secondary-fixed-dim":"#89ceff","primary-fixed":"#6ffbbe","surface-container-low":"#181b25","surface-tint":"#4edea3","on-primary-fixed-variant":"#005236","on-tertiary":"#3c0091","secondary-container":"#00a2e6","on-tertiary-fixed-variant":"#5516be","secondary":"#89ceff","tertiary-container":"#b090ff","surface-container":"#1c1f29","on-primary-container":"#00422b","inverse-surface":"#dfe2ef","on-surface-variant":"#bbcabf","on-background":"#dfe2ef","secondary-fixed":"#c9e6ff","error-container":"#93000a","outline-variant":"#3c4a42","tertiary":"#d0bcff","on-tertiary-fixed":"#23005c","primary":"#4edea3","on-tertiary-container":"#4600a7","surface-variant":"#31353f"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"gutter-desktop":"1rem",margin:"1rem","space-md":"0.75rem","margin-desktop":"1.5rem","space-xl":"1.5rem","space-sm":"0.5rem","space-lg":"1rem",gutter:"0.75rem","space-xs":"0.25rem"},fontFamily:{"display-lg":["Bricolage Grotesque"],"body-lg":["Plus Jakarta Sans"],"headline-md":["Bricolage Grotesque"],"display-lg-mobile":["Bricolage Grotesque"],"label-code-sm":["JetBrains Mono"],"headline-lg":["Bricolage Grotesque"],"label-code-md":["JetBrains Mono"],"body-sm":["Plus Jakarta Sans"],"label-code-lg":["JetBrains Mono"],"body-md":["Plus Jakarta Sans"]},fontSize:{"display-lg":["40px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"body-lg":["15px",{lineHeight:"24px",fontWeight:"500"}],"headline-md":["18px",{lineHeight:"22px",letterSpacing:"-0.01em",fontWeight:"600"}],"display-lg-mobile":["30px",{lineHeight:"34px",letterSpacing:"-0.02em",fontWeight:"700"}],"label-code-sm":["10px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"500"}],"headline-lg":["24px",{lineHeight:"28px",letterSpacing:"-0.02em",fontWeight:"600"}],"label-code-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"500"}],"body-sm":["12px",{lineHeight:"18px",fontWeight:"400"}],"label-code-lg":["18px",{lineHeight:"22px",letterSpacing:"-0.02em",fontWeight:"600"}],"body-md":["13px",{lineHeight:"20px",fontWeight:"400"}]}}}}</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-14 w-full px-margin-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><div class="w-7 h-7 rounded-DEFAULT bg-primary flex items-center justify-center text-on-primary font-headline-md text-headline-md font-bold">S</div><span class="font-headline-lg text-headline-lg tracking-tight text-on-surface uppercase">SyncPod</span><span class="font-label-code-sm text-label-code-sm text-primary uppercase px-space-xs py-0.5 rounded-DEFAULT bg-surface-container-high">CANVAS</span></div><div class="h-4 w-px bg-outline-variant hidden sm:block"></div><nav class="hidden md:flex items-center gap-space-md" data-active-classes="text-primary font-body-md"><span class="text-on-surface-variant font-body-md">Spesifikasi Mobile</span><span class="text-outline text-body-sm">/</span><a aria-current="page" class="transition-colors text-primary font-body-md" data-path="canvas-komparasi-mobile" href="#">Viewport 375px Bersisian</a></nav></div><div class="flex items-center gap-space-md"><div class="hidden lg:flex items-center gap-space-xs px-space-md py-1 rounded-DEFAULT bg-surface-container-high text-secondary"><span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span><span class="font-label-code-sm text-label-code-sm tracking-wider uppercase">BREAKPOINT: 375 × 812 PX (IPHONE VIEWPORT)</span></div><div class="flex items-center gap-space-sm pl-space-sm"><div class="flex flex-col text-right hidden sm:block"><span class="font-body-md text-body-md text-on-surface leading-tight">Ahmad Rizqi Mubarok</span><span class="font-label-code-sm text-label-code-sm text-on-surface-variant leading-none">ITATS · TEKNIK INFORMATIKA</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-14 pb-12 bg-surface-container-lowest min-h-screen flex flex-col justify-between"><div class="flex flex-col w-full">
+<!-- Architectural Showcase Canvas -->
+<div class="w-full py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center">
+<!-- Header Telemetry Bar -->
+<div class="w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8 pb-4 bg-surface-container-low/60 p-4 rounded-xl">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-DEFAULT bg-primary/10 text-primary font-label-code-sm text-label-code-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+            POD-042 TELEMETRI AKTIF
+          </span>
+<span class="text-outline-variant font-label-code-sm text-label-code-sm">/</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">VIEWPORT DUAL 375×812 PX</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">SyncPod Mobile Sprint Cockpit</h1>
+</div>
+<div class="flex items-center gap-3 self-stretch md:self-auto justify-end flex-wrap">
+<div class="flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px] text-primary">speed</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">LATENSI CRDT: <strong class="text-primary font-semibold">18ms</strong></span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[16px] text-secondary">touch_app</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">NFR-3 TOUCH ≥ 44PX: <strong class="text-secondary font-semibold">LOLOS</strong></span>
+</div>
+</div>
+</div>
+<!-- Dual Mobile Frames Container -->
+<div class="w-full flex flex-col xl:flex-row items-center justify-center gap-10 lg:gap-14">
+<!-- ========================================== -->
+<!-- FRAME 1: TAB CATATAN (SCRATCHPAD & CRDT)  -->
+<!-- ========================================== -->
+<div class="flex flex-col items-center">
+<!-- Top Section Pill -->
+<div class="mb-3.5 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface tracking-wider">FRAME 01 · TAB CATATAN (SCRATCHPAD &amp; CRDT) 375 × 812 PX</span>
+</div>
+<!-- Phone Shell Mockup -->
+<div class="w-[375px] h-[812px] bg-[#090D16] rounded-[36px] overflow-hidden flex flex-col relative shadow-[0_24px_60px_-15px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.12)]">
+<!-- iOS Status Bar -->
+<div class="h-10 w-full px-6 flex items-center justify-between bg-[#0F172A] text-on-surface z-30 select-none">
+<span class="font-label-code-md text-label-code-md font-semibold tracking-tight tabular-nums">21:40</span>
+<!-- Dynamic Island Notch Spec -->
+<div class="w-24 h-4 bg-black rounded-full mx-auto -mt-1 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-surface-container-high mr-2"></div>
+<div class="w-2 h-2 rounded-full bg-primary/40"></div>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">wifi</span>
+<span class="material-symbols-outlined text-[14px]">signal_cellular_alt</span>
+<div class="flex items-center gap-0.5">
+<span class="font-label-code-sm text-label-code-sm font-semibold tabular-nums text-primary">94%</span>
+<div class="w-4 h-2 rounded-sm bg-surface-container-high p-0.5 flex items-center">
+<div class="h-full w-full bg-primary rounded-xs"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Top Bar (60px) -->
+<div class="h-[60px] w-full px-3.5 bg-[#0F172A] flex items-center justify-between gap-2 z-20 shadow-md">
+<!-- Left: Mini PodRing & Tabular Countdown -->
+<div class="flex items-center gap-2">
+<div class="relative w-9 h-9 flex items-center justify-center">
+<svg class="w-9 h-9 -rotate-90" viewbox="0 0 36 36">
+<circle class="text-surface-container-high" cx="18" cy="18" fill="none" r="15" stroke="currentColor" stroke-width="2.5"></circle>
+<circle class="text-primary" cx="18" cy="18" fill="none" r="15" stroke="currentColor" stroke-dasharray="94.2" stroke-dashoffset="18" stroke-linecap="round" stroke-width="2.5"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+</div>
+</div>
+<span class="font-label-code-lg text-label-code-lg font-bold text-primary tabular-nums tracking-tight">00:42</span>
+</div>
+<!-- Center: Truncated Title + 4 Mini Seat Dots -->
+<div class="flex flex-col items-center min-w-0 max-w-[170px]">
+<span class="font-headline-md text-headline-md text-on-surface truncate w-full text-center leading-tight">Traversal Graf &amp; Dijkstra</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-primary" title="Ahmad Rizqi (Lead)"></span>
+<span class="w-2 h-2 rounded-full bg-primary" title="Muhammad Rifqi"></span>
+<span class="w-2 h-2 rounded-full bg-primary" title="Rivan Pramudya"></span>
+<span class="w-2 h-2 rounded-full bg-error ring-1 ring-error/50" title="Farhan Magribi (Terputus)"></span>
+<span class="font-label-code-sm text-[9px] text-on-surface-variant uppercase ml-0.5">3/4 AKTIF</span>
+</div>
+</div>
+<!-- Right: Action Jeda (min 44x44px target) -->
+<button aria-label="Jeda Sesi" class="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg bg-[#1E293B] text-on-surface active:bg-surface-container-highest transition-colors" title="Jeda Sesi" type="button">
+<span class="material-symbols-outlined text-[20px]">pause</span>
+</button>
+</div>
+<!-- Segmented Sub-Header -->
+<div class="px-3 py-2 bg-[#0B101B] flex items-center justify-between gap-2 shadow-inner">
+<div class="flex items-center bg-[#111827] p-0.5 rounded-lg">
+<button class="px-3 py-1.5 rounded-DEFAULT bg-primary text-on-primary font-headline-md text-body-sm font-semibold tracking-tight transition-all" type="button">Mode Tulis</button>
+<button class="px-2.5 py-1.5 rounded-DEFAULT text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-all" type="button">Pratinjau</button>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-1 rounded bg-[#111827]">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-code-sm text-label-code-sm text-primary font-medium tracking-wide">CRDT AKTIF</span>
+</div>
+</div>
+<!-- Main Scratchpad Area -->
+<div class="flex-1 overflow-y-auto bg-[#090D16] p-3 text-on-surface font-label-code-md text-label-code-md">
+<!-- Collaborative Status Banner -->
+<div class="mb-3 px-2.5 py-1.5 rounded-DEFAULT bg-[#111827] flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[15px] text-secondary">sync</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface">Buffer sinkron: 4 kontributor</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-secondary font-mono">v42.9</span>
+</div>
+<!-- Code/Editor Block with Line Numbers -->
+<div class="flex font-label-code-md text-label-code-md leading-6 select-text">
+<!-- Line Numbers -->
+<div class="flex flex-col text-right pr-3 select-none text-outline-variant/60 font-mono text-[11px] w-6 shrink-0">
+<span>01</span>
+<span>02</span>
+<span>03</span>
+<span>04</span>
+<span>05</span>
+<span>06</span>
+<span>07</span>
+<span>08</span>
+<span>09</span>
+<span>10</span>
+<span>11</span>
+<span>12</span>
+<span>13</span>
+<span>14</span>
+</div>
+<!-- Editor Content -->
+<div class="flex-1 flex flex-col overflow-x-hidden min-w-0 pr-1">
+<div class="text-primary font-bold"># Traversal Graf &amp; Dijkstra</div>
+<div class="text-on-surface-variant">- Basis: Directed Weighted Graph</div>
+<div class="text-on-surface-variant">- PQ Min-Heap O((V+E) log V)</div>
+<div class="text-tertiary mt-1">// Relaksasi edge standar:</div>
+<div class="text-secondary"><span class="text-tertiary">if</span> (dist[u] + w &lt; dist[v]) {</div>
+<div class="pl-4 text-on-surface">dist[v] = dist[u] + w;</div>
+<!-- Collaborative Cursor Anchor -->
+<div class="pl-4 relative flex items-center">
+<span class="text-on-surface">pq.push({dist[v], v});</span>
+<!-- Floating Cursor Flag -->
+<div class="ml-1 inline-flex items-center bg-secondary text-on-secondary px-1.5 py-0.5 rounded text-[9px] font-mono font-bold tracking-tight shadow-sm whitespace-nowrap animate-pulse">
+<span class="w-1 h-3 bg-white mr-1 inline-block"></span>
+                    M. Rifqi (Mencatat)
+                  </div>
+</div>
+<div class="text-secondary">}</div>
+<div class="text-outline-variant mt-2">// Status CRDT: Peer-to-peer terenkripsi</div>
+<div class="text-on-surface-variant">- Kasus siklus negatif: tangani</div>
+<div class="text-on-surface-variant">  dengan Bellman-Ford jika w &lt; 0.</div>
+<div class="text-primary mt-1">## Observasi Kompleksitas:</div>
+<div class="text-on-surface">Space: O(V + E) memori adjacency</div>
+<div class="text-primary/70 flex items-center gap-1">
+<span>&gt; Siap diverifikasi bersama Pod</span>
+<span class="w-2 h-4 bg-primary inline-block animate-pulse"></span>
+</div>
+</div>
+</div>
+<!-- Quick Markdown Toolbar (Bottom Assistant) -->
+<div class="mt-4 pt-3 flex items-center justify-between bg-[#111827] px-2.5 py-1.5 rounded-lg shadow-sm">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant font-mono">MD FORMAT:</span>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container font-mono text-[12px] font-bold text-on-surface" type="button">#</button>
+<button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container font-mono text-[12px] font-bold text-on-surface" type="button">B</button>
+<button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container font-mono text-[12px] font-bold text-on-surface" type="button">&lt;/&gt;</button>
+<button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container font-mono text-[12px] font-bold text-on-surface" type="button">- [ ]</button>
+</div>
+</div>
+</div>
+<!-- Fixed Bottom Navigation Bar (56px) -->
+<div class="h-14 w-full bg-[#111827] grid grid-cols-4 z-30 select-none shadow-[0_-2px_10px_rgba(0,0,0,0.5)]">
+<!-- Tab 1: Fokus -->
+<button class="flex flex-col items-center justify-center min-h-[48px] text-[#8393A8] hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">timelapse</span>
+<span class="font-body-sm text-[11px] leading-tight font-medium mt-0.5">Fokus</span>
+</button>
+<!-- Tab 2: Catatan (ACTIVE) -->
+<button class="flex flex-col items-center justify-center min-h-[48px] text-primary relative" type="button">
+<div class="absolute top-0 left-4 right-4 h-0.5 bg-primary rounded-full"></div>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="font-body-sm text-[11px] leading-tight font-semibold mt-0.5 text-primary">Catatan</span>
+</button>
+<!-- Tab 3: Antrean -->
+<button class="flex flex-col items-center justify-center min-h-[48px] text-[#8393A8] hover:text-on-surface transition-colors relative" type="button">
+<span class="material-symbols-outlined text-[20px]">help_center</span>
+<span class="font-body-sm text-[11px] leading-tight font-medium mt-0.5">Antrean</span>
+<span class="absolute top-1.5 right-6 w-4 h-4 bg-tertiary text-on-tertiary rounded-full font-label-code-sm text-[9px] font-bold flex items-center justify-center leading-none">1</span>
+</button>
+<!-- Tab 4: Pemandu -->
+<button class="flex flex-col items-center justify-center min-h-[48px] text-[#8393A8] hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+<span class="font-body-sm text-[11px] leading-tight font-medium mt-0.5">Pemandu</span>
+</button>
+</div>
+<!-- iOS Home Indicator -->
+<div class="h-4 w-full bg-[#111827] flex items-center justify-center pb-1">
+<div class="w-32 h-1 bg-surface-container-highest rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- FRAME 2: TAB FOKUS (PODRING & PRESENSI)   -->
+<!-- ========================================== -->
+<div class="flex flex-col items-center">
+<!-- Top Section Pill -->
+<div class="mb-3.5 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface tracking-wider">FRAME 02 · TAB FOKUS (PODRING &amp; PRESENSI) 375 × 812 PX</span>
+</div>
+<!-- Phone Shell Mockup -->
+<div class="w-[375px] h-[812px] bg-[#090D16] rounded-[36px] overflow-hidden flex flex-col relative shadow-[0_24px_60px_-15px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.12)]">
+<!-- iOS Status Bar -->
+<div class="h-10 w-full px-6 flex items-center justify-between bg-[#0F172A] text-on-surface z-30 select-none">
+<span class="font-label-code-md text-label-code-md font-semibold tracking-tight tabular-nums">21:40</span>
+<!-- Dynamic Island Notch Spec -->
+<div class="w-24 h-4 bg-black rounded-full mx-auto -mt-1 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-surface-container-high mr-2"></div>
+<div class="w-2 h-2 rounded-full bg-primary/40"></div>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">wifi</span>
+<span class="material-symbols-outlined text-[14px]">signal_cellular_alt</span>
+<div class="flex items-center gap-0.5">
+<span class="font-label-code-sm text-label-code-sm font-semibold tabular-nums text-primary">94%</span>
+<div class="w-4 h-2 rounded-sm bg-surface-container-high p-0.5 flex items-center">
+<div class="h-full w-full bg-primary rounded-xs"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Top Bar (60px) -->
+<div class="h-[60px] w-full px-3.5 bg-[#0F172A] flex items-center justify-between gap-2 z-20 shadow-md">
+<!-- Left: Mini PodRing & Tabular Countdown -->
+<div class="flex items-center gap-2">
+<div class="relative w-9 h-9 flex items-center justify-center">
+<svg class="w-9 h-9 -rotate-90" viewbox="0 0 36 36">
+<circle class="text-surface-container-high" cx="18" cy="18" fill="none" r="15" stroke="currentColor" stroke-width="2.5"></circle>
+<circle class="text-primary" cx="18" cy="18" fill="none" r="15" stroke="currentColor" stroke-dasharray="94.2" stroke-dashoffset="18" stroke-linecap="round" stroke-width="2.5"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+</div>
+</div>
+<span class="font-label-code-lg text-label-code-lg font-bold text-primary tabular-nums tracking-tight">00:42</span>
+</div>
+<!-- Center: Truncated Title + 4 Mini Seat Dots -->
+<div class="flex flex-col items-center min-w-0 max-w-[170px]">
+<span class="font-headline-md text-headline-md text-on-surface truncate w-full text-center leading-tight">Traversal Graf &amp; Dijkstra</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-primary" title="Ahmad Rizqi (Lead)"></span>
+<span class="w-2 h-2 rounded-full bg-primary" title="Muhammad Rifqi"></span>
+<span class="w-2 h-2 rounded-full bg-primary" title="Rivan Pramudya"></span>
+<span class="w-2 h-2 rounded-full bg-error ring-1 ring-error/50" title="Farhan Magribi (Terputus)"></span>
+<span class="font-label-code-sm text-[9px] text-on-surface-variant uppercase ml-0.5">3/4 AKTIF</span>
+</div>
+</div>
+<!-- Right: Action Jeda -->
+<button aria-label="Jeda Sesi" class="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg bg-[#1E293B] text-on-surface active:bg-surface-container-highest transition-colors" title="Jeda Sesi" type="button">
+<span class="material-symbols-outlined text-[20px]">pause</span>
+</button>
+</div>
+<!-- Main Mobile Content Area (Flex Col, Items Center, Scrollable) -->
+<div class="flex-1 overflow-y-auto bg-[#090D16] p-3 flex flex-col items-center gap-3">
+<!-- Phase Pill Indicator -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#111827] shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="font-label-code-sm text-label-code-sm font-semibold text-primary tracking-wider uppercase">FASE FOKUS 1 (25 MNT)</span>
+</div>
+<!-- The Centered Signature PodRing (220x220 px) -->
+<div class="relative w-[220px] h-[220px] flex items-center justify-center my-1 select-none">
+<!-- Pure SVG Concentric Instrument -->
+<svg class="w-full h-full -rotate-90" viewbox="0 0 220 220">
+<!-- Outer Track -->
+<circle class="text-surface-container-high" cx="110" cy="110" fill="none" r="94" stroke="currentColor" stroke-width="6"></circle>
+<!-- Azimuth Hash Marks (000°, 090°, 180°, 270°) -->
+<line class="text-outline-variant" stroke="currentColor" stroke-width="2" x1="110" x2="110" y1="10" y2="18"></line>
+<line class="text-outline-variant" stroke="currentColor" stroke-width="2" x1="210" x2="202" y1="110" y2="110"></line>
+<line class="text-outline-variant" stroke="currentColor" stroke-width="2" x1="110" x2="110" y1="210" y2="202"></line>
+<line class="text-outline-variant" stroke="currentColor" stroke-width="2" x1="10" x2="18" y1="110" y2="110"></line>
+<!-- Depleting Emerald Ring Stroke -->
+<!-- Perimeter = 2 * PI * 94 = 590.62. At 00:42 remaining of 25m, dashoffset approximates near-depletion -->
+<circle class="text-primary" cx="110" cy="110" fill="none" r="94" stroke="currentColor" stroke-dasharray="590.6" stroke-dashoffset="565" stroke-linecap="round" stroke-width="6"></circle>
+<!-- Subtle Inner Decorative Orbital Guideline -->
+<circle class="text-surface-container" cx="110" cy="110" fill="none" r="68" stroke="currentColor" stroke-dasharray="4 4" stroke-width="1.5"></circle>
+</svg>
+<!-- Central Telemetry Center Info -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+<span class="font-headline-lg text-[36px] leading-tight font-extrabold text-[#F8FAFC] font-label-code-lg tabular-nums tracking-tighter">00:42</span>
+<span class="font-label-code-sm text-[10px] text-on-surface-variant font-semibold tracking-wider mt-0.5">SISA WAKTU FOKUS</span>
+<div class="mt-1 px-2 py-0.5 rounded bg-[#F59E0B]/20 text-[#F59E0B] font-label-code-sm text-[9px] font-bold tracking-tight">
+                  60 DETIK TERAKHIR
+                </div>
+</div>
+<!-- 4 Orbital Seat Nodes at 12, 3, 6, 9 o'clock -->
+<!-- 12 o'clock: Ahmad Rizqi (Lead) -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center" title="Ahmad Rizqi (Lead)">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary font-label-code-sm text-label-code-sm font-bold flex items-center justify-center shadow-md">
+                  AR
+                </div>
+<span class="font-label-code-sm text-[8px] bg-surface-container-highest px-1 rounded text-primary mt-0.5 font-bold">LEAD</span>
+</div>
+<!-- 3 o'clock: Muhammad Rifqi -->
+<div class="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 flex items-center" title="Muhammad Rifqi">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm font-bold flex items-center justify-center shadow-md">
+                  MR
+                </div>
+</div>
+<!-- 6 o'clock: Rivan Pramudya -->
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex flex-col items-center" title="Rivan Pramudya">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary-container font-label-code-sm text-label-code-sm font-bold flex items-center justify-center shadow-md">
+                  RP
+                </div>
+</div>
+<!-- 9 o'clock: Farhan Magribi (Terputus) -->
+<div class="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center" title="M. Farhan Magribi (Terputus)">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-error font-label-code-sm text-label-code-sm font-bold flex items-center justify-center shadow-md ring-1 ring-error">
+                  FM
+                </div>
+</div>
+</div>
+<!-- Quick Action Controls (Min 44px Height Target) -->
+<div class="w-full grid grid-cols-2 gap-2 mt-1">
+<button class="h-11 min-h-[44px] px-3 rounded-lg bg-[#1E293B] text-on-surface font-body-md text-body-md font-semibold flex items-center justify-center gap-1.5 active:bg-surface-container-highest transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">pause_circle</span>
+<span>Jeda Fokus</span>
+</button>
+<button class="h-11 min-h-[44px] px-3 rounded-lg bg-surface-container-low text-error hover:bg-error-container/20 font-body-md text-body-md font-semibold flex items-center justify-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">stop_circle</span>
+<span>Akhiri Sesi</span>
+</button>
+</div>
+<!-- Member Presence Section -->
+<div class="w-full flex flex-col gap-2 mt-1">
+<div class="flex items-center justify-between px-1">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant font-bold tracking-wider uppercase">PRESENSI ANGGOTA POD (4/4)</span>
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-code-sm text-[10px] text-primary">LIVE SYNC</span>
+</div>
+</div>
+<!-- Card 1: Ahmad Rizqi Mubarok (Lead) -->
+<div class="w-full p-2.5 rounded-lg bg-[#111827] flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary font-label-code-sm text-label-code-sm font-bold flex items-center justify-center shrink-0">
+                    AR
+                  </div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-body-md font-semibold text-on-surface truncate">Ahmad Rizqi M. (Lead)</span>
+<span class="font-label-code-sm text-[10px] text-on-surface-variant truncate">ITATS · Anda</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-DEFAULT bg-primary/15 text-primary font-label-code-sm text-[10px] font-semibold shrink-0">
+                  Fokus
+                </span>
+</div>
+<!-- Card 2: Muhammad Rifqi -->
+<div class="w-full p-2.5 rounded-lg bg-[#111827] flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container font-label-code-sm text-label-code-sm font-bold flex items-center justify-center shrink-0">
+                    MR
+                  </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1 truncate">
+<span class="font-body-md text-body-md font-semibold text-on-surface truncate">Muhammad Rifqi</span>
+<span class="font-label-code-sm text-[9px] text-outline-variant bg-surface-container px-1 rounded">[SIM]</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-on-surface-variant truncate">Inst. Teknologi Bandung</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-DEFAULT bg-secondary/15 text-secondary font-label-code-sm text-[10px] font-semibold shrink-0">
+                  Mencatat
+                </span>
+</div>
+<!-- Card 3: Rivan Pramudya -->
+<div class="w-full p-2.5 rounded-lg bg-[#111827] flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary-container font-label-code-sm text-label-code-sm font-bold flex items-center justify-center shrink-0">
+                    RP
+                  </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1 truncate">
+<span class="font-body-md text-body-md font-semibold text-on-surface truncate">Rivan Pramudya</span>
+<span class="font-label-code-sm text-[9px] text-outline-variant bg-surface-container px-1 rounded">[SIM]</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-on-surface-variant truncate">Univ. Gadjah Mada</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-DEFAULT bg-tertiary/15 text-tertiary font-label-code-sm text-[10px] font-semibold shrink-0">
+                  Tanya Pemandu
+                </span>
+</div>
+<!-- Card 4: M. Farhan Magribi (Terputus) -->
+<div class="w-full p-2.5 rounded-lg bg-[#111827] flex items-center justify-between shadow-sm opacity-80">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-error font-label-code-sm text-label-code-sm font-bold flex items-center justify-center shrink-0 ring-1 ring-error/50">
+                    FM
+                  </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1 truncate">
+<span class="font-body-md text-body-md font-semibold text-on-surface truncate">M. Farhan Magribi</span>
+<span class="font-label-code-sm text-[9px] text-outline-variant bg-surface-container px-1 rounded">[SIM]</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-on-surface-variant truncate">Univ. Indonesia</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-DEFAULT bg-error/15 text-error font-label-code-sm text-[10px] font-semibold shrink-0">
+                  Terputus
+                </span>
+</div>
+</div>
+</div>
+<!-- Fixed Bottom Navigation Bar (56px) -->
+<div class="h-14 w-full bg-[#111827] grid grid-cols-4 z-30 select-none shadow-[0_-2px_10px_rgba(0,0,0,0.5)]">
+<!-- Tab 1: Fokus (ACTIVE) -->
+<button class="flex flex-col items-center justify-center min-h-[48px] text-primary relative" type="button">
+<div class="absolute top-0 left-4 right-4 h-0.5 bg-primary rounded-full"></div>
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">timelapse</span>
+<span class="font-body-sm text-[11px] leading-tight font-semibold mt-0.5 text-primary">Fokus</span>
+</button>
+<!-- Tab 2: Catatan -->
+<button class="flex flex-col items-center justify-center min-h-[48px] text-[#8393A8] hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">description</span>
+<span class="font-body-sm text-[11px] leading-tight font-medium mt-0.5">Catatan</span>
+</button>
+<!-- Tab 3: Antrean -->
+<button class="flex flex-col items-center justify-center min-h-[48px] text-[#8393A8] hover:text-on-surface transition-colors relative" type="button">
+<span class="material-symbols-outlined text-[20px]">help_center</span>
+<span class="font-body-sm text-[11px] leading-tight font-medium mt-0.5">Antrean</span>
+<span class="absolute top-1.5 right-6 w-4 h-4 bg-tertiary text-on-tertiary rounded-full font-label-code-sm text-[9px] font-bold flex items-center justify-center leading-none">1</span>
+</button>
+<!-- Tab 4: Pemandu -->
+<button class="flex flex-col items-center justify-center min-h-[48px] text-[#8393A8] hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+<span class="font-body-sm text-[11px] leading-tight font-medium mt-0.5">Pemandu</span>
+</button>
+</div>
+<!-- iOS Home Indicator -->
+<div class="h-4 w-full bg-[#111827] flex items-center justify-center pb-1">
+<div class="w-32 h-1 bg-surface-container-highest rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Architectural Spec Matrix Footer -->
+<div class="w-full mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl flex flex-col gap-1.5 shadow-sm">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[18px]">fit_screen</span>
+<span class="font-headline-md text-headline-md">Spesifikasi Viewport</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          Dirancang presisi untuk rasio iPhone 375 × 812 px. Skalabilitas bento mempertahankan hierarchy informasi tanpa horizontal overflow.
+        </p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex flex-col gap-1.5 shadow-sm">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-headline-md text-headline-md">NFR-3 Ergonomis</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          Seluruh pemicu interaktif memiliki target sentuh minimal 44 × 44 px (Bottom Nav 56px, Jeda Sesi 44px). Kontras teks WCAG AA terpenuhi.
+        </p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex flex-col gap-1.5 shadow-sm">
+<div class="flex items-center gap-2 text-tertiary">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span class="font-headline-md text-headline-md">CRDT &amp; Tipografi Tabular</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          Editor Markdown terintegrasi sinkronisasi kolaboratif multi-kursor. Angka timer dan baris kode menggunakan font JetBrains Mono tabular.
+        </p>
+</div>
+</div>
+</div>
+</div></main><footer class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-low/95 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.3)]"><div class="h-12 w-full px-margin-desktop flex items-center justify-between text-on-surface-variant"><div class="flex items-center gap-space-lg flex-wrap"><div class="flex items-center gap-space-xs font-label-code-sm text-label-code-sm text-primary"><span class="material-symbols-outlined text-[16px]">verified</span><span>NFR-3 VERIFIKASI:</span></div><div class="flex items-center gap-space-lg text-on-surface-variant font-label-code-sm text-label-code-sm"><span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>Target Sentuh ≥ 44x44px</span><span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>Kontras WCAG AA</span><span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>JetBrains Mono Tabular-Nums</span><span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>Zero Horizontal Overflow</span></div></div><div class="hidden md:flex items-center gap-space-sm font-label-code-sm text-label-code-sm text-outline"><span class="text-on-surface-variant font-label-code-sm">STATUS:</span><span class="text-primary font-label-code-sm">VALIDATED</span></div></div></footer></body></html>

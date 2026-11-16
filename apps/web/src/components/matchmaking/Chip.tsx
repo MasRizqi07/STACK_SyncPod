@@ -77,10 +77,10 @@ export function RadioChipGroup<T extends string>({
             disabled={disabled}
             onClick={() => onChange(option.value)}
             onKeyDown={(ev) => handleKeyDown(ev, index)}
-            className={`inline-flex min-h-[44px] items-center rounded-[var(--radius-control)] border px-3.5 py-2 text-sm font-medium transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${
+            className={`inline-flex min-h-[44px] items-center rounded-[var(--radius-control)] border px-3.5 py-2 text-sm font-medium transition-all duration-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40 ${
               isSelected
-                ? 'border-primary bg-surface-elevated text-ink-primary'
-                : 'border-border-subtle bg-canvas text-ink-secondary hover:border-border-active hover:text-ink-primary'
+                ? 'border-primary bg-surface-elevated text-ink-primary ring-1 ring-primary/40 font-semibold'
+                : 'border-border-subtle bg-canvas text-ink-primary hover:border-border-active hover:bg-surface-elevated'
             }`}
           >
             {option.label}

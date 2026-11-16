@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "background": "#0f131c", "error-container": "#93000a", "on-tertiary": "#3c0091", "inverse-surface": "#dfe2ef", "primary-container": "#10b981", "secondary-fixed-dim": "#89ceff", "surface": "#0f131c", "on-primary-fixed": "#002113", "on-secondary": "#00344d", "surface-variant": "#31353f", "surface-tint": "#4edea3", "tertiary-container": "#b090ff", "secondary": "#89ceff", "surface-container-high": "#262a34", "primary-fixed-dim": "#4edea3", "on-tertiary-container": "#4600a7", "tertiary-fixed-dim": "#d0bcff", "on-error": "#690005", "on-primary-container": "#00422b", "on-surface-variant": "#bbcabf", "inverse-primary": "#006c49", "error": "#ffb4ab", "surface-dim": "#0f131c", "primary": "#4edea3", "surface-container-lowest": "#0a0e17", "outline": "#86948a", "on-tertiary-fixed": "#23005c", "surface-container": "#1c1f29", "primary-fixed": "#6ffbbe", "tertiary-fixed": "#e9ddff", "surface-bright": "#353943", "outline-variant": "#3c4a42", "on-tertiary-fixed-variant": "#5516be", "inverse-on-surface": "#2c303a", "tertiary": "#d0bcff", "on-secondary-fixed": "#001e2f", "on-secondary-container": "#00344e", "on-surface": "#dfe2ef", "on-error-container": "#ffdad6", "on-secondary-fixed-variant": "#004c6e", "surface-container-low": "#181b25", "secondary-container": "#00a2e6", "surface-container-highest": "#31353f", "on-background": "#dfe2ef", "on-primary-fixed-variant": "#005236", "secondary-fixed": "#c9e6ff", "on-primary": "#003824" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "0.75rem", "space-lg": "1rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "space-xl": "1.5rem", "gutter-desktop": "1rem", "margin-desktop": "1.5rem", "margin": "1rem", "gutter": "0.75rem" }, "fontFamily": { "headline-lg": ["Bricolage Grotesque"], "display-lg-mobile": ["Bricolage Grotesque"], "body-md": ["Plus Jakarta Sans"], "headline-md": ["Bricolage Grotesque"], "body-lg": ["Plus Jakarta Sans"], "label-code-sm": ["JetBrains Mono"], "label-code-md": ["JetBrains Mono"], "body-sm": ["Plus Jakarta Sans"], "display-lg": ["Bricolage Grotesque"], "label-code-lg": ["JetBrains Mono"] }, "fontSize": { "headline-lg": ["24px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "display-lg-mobile": ["30px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["13px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-md": ["18px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["15px", { "lineHeight": "24px", "fontWeight": "500" }], "label-code-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500" }], "label-code-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "display-lg": ["40px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-code-lg": ["18px", { "lineHeight": "22px", "letterSpacing": "-0.02em", "fontWeight": "600" }] } } } };</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@100..900&family=JetBrains+Mono:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-surface text-on-surface font-body-md text-body-md antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-margin flex items-center gap-space-sm bg-surface-container-lowest"><div class="w-7 h-7 rounded bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">terminal</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md text-on-surface tracking-tight font-bold">SyncPod</span><span class="font-label-code-sm text-label-code-sm text-on-surface-variant uppercase">Kernel v2.4</span></div></div><div class="p-space-md"><span class="px-space-sm font-label-code-sm text-label-code-sm uppercase tracking-wider text-outline">Pusat Kendali</span></div><nav class="flex flex-col gap-space-xs px-space-md" data-active-classes="bg-surface-container-high text-primary font-bold rounded-lg"><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm transition-colors bg-surface-container-high text-primary font-bold rounded-lg" data-path="resilience-artboard" href="#"><span class="material-symbols-outlined text-[18px]">view_quilt</span><span class="font-body-md text-body-md">Papan Ketahanan</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="telemetry-cockpit" href="#"><span class="material-symbols-outlined text-[18px]">speed</span><span class="font-body-md text-body-md">Telemetri Pod</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="network-resilience" href="#"><span class="material-symbols-outlined text-[18px]">wifi_off</span><span class="font-body-md text-body-md">Status Offline</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="socratic-engine" href="#"><span class="material-symbols-outlined text-[18px]">psychology</span><span class="font-body-md text-body-md">Kopilot Sokrates</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="system-audit" href="#"><span class="material-symbols-outlined text-[18px]">verified_user</span><span class="font-body-md text-body-md">Audit NFR</span></a></nav></div><div class="p-space-md bg-surface-container-lowest"><div class="p-space-sm rounded bg-surface-container flex items-center justify-between"><span class="font-label-code-sm text-label-code-sm text-on-surface-variant">LATENSI SIMPUL</span><span class="font-label-code-sm text-label-code-sm text-primary">14ms OK</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-margin shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-md min-w-0"><span class="font-body-lg text-body-lg text-on-surface font-semibold truncate">Koleksi Komponen Ketahanan & Status Sistem (Resilience, Offline & Skeletons)</span><span class="hidden xl:inline-flex items-center px-space-sm py-0.5 rounded bg-surface-container-highest text-primary font-label-code-sm text-label-code-sm uppercase whitespace-nowrap">NFR-2 & NFR-6 TERVERIFIKASI</span></div><div class="flex items-center gap-space-lg flex-shrink-0"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container"><span class="w-2 h-2 rounded-full bg-primary"></span><span class="font-label-code-sm text-label-code-sm text-on-surface">SIAGA LIVE</span></div><div class="flex items-center gap-space-sm pl-space-md"><div class="flex flex-col text-right"><span class="font-body-md text-body-md text-on-surface font-semibold leading-tight">Ahmad Rizqi Mubarok</span><span class="font-label-code-sm text-label-code-sm text-on-surface-variant uppercase">ITATS</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-16 w-full min-h-screen bg-surface px-margin-desktop py-space-xl"><div class="flex flex-col w-full">
+<div class="flex flex-col gap-space-lg w-full max-w-[1400px] mx-auto pb-space-xl">
+<!-- Top System Architecture Header Matrix -->
+<div class="bg-surface-container-low rounded-xl p-space-lg flex flex-col md:flex-row md:items-center justify-between gap-space-md shadow-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-label-code-sm text-label-code-sm text-primary uppercase px-2 py-0.5 rounded bg-surface-container-high">SPEC: NFR-2 & NFR-6</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary uppercase px-2 py-0.5 rounded bg-surface-container-high">ISO/IEC 25010 FAULT-TOLERANCE</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary uppercase px-2 py-0.5 rounded bg-surface-container-high">CRDT SYNC ENGINE v2.4</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Koleksi Komponen Ketahanan & Pola Kegagalan Pod</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">
+          Implementasi resmi boundary state, transisi offline presisi milidetik, kerangka pemuatan tenang tanpa layout shift (CLS 0.00), dan peredam kesalahan parsial terisolasi untuk sprint teknik ITATS.
+        </p>
+</div>
+<div class="flex items-center gap-space-md self-start md:self-auto flex-shrink-0">
+<div class="flex flex-col items-end">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant uppercase">Local CRDT Store</span>
+<span class="font-label-code-md text-label-code-md text-primary font-bold">100% PERSISTED</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]">dataset</span>
+</div>
+</div>
+</div>
+<!-- SECTION 1: Sticky ConnectionBanner Component States -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-code-md text-label-code-md text-primary">01 //</span>
+<span class="font-headline-md text-headline-md text-on-surface">Indikator Banner Koneksi Reaktif (ConnectionBanner)</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant uppercase">Sticky Layout · Z-Index 45 · Touch Target 44px</span>
+</div>
+<!-- State A: Offline / Reconnecting -->
+<div class="w-full min-h-[56px] bg-[#1E1B18] rounded-xl px-space-md py-space-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md shadow-md">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-9 h-9 rounded-lg bg-[#F59E0B]/20 flex items-center justify-center flex-shrink-0 text-[#F59E0B]">
+<span class="material-symbols-outlined text-[20px]">wifi_off</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-code-sm text-label-code-sm font-bold uppercase text-[#F59E0B] px-1.5 py-0.5 rounded bg-[#F59E0B]/10">TERPUTUS</span>
+<p class="font-body-md text-body-md text-on-surface truncate">
+                Koneksi terputus. Menyimpan catatan secara lokal di perangkat dan mencoba menghubungkan ulang (<span class="font-label-code-md text-label-code-md text-[#F59E0B] font-bold">Percobaan 2/5</span>)...
+              </p>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-outline">CRDT Append-Only buffer aktif di IndexedDB (0 konflik terdeteksi)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0 self-end md:self-auto">
+<span class="font-label-code-sm text-label-code-sm text-[#F59E0B] hidden lg:inline">Backoff Eksponensial: 1200ms</span>
+<button class="h-11 px-space-md rounded-lg bg-[#F59E0B]/20 hover:bg-[#F59E0B]/30 text-[#F59E0B] font-label-code-md text-label-code-md font-semibold transition-all flex items-center gap-space-xs" id="retry-btn">
+<span class="material-symbols-outlined text-[16px] animate-spin" style="animation-duration: 3s;">sync</span>
+<span>Coba Sekarang</span>
+</button>
+</div>
+</div>
+<!-- State B: Offline Prototype Simulation Mode -->
+<div class="w-full min-h-[56px] bg-[#0F1F1A] rounded-xl px-space-md py-space-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md shadow-md">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-9 h-9 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-code-sm text-label-code-sm font-bold uppercase text-on-primary bg-primary px-2 py-0.5 rounded">OFFLINE READY</span>
+<p class="font-body-md text-body-md text-on-surface">
+                Berjalan dalam Mode Simulasi Offline (Tanpa Jaringan Eksternal) · <span class="font-label-code-md text-label-code-md text-primary font-medium">Deterministic FakeRealtimeClient</span>
+</p>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">Memenuhi NFR-6: Eksekusi independen tanpa CDN pihak ketiga</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md flex-shrink-0 self-end md:self-auto">
+<div class="px-space-md py-1.5 rounded-lg bg-surface-container-high flex items-center gap-space-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface tracking-wide">Latensi 0ms · Zero External CDN</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 2: Cockpit Loading Skeletons -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-code-md text-label-code-md text-primary">02 //</span>
+<span class="font-headline-md text-headline-md text-on-surface">Pola Kerangka Arsitektural Pod (Cockpit Loading Skeleton)</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant uppercase">Subtle Opacity Pulse · CLS 0.00</span>
+<button class="font-label-code-sm text-label-code-sm px-2 py-1 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface transition-colors" id="toggle-pulse">
+            Jeda Simulasi
+          </button>
+</div>
+</div>
+<!-- 3-Column Bento Cockpit Skeleton Preview -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start w-full">
+<!-- Left Rail: PodRing & Seat Nodes Skeleton (4 cols) -->
+<div class="lg:col-span-4 bg-surface-container rounded-xl p-space-md flex flex-col gap-space-md shadow-md min-w-0">
+<div class="flex items-center justify-between">
+<div class="h-4 w-32 bg-surface-container-highest rounded animate-pulse"></div>
+<div class="h-4 w-12 bg-surface-container-highest rounded animate-pulse"></div>
+</div>
+<!-- Circular PodRing SVG Skeleton (200x200) -->
+<div class="flex flex-col items-center justify-center py-space-sm relative">
+<svg class="w-48 h-48 text-surface-container-highest" fill="none" viewbox="0 0 200 200">
+<!-- Background Muted Track -->
+<circle cx="100" cy="100" opacity="0.4" r="82" stroke="currentColor" stroke-linecap="round" stroke-width="4"></circle>
+<!-- Dashed Active Track Segment -->
+<circle class="animate-spin" cx="100" cy="100" r="82" stroke="currentColor" stroke-dasharray="16 12" stroke-linecap="round" stroke-width="4" style="transform-origin: center; animation-duration: 18s;"></circle>
+<!-- Inner Peer Orbit -->
+<circle cx="100" cy="100" opacity="0.3" r="54" stroke="currentColor" stroke-dasharray="4 6" stroke-width="1.5"></circle>
+<!-- Seat Anchors -->
+<circle cx="100" cy="18" fill="currentColor" opacity="0.8" r="6"></circle>
+<circle cx="182" cy="100" fill="currentColor" opacity="0.8" r="6"></circle>
+<circle cx="100" cy="182" fill="currentColor" opacity="0.8" r="6"></circle>
+<circle cx="18" cy="100" fill="currentColor" opacity="0.8" r="6"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<div class="h-8 w-24 bg-surface-container-highest rounded animate-pulse mb-1"></div>
+<div class="h-3 w-16 bg-surface-container-highest rounded animate-pulse opacity-60"></div>
+</div>
+</div>
+<!-- 4 Horizontal Simulating MemberRow Cards -->
+<div class="flex flex-col gap-space-xs">
+<div class="h-11 rounded-lg bg-surface-container-high px-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest animate-pulse"></div>
+<div class="flex flex-col gap-1">
+<div class="h-3 w-28 bg-surface-container-highest rounded animate-pulse"></div>
+<div class="h-2 w-16 bg-surface-container-highest rounded animate-pulse opacity-50"></div>
+</div>
+</div>
+<div class="w-12 h-4 rounded bg-surface-container-highest animate-pulse"></div>
+</div>
+<div class="h-11 rounded-lg bg-surface-container-high px-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest animate-pulse"></div>
+<div class="flex flex-col gap-1">
+<div class="h-3 w-32 bg-surface-container-highest rounded animate-pulse"></div>
+<div class="h-2 w-20 bg-surface-container-highest rounded animate-pulse opacity-50"></div>
+</div>
+</div>
+<div class="w-12 h-4 rounded bg-surface-container-highest animate-pulse"></div>
+</div>
+<div class="h-11 rounded-lg bg-surface-container-high px-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest animate-pulse"></div>
+<div class="flex flex-col gap-1">
+<div class="h-3 w-24 bg-surface-container-highest rounded animate-pulse"></div>
+<div class="h-2 w-14 bg-surface-container-highest rounded animate-pulse opacity-50"></div>
+</div>
+</div>
+<div class="w-12 h-4 rounded bg-surface-container-highest animate-pulse"></div>
+</div>
+<div class="h-11 rounded-lg bg-surface-container-high px-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest animate-pulse"></div>
+<div class="flex flex-col gap-1">
+<div class="h-3 w-20 bg-surface-container-highest rounded animate-pulse"></div>
+<div class="h-2 w-12 bg-surface-container-highest rounded animate-pulse opacity-50"></div>
+</div>
+</div>
+<div class="w-12 h-4 rounded bg-surface-container-highest animate-pulse"></div>
+</div>
+</div>
+</div>
+<!-- Center Rail: Scratchpad Code Editor Skeleton (5 cols) -->
+<div class="lg:col-span-5 bg-surface-container rounded-xl p-space-md flex flex-col gap-space-md shadow-md min-w-0">
+<!-- Editor Tabs Placeholder -->
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<div class="h-7 w-20 bg-surface-container-high rounded-md flex items-center justify-center">
+<div class="h-3 w-12 bg-surface-container-highest rounded"></div>
+</div>
+<div class="h-7 w-24 bg-surface-container-low rounded-md flex items-center justify-center">
+<div class="h-3 w-14 bg-surface-container-highest rounded opacity-40"></div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="h-6 w-16 bg-surface-container-high rounded"></div>
+</div>
+</div>
+<!-- Staggered Code Lines with Monospaced Line Numbers -->
+<div class="bg-surface-container-lowest rounded-lg p-space-md font-label-code-md text-label-code-md flex flex-col gap-2.5">
+<div class="flex items-center gap-space-md">
+<span class="text-outline/40 select-none w-5 text-right">01</span>
+<div class="h-4 bg-surface-container-high rounded animate-pulse w-[85%]"></div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="text-outline/40 select-none w-5 text-right">02</span>
+<div class="h-4 bg-surface-container-high rounded animate-pulse w-[60%]"></div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="text-outline/40 select-none w-5 text-right">03</span>
+<div class="h-4 bg-surface-container-high rounded animate-pulse w-[90%]"></div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="text-outline/40 select-none w-5 text-right">04</span>
+<div class="h-4 bg-surface-container-high rounded animate-pulse w-[45%]"></div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="text-outline/40 select-none w-5 text-right">05</span>
+<div class="h-4 bg-surface-container-high rounded animate-pulse w-[70%]"></div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="text-outline/40 select-none w-5 text-right">06</span>
+<div class="h-4 bg-surface-container-high rounded animate-pulse w-[95%]"></div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="text-outline/40 select-none w-5 text-right">07</span>
+<div class="h-4 bg-surface-container-high rounded animate-pulse w-[50%]"></div>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="text-outline/40 select-none w-5 text-right">08</span>
+<div class="h-4 bg-surface-container-high rounded animate-pulse w-[80%]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<div class="h-3 w-36 bg-surface-container-highest rounded animate-pulse"></div>
+<div class="h-3 w-20 bg-surface-container-highest rounded animate-pulse"></div>
+</div>
+</div>
+<!-- Right Rail: Socratic Copilot Skeleton (3 cols) -->
+<div class="lg:col-span-3 bg-surface-container rounded-xl p-space-md flex flex-col gap-space-md shadow-md min-w-0">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+<div class="h-4 w-28 bg-surface-container-highest rounded animate-pulse"></div>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-tertiary">MEMUAT...</span>
+</div>
+<!-- 3 Socratic Prompt Placeholders -->
+<div class="flex flex-col gap-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-container-high flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="h-3 w-24 bg-tertiary/40 rounded animate-pulse"></div>
+<div class="h-3 w-8 bg-surface-container-highest rounded"></div>
+</div>
+<div class="h-2.5 w-full bg-surface-container-highest rounded animate-pulse"></div>
+<div class="h-2.5 w-3/4 bg-surface-container-highest rounded animate-pulse"></div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-high flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="h-3 w-28 bg-tertiary/40 rounded animate-pulse"></div>
+<div class="h-3 w-8 bg-surface-container-highest rounded"></div>
+</div>
+<div class="h-2.5 w-full bg-surface-container-highest rounded animate-pulse"></div>
+<div class="h-2.5 w-4/5 bg-surface-container-highest rounded animate-pulse"></div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-high flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="h-3 w-20 bg-tertiary/40 rounded animate-pulse"></div>
+<div class="h-3 w-8 bg-surface-container-highest rounded"></div>
+</div>
+<div class="h-2.5 w-full bg-surface-container-highest rounded animate-pulse"></div>
+<div class="h-2.5 w-1/2 bg-surface-container-highest rounded animate-pulse"></div>
+</div>
+</div>
+<!-- Fake Monospace Input Shell -->
+<div class="h-9 rounded-lg bg-surface-container-lowest px-space-sm flex items-center gap-space-xs">
+<span class="font-label-code-md text-label-code-md text-tertiary">></span>
+<div class="h-3 w-32 bg-surface-container-highest rounded animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 3: Granular Panel Error Boundary Card (error.tsx) -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-code-md text-label-code-md text-primary">03 //</span>
+<span class="font-headline-md text-headline-md text-on-surface">Peredam Kesalahan Parsial (Granular Panel Error Boundary)</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-error uppercase">error.tsx Sandbox · NFR-2 Isolation</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<!-- Live Isolated Error Card -->
+<div class="lg:col-span-7 bg-[#1c1214] rounded-xl p-space-lg flex flex-col gap-space-md shadow-xl min-w-0">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center text-error flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code-sm text-label-code-sm text-error font-bold uppercase tracking-wider">ISOLATED ERROR BOUNDARY</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">Modul: /cockpit/copilot/socratic-drawer.tsx</span>
+</div>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-error-container bg-error-container px-2 py-0.5 rounded font-mono">PANEL HALTED</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Panel Pemandu Gagal Dimuat</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Terjadi kesalahan saat merender modul ini. Timer fokus, audio WebRTC, dan catatan pod Anda <span class="text-primary font-semibold">tetap aman di memori lokal</span>.
+            </p>
+</div>
+<!-- Stack Trace Preview Box -->
+<div class="p-space-md rounded-lg bg-surface-container-lowest flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-code-sm text-label-code-sm text-error uppercase">Stack Trace Telemetri</span>
+<button class="font-label-code-sm text-label-code-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1 transition-colors" id="copy-trace">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+<span id="copy-text">Salin Trace</span>
+</button>
+</div>
+<code class="font-label-code-sm text-label-code-sm text-error/90 font-mono break-all leading-tight">
+              Error: ConnectionTimeout (socratic:ask p95 > 15s) at CopilotPanel.tsx:84:12<br/>
+                at async runSocraticInference (copilot-worker.ts:142)<br/>
+                at React.useMemo [mount_phase_3] (engine.esm.js:901)
+            </code>
+</div>
+<!-- Action Buttons with 44px Touch Targets -->
+<div class="flex flex-wrap items-center gap-space-md pt-space-xs">
+<button class="h-11 px-space-lg rounded-lg bg-error hover:opacity-90 text-on-error font-body-md text-body-md font-semibold transition-opacity flex items-center justify-center gap-space-sm shadow-md">
+<span class="material-symbols-outlined text-[18px]">replay</span>
+<span>Muat Ulang Panel</span>
+</button>
+<button class="h-11 px-space-md rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-body-md text-body-md transition-colors flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px]">bug_report</span>
+<span>Laporkan Masalah</span>
+</button>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant ml-auto">Konteks sesi tetap utuh</span>
+</div>
+</div>
+<!-- Technical Specification & Resilience Audit Matrix -->
+<div class="lg:col-span-5 bg-surface-container rounded-xl p-space-lg flex flex-col gap-space-md shadow-md min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-on-surface">Validasi Kriteria NFR</span>
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- NFR-2 Audit Row -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-code-md text-label-code-md text-primary font-bold">NFR-2: Toleransi Kerusakan (Fault Tolerance)</span>
+<span class="font-label-code-sm text-label-code-sm text-primary uppercase">TERVERIFIKASI</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Kegagalan parser Markdown atau inferensi AI Copilot tidak membatalkan atau mereset State Pod timer utama. Operasional pod dijamin 99.9% uptime lokal.
+              </p>
+</div>
+<!-- NFR-6 Audit Row -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-code-md text-label-code-md text-secondary font-bold">NFR-6: Operasi Mandiri & Zero-CDN</span>
+<span class="font-label-code-sm text-label-code-sm text-secondary uppercase">TERVERIFIKASI</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Tipografi di-cache offline, aset SVG inline zero-dependency, dan tidak ada aset yang bergantung pada handshake server eksternal saat mode offline dipicu.
+              </p>
+</div>
+<!-- Layout Invariant -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-code-md text-label-code-md text-tertiary font-bold">Zero Horizontal Scroll Invariant</span>
+<span class="font-label-code-sm text-label-code-sm text-tertiary uppercase">100% RESPONSIVE</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Struktur Flexbox & Grid terisolasi dengan <code class="text-tertiary font-mono">min-w-0</code> dan overflow handling untuk mencegah layout break pada resolusi 1280x800.
+              </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Artboard Global Telemetry Footer Strip -->
+<div class="bg-surface-container-lowest rounded-lg p-space-md flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface">SYNCPOD LOCAL ENGINE: ONLINE</span>
+</div>
+<span class="text-outline-variant font-label-code-sm">|</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant">SIMULATED MEMORY USAGE: 41.2 MB</span>
+<span class="text-outline-variant font-label-code-sm hidden md:inline">|</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant hidden md:inline">CRDT STATE CLOCK: T+14890</span>
+</div>
+<div class="flex items-center gap-space-sm font-label-code-sm text-label-code-sm text-outline">
+<span>ARCH ARTBOARD // NFR2_NFR6_RESILIENCE_KIT</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple interactive micro-state demonstration
+  const retryBtn = document.getElementById('retry-btn');
+  if (retryBtn) {
+    retryBtn.addEventListener('click', () => {
+      const origText = retryBtn.innerHTML;
+      retryBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span><span>Menghubungkan...</span>';
+      setTimeout(() => {
+        retryBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span><span>Tersambung!</span>';
+        setTimeout(() => {
+          retryBtn.innerHTML = origText;
+        }, 2000);
+      }, 1400);
+    });
+  }
+
+  const togglePulse = document.getElementById('toggle-pulse');
+  let isPaused = false;
+  if (togglePulse) {
+    togglePulse.addEventListener('click', () => {
+      isPaused = !isPaused;
+      const pulsingElements = document.querySelectorAll('.animate-pulse');
+      pulsingElements.forEach(el => {
+        if (isPaused) {
+          el.classList.remove('animate-pulse');
+          el.style.opacity = '0.5';
+        } else {
+          el.classList.add('animate-pulse');
+          el.style.opacity = '';
+        }
+      });
+      togglePulse.textContent = isPaused ? 'Mulai Simulasi' : 'Jeda Simulasi';
+    });
+  }
+
+  const copyTrace = document.getElementById('copy-trace');
+  const copyText = document.getElementById('copy-text');
+  if (copyTrace && copyText) {
+    copyTrace.addEventListener('click', () => {
+      copyText.textContent = 'Tersalin!';
+      setTimeout(() => {
+        copyText.textContent = 'Salin Trace';
+      }, 1800);
+    });
+  }
+</script></main></div></body></html>

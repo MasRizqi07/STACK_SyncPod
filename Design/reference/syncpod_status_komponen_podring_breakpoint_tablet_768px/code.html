@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container-highest":"#31353f","tertiary-container":"#b090ff","on-error-container":"#ffdad6","inverse-on-surface":"#2c303a","surface-tint":"#4edea3","secondary-container":"#00a2e6","on-background":"#dfe2ef","primary-container":"#10b981","primary":"#4edea3","inverse-primary":"#006c49","on-secondary-container":"#00344e","on-secondary":"#00344d","surface":"#0f131c","on-tertiary-fixed":"#23005c","background":"#0f131c","primary-fixed-dim":"#4edea3","on-primary-fixed-variant":"#005236","on-surface":"#dfe2ef","on-secondary-fixed":"#001e2f","surface-container":"#1c1f29","surface-container-lowest":"#0a0e17","on-primary-fixed":"#002113","tertiary-fixed-dim":"#d0bcff","primary-fixed":"#6ffbbe","on-tertiary-fixed-variant":"#5516be","tertiary-fixed":"#e9ddff","outline":"#86948a","on-tertiary":"#3c0091","surface-container-high":"#262a34","secondary":"#89ceff","surface-container-low":"#181b25","on-error":"#690005","on-surface-variant":"#bbcabf","on-secondary-fixed-variant":"#004c6e","surface-dim":"#0f131c","surface-bright":"#353943","outline-variant":"#3c4a42","error":"#ffb4ab","surface-variant":"#31353f","inverse-surface":"#dfe2ef","on-tertiary-container":"#4600a7","tertiary":"#d0bcff","secondary-fixed":"#c9e6ff","on-primary":"#003824","error-container":"#93000a","on-primary-container":"#00422b","secondary-fixed-dim":"#89ceff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"1.5rem","space-lg":"1rem","gutter-desktop":"1rem","gutter":"0.75rem","margin-desktop":"1.5rem","space-md":"0.75rem","space-sm":"0.5rem","space-xs":"0.25rem","margin":"1rem"},"fontFamily":{"headline-lg":["Bricolage Grotesque"],"headline-md":["Bricolage Grotesque"],"body-lg":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"display-lg":["Bricolage Grotesque"],"label-code-lg":["JetBrains Mono"],"display-lg-mobile":["Bricolage Grotesque"],"label-code-md":["JetBrains Mono"],"body-md":["Plus Jakarta Sans"],"label-code-sm":["JetBrains Mono"]},"fontSize":{"headline-lg":["24px",{"lineHeight":"28px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["18px",{"lineHeight":"22px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["15px",{"lineHeight":"24px","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"display-lg":["40px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-code-lg":["18px",{"lineHeight":"22px","letterSpacing":"-0.02em","fontWeight":"600"}],"display-lg-mobile":["30px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-code-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"500"}],"body-md":["13px",{"lineHeight":"20px","fontWeight":"400"}],"label-code-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"500"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 h-16 z-50 bg-surface-container-low border-b border-outline-variant/40"><div class="w-full h-16 px-margin-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md min-w-0"><div class="flex items-center gap-space-sm shrink-0"><svg class="w-7 h-7 text-primary-container" fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="13" stroke="currentColor" stroke-dasharray="3 3" stroke-width="1.5"></circle><circle cx="16" cy="16" r="8" stroke="currentColor" stroke-width="1.5"></circle><circle cx="16" cy="3" fill="currentColor" r="2"></circle><circle cx="29" cy="16" fill="currentColor" r="2"></circle><circle cx="16" cy="29" fill="currentColor" r="2"></circle><circle cx="3" cy="16" fill="currentColor" r="2"></circle></svg><span class="font-headline-md text-headline-md text-on-surface tracking-tight">SyncPod</span></div><span class="text-outline-variant select-none">/</span><div class="flex items-center gap-space-xs text-on-surface-variant font-label-code-md text-label-code-md truncate"><span class="hover:text-on-surface cursor-pointer transition-colors">Matchmaking</span><span class="text-outline-variant">/</span><span class="text-primary font-medium truncate">Cari Pod Sprint</span></div></div><div class="flex items-center gap-space-md shrink-0"><div class="hidden sm:flex items-center gap-space-sm bg-surface-container px-space-md py-space-xs rounded border border-outline-variant/30"><div class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></div><span class="font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[200px] md:max-w-none">Ahmad Rizqi Mubarok · ITATS</span><span class="px-space-xs py-0.5 rounded border border-amber-500/50 bg-amber-500/10 text-amber-400 font-label-code-sm text-label-code-sm uppercase tracking-wider">Mode Simulasi</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest border-r border-outline-variant/40 z-40 flex flex-col justify-between p-space-md"><div class="flex flex-col gap-space-lg"><div class="px-space-sm py-space-xs font-label-code-sm text-label-code-sm text-outline uppercase tracking-widest">Konsol Navigasi</div><nav class="flex flex-col gap-space-xs" data-active-classes="bg-surface-container-high text-primary font-semibold border-l-2 border-primary"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-r text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-body-md text-body-md" data-path="cari-pod" href="#"><span class="material-symbols-outlined text-[18px]">radar</span><span>Cari Pod</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-r text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-body-md text-body-md" data-path="kokpit-sprint" href="#"><span class="material-symbols-outlined text-[18px]">terminal</span><span>Kokpit Sprint</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-r text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-body-md text-body-md" data-path="arsip-sesi" href="#"><span class="material-symbols-outlined text-[18px]">data_object</span><span>Arsip Sesi</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-r text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-body-md text-body-md" data-path="telemetri-pod" href="#"><span class="material-symbols-outlined text-[18px]">monitoring</span><span>Telemetri Pod</span></a></nav></div><div class="p-space-sm bg-surface-container-low rounded border border-outline-variant/30 flex flex-col gap-space-xs"><div class="flex items-center justify-between font-label-code-sm text-label-code-sm text-outline"><span>KONEKSI POD</span><span class="text-primary">24ms</span></div><div class="h-1 w-full bg-surface-container rounded-full overflow-hidden"><div class="h-full bg-primary-container w-4/5"></div></div></div></aside><div class="pl-64"><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Spec Sheet Canvas Workspace (1280x800 Constrained View) -->
+<div class="w-full max-w-[1280px] mx-auto p-space-md lg:p-space-lg flex flex-col gap-space-md font-body-md text-on-surface">
+<!-- Top Metadata Bar -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm bg-surface-container-low px-space-md py-space-xs rounded-lg border border-outline-variant/30">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-label-code-sm text-label-code-sm uppercase tracking-wider text-primary font-semibold">SYNCPOD SPEC-04</span>
+</div>
+<span class="text-outline-variant text-label-code-sm">/</span>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant font-medium">State Sheet &amp; Tablet Breakpoint Engine (768px Drawer)</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-code-sm text-label-code-sm bg-surface-container px-space-xs py-0.5 rounded text-secondary border border-secondary/20">CANVAS: 1280×800PX</span>
+<span class="font-label-code-sm text-label-code-sm bg-surface-container px-space-xs py-0.5 rounded text-outline border border-outline-variant/30">LATENSI: DETERMINISTIK &lt;10ms</span>
+</div>
+</div>
+<!-- Main Side-by-Side Dual Engine (Section A & Section B) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<!-- ================= SECTION A: LEFT HALF (6 cols) ================= -->
+<section class="lg:col-span-6 flex flex-col gap-space-sm min-w-0">
+<!-- Section A Header -->
+<div class="flex flex-col gap-0.5 pb-space-xs border-b border-outline-variant/30">
+<div class="flex items-center justify-between">
+<span class="font-label-code-sm text-label-code-sm uppercase tracking-widest text-primary font-semibold">DESAIN KOMPONEN DETERMINISTIK</span>
+<span class="font-label-code-sm text-label-code-sm text-outline">FIGMA // PODRING_V3</span>
+</div>
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Status State Komponen PodRing</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">Visualisasi transisi state timer PodRing berbasis <code class="font-label-code-sm text-primary bg-surface-container px-1 py-0.5 rounded">phaseEndsAt</code> &amp; koreksi offset jam server.</p>
+</div>
+<!-- 3 PodRing Deterministic State Cards Stack -->
+<div class="flex flex-col gap-space-sm">
+<!-- STATE 1: FASE ISTIRAHAT (Sky Cyan) -->
+<div class="bg-surface-container-low rounded-lg p-space-sm border border-secondary/40 shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm font-semibold uppercase tracking-wider bg-secondary/10 text-secondary border border-secondary/30">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                FASE ISTIRAHAT · RELAKSASI MATA
+              </span>
+<span class="font-label-code-sm text-label-code-sm text-outline">STATE 01</span>
+</div>
+<div class="flex items-center gap-space-md">
+<!-- Compact SVG PodRing Break -->
+<div class="relative w-24 h-24 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<!-- Base Track -->
+<circle class="text-surface-container-highest" cx="50" cy="50" fill="none" r="42" stroke="currentColor" stroke-width="3"></circle>
+<!-- Active Break Ring -->
+<circle cx="50" cy="50" fill="none" r="42" stroke="#00a2e6" stroke-dasharray="264" stroke-dashoffset="66" stroke-linecap="round" stroke-width="3.5"></circle>
+<!-- Seat Nodes (12, 3, 6, 9) -->
+<circle cx="50" cy="8" fill="#00a2e6" r="3.5"></circle>
+<circle cx="92" cy="50" fill="#00a2e6" r="3.5"></circle>
+<circle cx="50" cy="92" fill="#00a2e6" r="3.5"></circle>
+<circle cx="8" cy="50" fill="#00a2e6" r="3.5"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-label-code-lg text-label-code-lg font-bold text-secondary [font-variant-numeric:tabular-nums] tracking-tight">00:18</span>
+<span class="font-label-code-sm text-[9px] text-secondary/80 uppercase">Recharge</span>
+</div>
+</div>
+<!-- Context Details -->
+<div class="flex flex-col gap-1 min-w-0 flex-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface font-medium">Siklus Pemulihan Kognitif</span>
+<span class="font-label-code-sm text-secondary font-semibold">Siklus 1/4</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant leading-snug">Mikro-jeda peregangan leher dan relaksasi retina 20-20-20 sebelum siklus berikutnya.</p>
+<div class="mt-1 pt-1 border-t border-outline-variant/30 flex items-center justify-between text-on-surface-variant font-label-code-sm text-[11px]">
+<span>Durasi: 20 dtk (Demo) / 5 mnt (Standar)</span>
+<span class="text-secondary font-mono">Sync: OK</span>
+</div>
+</div>
+</div>
+</div>
+<!-- STATE 2: SESI DIJEDA (Amber Dashed) -->
+<div class="bg-surface-container-low rounded-lg p-space-sm border border-dashed border-amber-500/60 shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm font-semibold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/30">
+<span class="material-symbols-outlined text-[12px]">pause</span>
+                SESI DIJEDA OLEH RIZQI (LEAD)
+              </span>
+<span class="font-label-code-sm text-label-code-sm text-amber-400 font-mono">STATE 02</span>
+</div>
+<div class="flex items-center gap-space-md">
+<!-- Compact SVG PodRing Paused -->
+<div class="relative w-24 h-24 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="text-surface-container-highest" cx="50" cy="50" fill="none" r="42" stroke="currentColor" stroke-width="3"></circle>
+<circle cx="50" cy="50" fill="none" r="42" stroke="#F59E0B" stroke-dasharray="6 4" stroke-dashoffset="0" stroke-width="3.5"></circle>
+<!-- Dimmed Nodes -->
+<circle cx="50" cy="8" fill="#F59E0B" opacity="0.6" r="3"></circle>
+<circle cx="92" cy="50" fill="#F59E0B" opacity="0.6" r="3"></circle>
+<circle cx="50" cy="92" fill="#F59E0B" opacity="0.6" r="3"></circle>
+<circle cx="8" cy="50" fill="#F59E0B" opacity="0.6" r="3"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-label-code-lg text-label-code-lg font-bold text-amber-400 [font-variant-numeric:tabular-nums] tracking-tight">00:34</span>
+<span class="font-label-code-sm text-[9px] text-amber-400/80 uppercase">Tertahan</span>
+</div>
+</div>
+<!-- Context Details & Actions -->
+<div class="flex flex-col gap-1.5 min-w-0 flex-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface font-medium truncate">Sinkronisasi Dihentikan Sementara</span>
+<span class="font-label-code-sm text-amber-400 font-mono text-[11px]">Peer Ready 4/4</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant leading-snug">Timer deterministik ditangguhkan serentak pada semua klien terhubung.</p>
+<div class="flex items-center gap-space-xs mt-0.5">
+<button class="h-8 px-3 rounded bg-primary-container text-on-primary font-body-sm text-[12px] font-semibold hover:bg-primary transition-all flex items-center gap-1 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[14px]">play_arrow</span>
+                    Lanjut Fokus
+                  </button>
+<button class="h-8 px-2.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-[12px] border border-outline-variant/30 transition-all flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">skip_next</span>
+                    Lewati Fase
+                  </button>
+</div>
+</div>
+</div>
+</div>
+<!-- STATE 3: 60 DETIK TERAKHIR (Pulse Emerald-Amber) -->
+<div class="bg-surface-container-low rounded-lg p-space-sm border border-amber-500/50 shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded font-label-code-sm text-label-code-sm font-semibold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/40">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+                SEGERA BERAKHIR (60 DTK)
+              </span>
+<span class="font-label-code-sm text-label-code-sm text-outline">STATE 03</span>
+</div>
+<div class="flex items-center gap-space-md">
+<!-- Compact SVG PodRing Warning Pulse -->
+<div class="relative w-24 h-24 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<!-- Outer Amber Warning Track -->
+<circle cx="50" cy="50" fill="none" opacity="0.85" r="44" stroke="#F59E0B" stroke-dasharray="2 3" stroke-width="1.5"></circle>
+<!-- Inner Emerald Base Track -->
+<circle class="text-surface-container-highest" cx="50" cy="50" fill="none" r="37" stroke="currentColor" stroke-width="3"></circle>
+<circle cx="50" cy="50" fill="none" r="37" stroke="#10B981" stroke-dasharray="232" stroke-dashoffset="195" stroke-linecap="round" stroke-width="3.5"></circle>
+<!-- Nodes with pulse glow -->
+<circle cx="50" cy="13" fill="#10B981" r="3"></circle>
+<circle cx="87" cy="50" fill="#F59E0B" r="3"></circle>
+<circle cx="50" cy="87" fill="#10B981" r="3"></circle>
+<circle cx="13" cy="50" fill="#10B981" r="3"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-label-code-lg text-label-code-lg font-bold text-amber-400 [font-variant-numeric:tabular-nums] tracking-tight">00:52</span>
+<span class="font-label-code-sm text-[9px] text-amber-400/80 uppercase">Wrap-up</span>
+</div>
+</div>
+<!-- Context Details -->
+<div class="flex flex-col gap-1 min-w-0 flex-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface font-medium">Final Sprint Pulse Active</span>
+<span class="font-label-code-sm text-primary font-mono text-[11px]">Auto-transition</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant leading-snug">Transisi deterministik ke Fase Istirahat otomatis tanpa desinkronisasi timestamp klien.</p>
+<div class="mt-1 pt-1 border-t border-outline-variant/30 flex items-center justify-between text-on-surface-variant font-label-code-sm text-[11px]">
+<span class="text-on-surface">Target Offset: &lt;1.8ms</span>
+<span class="text-primary-container font-medium">Audio Ping: Siap</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= SECTION B: RIGHT HALF (6 cols) ================= -->
+<section class="lg:col-span-6 flex flex-col gap-space-sm min-w-0">
+<!-- Section B Header -->
+<div class="flex flex-col gap-0.5 pb-space-xs border-b border-outline-variant/30">
+<div class="flex items-center justify-between">
+<span class="font-label-code-sm text-label-code-sm uppercase tracking-widest text-secondary font-semibold">RESPONSIF NFR-3</span>
+<span class="font-label-code-sm text-label-code-sm text-outline">TABLET (768PX)</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Tampilan Tablet 768px (Slide-Over Drawer)</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">Drawer kanan membuka di atas canvas catatan dengan backdrop redup <code class="font-label-code-sm text-secondary bg-surface-container px-1 py-0.5 rounded">rgba(9,13,22,0.7)</code>.</p>
+</div>
+<!-- Simulated Tablet Frame (Viewport Representation) -->
+<div class="w-full bg-surface-container-lowest rounded-xl border border-outline-variant/50 overflow-hidden shadow-2xl flex flex-col relative h-[530px]">
+<!-- Tablet Frame Bezel Header -->
+<div class="h-8 bg-surface-container-high px-3 border-b border-outline-variant/40 flex items-center justify-between shrink-0 select-none">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-error/60"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500/60"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-primary/60"></span>
+<span class="ml-2 font-label-code-sm text-[10px] text-outline uppercase tracking-wider">Simulasi Tablet 768px</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-1.5 py-0.2 rounded font-label-code-sm text-[10px] bg-surface-container text-on-surface-variant border border-outline-variant/30">W: 768px · H: 680px</span>
+<span class="material-symbols-outlined text-[14px] text-outline">tablet_mac</span>
+</div>
+</div>
+<!-- Inside Tablet: App Mini Top Bar -->
+<div class="h-10 bg-surface-container-low px-3 border-b border-outline-variant/30 flex items-center justify-between shrink-0">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-primary text-[16px]">terminal</span>
+<span class="font-body-sm text-[12px] font-semibold text-on-surface truncate">Traversal Graf &amp; Dijkstra · Pod 042</span>
+</div>
+<div class="flex items-center gap-2">
+<!-- Mini Timer Badge -->
+<span class="font-label-code-sm text-[11px] font-bold text-primary bg-primary/10 border border-primary/30 px-2 py-0.5 rounded [font-variant-numeric:tabular-nums]">24:18</span>
+<!-- 4 Peer Seats Mini -->
+<div class="flex items-center -space-x-1">
+<span class="w-4 h-4 rounded-full bg-primary-container text-[8px] font-bold text-on-primary flex items-center justify-center border border-surface">AR</span>
+<span class="w-4 h-4 rounded-full bg-secondary-container text-[8px] font-bold text-on-secondary flex items-center justify-center border border-surface">DK</span>
+<span class="w-4 h-4 rounded-full bg-tertiary-container text-[8px] font-bold text-on-tertiary flex items-center justify-center border border-surface">MR</span>
+<span class="w-4 h-4 rounded-full bg-surface-container-high text-[8px] font-bold text-on-surface flex items-center justify-center border border-surface">SL</span>
+</div>
+</div>
+</div>
+<!-- Inside Tablet: Canvas with Dimmed Backdrop + Pinned Slide-Over Drawer -->
+<div class="relative flex-1 bg-surface overflow-hidden flex">
+<!-- Collaborative Scratchpad Canvas (Dimmed Background under drawer) -->
+<div class="flex-1 p-space-sm flex flex-col gap-2 opacity-35 select-none pointer-events-none">
+<div class="flex items-center justify-between pb-1 border-b border-outline-variant/20">
+<span class="font-label-code-sm text-[11px] text-outline font-semibold uppercase">Catatan Kolaboratif // Sesi 042</span>
+<span class="font-label-code-sm text-[10px] text-outline">Markdown Enabled</span>
+</div>
+<div class="font-label-code-sm text-[11px] text-on-surface space-y-1">
+<p class="text-primary font-bold">## Dijkstra Shortest Path Proof</p>
+<p class="text-on-surface-variant">// Inisialisasi dist[v] = tak hingga, dist[s] = 0</p>
+<div class="bg-surface-container p-2 rounded border border-outline-variant/30 text-[10px] font-mono leading-relaxed">
+<span class="text-secondary">priority_queue</span>&lt;<span class="text-tertiary">pair&lt;int,int&gt;</span>&gt; pq;<br/>
+                  pq.push({0, source});<br/>
+<span class="text-amber-400">while</span>(!pq.empty()) {<br/>
+                    <span class="text-outline-variant">// Relaksasi simpul tetangga...</span><br/>
+                  }
+                </div>
+<p class="text-on-surface-variant">Catatan: Pastikan edge weights non-negatif.</p>
+</div>
+</div>
+<!-- Dimmed Overlay Scrim for Drawer Context -->
+<div class="absolute inset-0 bg-[#090D16]/70 z-10"></div>
+<!-- Pinned Slide-Over Right Drawer (Width 360px on this preview) -->
+<div class="absolute right-0 top-0 bottom-0 w-[360px] bg-surface-container-low border-l border-outline-variant/40 z-20 flex flex-col shadow-2xl">
+<!-- Drawer Header with 44px Close CTA -->
+<div class="h-11 px-3 bg-surface-container border-b border-outline-variant/40 flex items-center justify-between shrink-0">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-[18px] text-tertiary">psychology</span>
+<span class="font-headline-md text-[14px] text-on-surface tracking-tight truncate">Antrean &amp; Pemandu Sokratik</span>
+</div>
+<!-- 44x44px accessible touch close button -->
+<button aria-label="Tutup Drawer" class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" type="button">
+<span class="font-label-code-sm text-[11px] text-outline mr-0.5">Esc</span>
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Drawer Body: Stacked Technical Modules -->
+<div class="flex-1 overflow-y-auto p-space-sm flex flex-col gap-space-sm">
+<!-- Section 1: Antrean Pertanyaan -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-code-sm text-[10px] uppercase font-bold text-outline tracking-wider">Antrean Pertanyaan (1/1)</span>
+<span class="font-label-code-sm text-[10px] text-primary">Giliran Aktif</span>
+</div>
+<div class="bg-surface-container p-2.5 rounded-lg border border-outline-variant/30 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-4 h-4 rounded-full bg-primary-container text-on-primary text-[9px] font-bold flex items-center justify-center">AR</span>
+<span class="font-body-sm text-[12px] font-semibold text-on-surface">Ahmad Rizqi (ITATS)</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-outline">02:14 lalu</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant leading-snug">
+                      "Mengapa Dijkstra gagal memproses graf dengan bobot edge negatif? Bukankah relaksasi tetap terjadi?"
+                    </p>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high font-label-code-sm text-[10px] text-secondary">#GraphTheory</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high font-label-code-sm text-[10px] text-tertiary">#DijkstraAlgorithm</span>
+</div>
+</div>
+</div>
+<!-- Section 2: Pemandu Sokratik (Solid Violet Border) -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="font-label-code-sm text-[10px] uppercase font-bold text-tertiary tracking-wider">Pemandu Sokratik (Gemini 2.5)</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-outline font-mono">Mode Eksplorasi</span>
+</div>
+<div class="bg-surface-container p-2.5 rounded-lg border border-tertiary/40 flex flex-col gap-2">
+<div class="bg-surface-container-lowest p-2 rounded border border-outline-variant/20 flex flex-col gap-0.5">
+<span class="font-label-code-sm text-[10px] text-tertiary font-semibold uppercase">Analogi Konseptual: Gerbang Tol</span>
+<p class="font-body-sm text-[11px] text-on-surface-variant leading-snug">
+                        Bayangkan Dijkstra mengunci lintasan permanen begitu sampai. Bobot negatif bertindak seperti gerbang tol yang mengembalikan uang setelah Anda melewatinya.
+                      </p>
+</div>
+<!-- 3 Numbered Guided Questions -->
+<div class="flex flex-col gap-1.5 text-body-sm text-[11px]">
+<div class="flex items-start gap-1.5 text-on-surface">
+<span class="font-label-code-sm text-tertiary font-bold">1.</span>
+<span>Asumsi greedy apa yang membuat simpul dianggap optimal selamanya?</span>
+</div>
+<div class="flex items-start gap-1.5 text-on-surface">
+<span class="font-label-code-sm text-tertiary font-bold">2.</span>
+<span>Bagaimana keberadaan siklus negatif (<span class="font-mono text-amber-400">neg-cycle</span>) mengubah kompleksitas?</span>
+</div>
+<div class="flex items-start gap-1.5 text-on-surface">
+<span class="font-label-code-sm text-tertiary font-bold">3.</span>
+<span>Mengapa Bellman-Ford sanggup mengatasinya sementara Dijkstra gagal?</span>
+</div>
+</div>
+<!-- Quick Prompt Form -->
+<div class="mt-1 pt-1.5 border-t border-outline-variant/30 flex items-center gap-1.5">
+<div class="flex-1 bg-surface-container-lowest px-2 py-1 rounded border border-outline-variant/40 flex items-center gap-1">
+<span class="font-label-code-sm text-outline">&gt;</span>
+<input class="bg-transparent border-none text-[11px] text-on-surface placeholder:text-outline focus:outline-none w-full font-body-sm" placeholder="Tanggapi panduan sokratik..." type="text"/>
+</div>
+<button class="w-7 h-7 rounded bg-tertiary text-on-tertiary flex items-center justify-center shrink-0 hover:opacity-90" type="button">
+<span class="material-symbols-outlined text-[14px]">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Drawer Footer Key Hint -->
+<div class="h-8 px-3 bg-surface-container border-t border-outline-variant/40 flex items-center justify-between text-outline font-label-code-sm text-[10px] shrink-0">
+<span class="truncate">Kunci Pintas: [Esc] tutup · Ketuk luar untuk kembali</span>
+<span class="text-primary font-mono">DRAWER: ACTIVE</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Bottom Telemetry Verification Strip -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm bg-surface-container-lowest p-space-sm rounded-lg border border-outline-variant/30 text-on-surface-variant font-label-code-sm text-label-code-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+<span>WCAG AA Kontras &gt; 4.5:1 Terverifikasi</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary">aspect_ratio</span>
+<span>Breakpoint 768px: Drawer Pinned Overlay</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-amber-400">timer</span>
+<span>Server Drift Correction: Offset Sync On</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary">code</span>
+<span>Engine: JetBrains Mono Tabular Digits</span>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

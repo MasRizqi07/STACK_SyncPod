@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SyncPod - Spesifikasi Responsif Mobile 375px & Tablet 768px</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-canvas: #090D16;
+  --bg-surface: #0F172A;
+  --bg-surface-elevated: #1E293B;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(56, 189, 248, 0.3);
+
+  --color-primary: #38BDF8;
+  --color-primary-hover: #0EA5E9;
+  --color-on-primary: #04121F;
+  --color-amber: #F59E0B;
+  --color-emerald: #10B981;
+  --color-purple: #A855F7;
+  --color-purple-text: #C084FC;
+  --color-danger: #F87171;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #8393A8;
+
+  --font-heading: 'Bricolage Grotesque', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 32px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Master Header & Overview Bar */
+.spec-header {
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.spec-title-group h1 {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.spec-title-group p {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.spec-badges {
+  display: flex;
+  gap: 10px;
+}
+
+.spec-badge {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spec-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+}
+
+/* Viewport Switcher Controls */
+.view-tabs {
+  display: flex;
+  gap: 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: 4px;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.view-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-btn.active {
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-active);
+}
+
+/* Main Display Canvas */
+.artboard-container {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* SECTION 1: Mobile 375px Viewport Specs */
+.mobile-spec-section {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mobile-frame-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.frame-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.frame-label span {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* Mobile Phone Container 375 x 812 */
+.mobile-phone {
+  width: 375px;
+  height: 812px;
+  background-color: var(--bg-canvas);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 36px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Safe Area Top & Status */
+.mobile-notch-bar {
+  height: 40px;
+  padding: 10px 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  z-index: 20;
+}
+
+.notch-pill {
+  width: 120px;
+  height: 18px;
+  background-color: #000;
+  border-radius: 12px;
+}
+
+/* Sticky Top Bar with mini Pod Ring 34px */
+.mobile-sticky-top {
+  position: sticky;
+  top: 0;
+  height: 52px;
+  background-color: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 30;
+}
+
+.sticky-pod-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mini-pod-ring {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.sticky-timer-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.sticky-time {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.sticky-phase {
+  font-size: 10px;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.sticky-seats-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mini-seat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: relative;
+}
+.mini-seat-dot.dot-emerald { background-color: var(--color-emerald); }
+.mini-seat-dot.dot-sky { background-color: var(--color-primary); }
+.mini-seat-dot.dot-purple { background-color: var(--color-purple); }
+.mini-seat-dot.dot-muted { background-color: #475569; }
+
+.exit-btn-mini {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--color-danger);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+/* Mobile Content Scroll Area */
+.mobile-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Bottom Tab Bar (min 48px high, safe area padded) */
+.mobile-tab-bar {
+  height: 56px;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0 4px;
+  align-items: center;
+  z-index: 30;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 100%;
+  color: var(--text-muted);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: color 0.15s ease;
+}
+
+.tab-item.active {
+  color: var(--color-primary);
+}
+
+.tab-item svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.5;
+}
+
+.tab-label {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.mobile-home-indicator {
+  height: 16px;
+  background-color: var(--bg-surface);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+.home-bar {
+  width: 134px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+}
+
+/* Mobile Frame 1 Specific: CodeMirror Scratchpad */
+.scratchpad-mobile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.scratchpad-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-surface-elevated);
+}
+
+.editor-sync-badge {
+  font-size: 11px;
+  color: var(--color-emerald);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.editor-sync-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-emerald);
+}
+
+.editor-toggle {
+  display: flex;
+  background: var(--bg-canvas);
+  border-radius: 6px;
+  padding: 2px;
+  border: 1px solid var(--border-subtle);
+}
+
+.toggle-chip {
+  border: none;
+  background: transparent;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.toggle-chip.active {
+  background: var(--bg-surface-elevated);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.editor-body {
+  flex: 1;
+  padding: 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: #CBD5E1;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background-color: #0A0E17;
+}
+
+.code-line {
+  display: flex;
+  gap: 12px;
+}
+
+.line-no {
+  color: #475569;
+  user-select: none;
+  text-align: right;
+  width: 16px;
+}
+
+.editor-footer-status {
+  padding: 6px 12px;
+  background: var(--bg-surface-elevated);
+  border-top: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Mobile Frame 2 Specific: Pod Ring 220px + Members */
+.pod-frame-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.ring-card {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.ring-title-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.phase-tag {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: rgba(56, 189, 248, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.round-info {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.pod-ring-wrap {
+  width: 220px;
+  height: 220px;
+  position: relative;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pod-ring-svg {
+  width: 220px;
+  height: 220px;
+  transform: rotate(-90deg);
+}
+
+.ring-center-text {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ring-time-val {
+  font-family: var(--font-mono);
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.ring-sub-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.ring-actions-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 14px;
+}
+
+.ring-btn {
+  flex: 1;
+  height: 38px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid transparent;
+}
+
+.ring-btn-primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.ring-btn-secondary {
+  background: var(--bg-surface-elevated);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.ring-btn-danger-quiet {
+  background: transparent;
+  color: var(--color-danger);
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+/* Members Card */
+.members-card {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.members-card-header {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.members-count-badge {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  background: var(--bg-surface-elevated);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: var(--bg-surface-elevated);
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+}
+
+.member-info-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.member-name-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.member-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.leader-tag {
+  font-size: 9px;
+  color: var(--color-primary);
+  background: rgba(56, 189, 248, 0.15);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+}
+
+.bot-tag {
+  font-size: 9px;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+}
+
+.member-univ {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.member-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.status-focus {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--color-emerald);
+}
+
+.status-notes {
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--color-primary);
+}
+
+.status-gemini {
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--color-purple-text);
+}
+
+.status-offline {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--text-muted);
+}
+
+/* SECTION 2: Tablet 768px Viewport Specs */
+.tablet-spec-section {
+  width: 768px;
+  height: 980px;
+  background-color: var(--bg-canvas);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Tablet Top Nav */
+.tablet-header {
+  height: 60px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.tablet-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tablet-logo {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+}
+
+.tablet-module-crumb {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.tablet-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.drawer-trigger-btn {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--color-purple);
+  color: var(--text-primary);
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+}
+
+.drawer-trigger-btn .purple-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-purple);
+}
+
+.btn-exit-tablet {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--color-danger);
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Tablet Row Top: Pod Ring & Members Horizontal */
+.tablet-top-row {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.tablet-ring-col {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-right: 1px solid var(--border-subtle);
+  padding-right: 24px;
+}
+
+.tablet-ring-svg {
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+  transform: rotate(-90deg);
+}
+
+.tablet-timer-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.tablet-timer-val {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.tablet-timer-tag {
+  font-size: 11px;
+  color: var(--color-primary);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.tablet-timer-ctrls {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.tablet-btn-sm {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.tablet-members-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tablet-members-title {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.tablet-members-horizontal {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.tablet-member-chip {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chip-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chip-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chip-status {
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Tablet Bottom Area: Notes Editor */
+.tablet-notes-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.tablet-notes-card {
+  flex: 1;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tablet-notes-header {
+  height: 48px;
+  padding: 0 16px;
+  background: var(--bg-surface-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tablet-notes-body {
+  flex: 1;
+  background: #080C14;
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: #E2E8F0;
+  overflow-y: auto;
+}
+
+/* Slide-Over Drawer 380px with Dim Scrim */
+.drawer-scrim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(9, 13, 22, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tablet-drawer {
+  width: 380px;
+  height: 100%;
+  background: var(--bg-surface);
+  border-left: 1px solid var(--border-active);
+  box-shadow: -15px 0 40px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  z-index: 51;
+}
+
+.drawer-header {
+  height: 64px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-surface-elevated);
+}
+
+.drawer-title-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drawer-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.drawer-close-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-canvas);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.drawer-close-btn:hover {
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.drawer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Gemini Socratic Card */
+.socratic-card {
+  background: rgba(168, 85, 247, 0.04);
+  border: 1px solid var(--color-purple);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.socratic-tag-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.socratic-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-purple-text);
+  background: rgba(168, 85, 247, 0.15);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.active-q-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.ask-gemini-btn {
+  height: 40px;
+  background: var(--color-purple);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.guiding-q-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 20px;
+  font-size: 12px;
+  color: #DDD6FE;
+  line-height: 1.5;
+}
+
+.concept-analogy {
+  background: rgba(15, 23, 42, 0.6);
+  border-left: 3px solid var(--color-purple);
+  padding: 10px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 12px;
+  color: #C084FC;
+}
+
+.privacy-notice {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 8px;
+}
+
+/* Question Queue in Drawer */
+.queue-box {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.queue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.queue-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.queue-item-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-primary);
+}
+
+.queue-btn-resolve {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.queue-input {
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-primary);
+  resize: none;
+  height: 60px;
+}
+
+.queue-counter {
+  text-align: right;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+  <!-- Master Specifications Header -->
+  <header class="spec-header">
+    <div class="spec-title-group">
+      <h1>SyncPod · Tampilan Spesifikasi Responsif (Mobile 375px & Tablet 768px)</h1>
+      <p>Sistem Cockpit Belajar Terarah Kolaboratif — Berorientasi Sentuhan & Zero Horizontal Overflow</p>
+    </div>
+    <div class="spec-badges">
+      <div class="spec-badge"><div class="dot"></div>Viewport Mobile 375×812px</div>
+      <div class="spec-badge"><div class="dot"></div>Viewport Tablet 768px (Drawer 380px)</div>
+      <div class="spec-badge"><div class="dot"></div>WCAG AA Contras &ge; 4.5:1</div>
+    </div>
+  </header>
+
+  <!-- Interactive Viewport Layout Switcher -->
+  <div class="view-tabs">
+    <button class="view-btn active" id="btnShowAll" onclick="filterView('all')">Tampilkan Semua Breakpoint</button>
+    <button class="view-btn" id="btnShowMobile" onclick="filterView('mobile')">Hanya Mobile 375px (Bersisian)</button>
+    <button class="view-btn" id="btnShowTablet" onclick="filterView('tablet')">Hanya Tablet 768px (Slide-Over)</button>
+    <button class="view-btn" id="btnToggleDrawer" onclick="toggleDrawer()">Toggle Drawer Tablet (Esc / 44px)</button>
+  </div>
+
+  <!-- Main Artboard Showcase Container -->
+  <main class="artboard-container" id="artboardContainer">
+
+    <!-- ==================== MOBILE BREAKPOINT SECTION (375px Bersisian) ==================== -->
+    <section class="mobile-spec-section" id="mobileSection">
+      
+      <!-- FRAME 1: Tab Catatan (Editor Focus) -->
+      <div class="mobile-frame-wrapper">
+        <div class="frame-label">Frame 1: <span>Tab Catatan (Editor CRDT)</span></div>
+        <div class="mobile-phone" aria-label="SyncPod Mobile Frame 1 Catatan">
+          
+          <!-- Safe Area Notch Top -->
+          <div class="mobile-notch-bar">
+            <span>09:41</span>
+            <div class="notch-pill"></div>
+            <span>5G 98%</span>
+          </div>
+
+          <!-- Sticky Top Bar (34px Mini PodRing + 24:18 Mono + 4 Seat Dots) -->
+          <div class="mobile-sticky-top">
+            <div class="sticky-pod-left">
+              <!-- SVG 34px Mini Pod Ring -->
+              <svg class="mini-pod-ring" viewBox="0 0 34 34">
+                <circle cx="17" cy="17" r="14" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2.5" />
+                <circle cx="17" cy="17" r="14" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="88" stroke-dashoffset="24" stroke-linecap="round" />
+                <!-- 4 Seat Dots on 12, 3, 6, 9 o'clock -->
+                <circle cx="17" cy="3" r="2.2" fill="#10B981" />
+                <circle cx="31" cy="17" r="2.2" fill="#38BDF8" />
+                <circle cx="17" cy="31" r="2.2" fill="#A855F7" />
+                <circle cx="3" cy="17" r="2.2" fill="#64748B" />
+              </svg>
+              <div class="sticky-timer-group">
+                <div class="sticky-time">24:18</div>
+                <div class="sticky-phase">Fokus 1 · Pod 042</div>
+              </div>
+            </div>
+
+            <div class="sticky-seats-right">
+              <span class="mini-seat-dot dot-emerald" title="Rizqi (Fokus)"></span>
+              <span class="mini-seat-dot dot-sky" title="Rifqi (Mencatat)"></span>
+              <span class="mini-seat-dot dot-purple" title="Farhan (Tanya AI)"></span>
+              <span class="mini-seat-dot dot-muted" title="Rivan (Terputus)"></span>
+              <button class="exit-btn-mini">Keluar</button>
+            </div>
+          </div>
+
+          <!-- Content Scroll: Collaborative Markdown Editor -->
+          <div class="mobile-content">
+            <div class="scratchpad-mobile">
+              <div class="scratchpad-header">
+                <span class="editor-sync-badge">Tersimpan otomatis</span>
+                <div class="editor-toggle">
+                  <button class="toggle-chip active">Tulis</button>
+                  <button class="toggle-chip">Pratinjau</button>
+                </div>
+              </div>
+              <div class="editor-body">
+                <div class="code-line"><span class="line-no">01</span><span># Tujuan Sprint 1: Optimasi Dijkstra</span></div>
+                <div class="code-line"><span class="line-no">02</span><span></span></div>
+                <div class="code-line"><span class="line-no">03</span><span>Konteks: Penentuan jalur terpendek</span></div>
+                <div class="code-line"><span class="line-no">04</span><span>dari satu titik sumber (SSSP).</span></div>
+                <div class="code-line"><span class="line-no">05</span><span></span></div>
+                <div class="code-line"><span class="line-no">06</span><span>- Analisis Min-Heap Priority Queue:</span></div>
+                <div class="code-line"><span class="line-no">07</span><span>  Kompleksitas: O((V + E) log V).</span></div>
+                <div class="code-line"><span class="line-no">08</span><span>- Invarian relaksasi edge:</span></div>
+                <div class="code-line"><span class="line-no">09</span><span>  if dist[u] + w(u,v) < dist[v]</span></div>
+                <div class="code-line"><span class="line-no">10</span><span>    dist[v] = dist[u] + w(u,v)</span></div>
+                <div class="code-line"><span class="line-no">11</span><span></span></div>
+                <div class="code-line"><span class="line-no">12</span><span>// Inisialisasi struktur C++</span></div>
+                <div class="code-line"><span class="line-no">13</span><span>struct Node { int v, weight; };</span></div>
+                <div class="code-line"><span class="line-no">14</span><span>priority_queue&lt;pair&lt;int,int&gt;&gt; pq;</span></div>
+              </div>
+              <div class="editor-footer-status">
+                <span>Rifqi sedang menyunting baris 14...</span>
+                <span>Yjs CRDT 12ms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Tab Bar (min 48px, Safe Touch Target >= 44px) -->
+          <nav class="mobile-tab-bar" aria-label="Navigasi Utama Cockpit Mobile">
+            <button class="tab-item active" aria-selected="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <span class="tab-label">Catatan</span>
+            </button>
+            <button class="tab-item" aria-selected="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="tab-label">Antrean</span>
+            </button>
+            <button class="tab-item" aria-selected="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              <span class="tab-label">Pemandu</span>
+            </button>
+            <button class="tab-item" aria-selected="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span class="tab-label">Pod</span>
+            </button>
+          </nav>
+          <div class="mobile-home-indicator"><div class="home-bar"></div></div>
+        </div>
+      </div>
+
+      <!-- FRAME 2: Tab Pod (Ring 220px + Members Presence) -->
+      <div class="mobile-frame-wrapper">
+        <div class="frame-label">Frame 2: <span>Tab Pod (Ring 220px & Anggota)</span></div>
+        <div class="mobile-phone" aria-label="SyncPod Mobile Frame 2 Pod Ring">
+          
+          <!-- Safe Area Notch Top -->
+          <div class="mobile-notch-bar">
+            <span>09:41</span>
+            <div class="notch-pill"></div>
+            <span>5G 98%</span>
+          </div>
+
+          <!-- Sticky Top Bar (Identik) -->
+          <div class="mobile-sticky-top">
+            <div class="sticky-pod-left">
+              <svg class="mini-pod-ring" viewBox="0 0 34 34">
+                <circle cx="17" cy="17" r="14" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2.5" />
+                <circle cx="17" cy="17" r="14" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="88" stroke-dashoffset="24" stroke-linecap="round" />
+                <circle cx="17" cy="3" r="2.2" fill="#10B981" />
+                <circle cx="31" cy="17" r="2.2" fill="#38BDF8" />
+                <circle cx="17" cy="31" r="2.2" fill="#A855F7" />
+                <circle cx="3" cy="17" r="2.2" fill="#64748B" />
+              </svg>
+              <div class="sticky-timer-group">
+                <div class="sticky-time">24:18</div>
+                <div class="sticky-phase">Fokus 1 · Pod 042</div>
+              </div>
+            </div>
+
+            <div class="sticky-seats-right">
+              <span class="mini-seat-dot dot-emerald"></span>
+              <span class="mini-seat-dot dot-sky"></span>
+              <span class="mini-seat-dot dot-purple"></span>
+              <span class="mini-seat-dot dot-muted"></span>
+              <button class="exit-btn-mini">Keluar</button>
+            </div>
+          </div>
+
+          <!-- Content Scroll: Pod Ring 220px Card & Member Rows -->
+          <div class="mobile-content">
+            
+            <!-- Ring Card 220px -->
+            <div class="ring-card">
+              <div class="ring-title-row">
+                <span class="phase-tag">Sprint Fokus 1</span>
+                <span class="round-info">Ronde 1 dari 4</span>
+              </div>
+
+              <!-- Pod Ring SVG 220px -->
+              <div class="pod-ring-wrap">
+                <svg class="pod-ring-svg" viewBox="0 0 220 220">
+                  <!-- Orbit Background Track -->
+                  <circle cx="110" cy="110" r="95" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="6" />
+                  <!-- Primary Sweep Arc (Sky Blue) -->
+                  <circle cx="110" cy="110" r="95" fill="none" stroke="#38BDF8" stroke-width="6" stroke-dasharray="597" stroke-dashoffset="140" stroke-linecap="round" />
+                  
+                  <!-- 4 Seats at 12, 3, 6, 9 (Rotated -90deg back visually) -->
+                  <!-- 12 o'clock: Rizqi (Emerald) -->
+                  <circle cx="205" cy="110" r="12" fill="#0F172A" stroke="#10B981" stroke-width="3" />
+                  <!-- 3 o'clock: Rifqi (Sky) -->
+                  <circle cx="110" cy="205" r="12" fill="#0F172A" stroke="#38BDF8" stroke-width="3" />
+                  <!-- 6 o'clock: Farhan (Purple) -->
+                  <circle cx="15" cy="110" r="12" fill="#0F172A" stroke="#A855F7" stroke-width="3" />
+                  <!-- 9 o'clock: Rivan (Muted/Disconnected) -->
+                  <circle cx="110" cy="15" r="12" fill="#0F172A" stroke="#64748B" stroke-width="3" stroke-dasharray="4 2" />
+                </svg>
+
+                <div class="ring-center-text">
+                  <div class="ring-time-val">24:18</div>
+                  <div class="ring-sub-label">Aktif Berjalan</div>
+                </div>
+              </div>
+
+              <!-- Leader Timer Controls -->
+              <div class="ring-actions-row">
+                <button class="ring-btn ring-btn-primary">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                  Jeda
+                </button>
+                <button class="ring-btn ring-btn-secondary">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"/></svg>
+                  Lewati
+                </button>
+              </div>
+              <button class="ring-btn-danger-quiet">Akhiri sprint sesi ini</button>
+            </div>
+
+            <!-- Member Rows Section -->
+            <div class="members-card">
+              <div class="members-card-header">
+                <span>Anggota Pod 042</span>
+                <span class="members-count-badge">4 Terdaftar</span>
+              </div>
+              
+              <div class="member-list">
+                <!-- Member 1: Rizqi -->
+                <div class="member-item">
+                  <div class="member-info-left">
+                    <div class="avatar-badge" style="color: #10B981; border-color: rgba(16,185,129,0.3);">RQ</div>
+                    <div class="member-name-wrap">
+                      <div class="member-name">Rizqi <span class="leader-tag">Leader</span></div>
+                      <div class="member-univ">ITATS · S1 Informatika</div>
+                    </div>
+                  </div>
+                  <div class="member-status-pill status-focus">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    Fokus
+                  </div>
+                </div>
+
+                <!-- Member 2: Rifqi -->
+                <div class="member-item">
+                  <div class="member-info-left">
+                    <div class="avatar-badge" style="color: #38BDF8; border-color: rgba(56,189,248,0.3);">RF</div>
+                    <div class="member-name-wrap">
+                      <div class="member-name">Rifqi <span class="bot-tag">Simulasi</span></div>
+                      <div class="member-univ">ITATS · S1 Sistem Info</div>
+                    </div>
+                  </div>
+                  <div class="member-status-pill status-notes">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    Mencatat
+                  </div>
+                </div>
+
+                <!-- Member 3: Farhan -->
+                <div class="member-item">
+                  <div class="member-info-left">
+                    <div class="avatar-badge" style="color: #C084FC; border-color: rgba(168,85,247,0.3);">FH</div>
+                    <div class="member-name-wrap">
+                      <div class="member-name">Farhan <span class="bot-tag">Simulasi</span></div>
+                      <div class="member-univ">ITATS · S1 Informatika</div>
+                    </div>
+                  </div>
+                  <div class="member-status-pill status-gemini">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    Tanya AI
+                  </div>
+                </div>
+
+                <!-- Member 4: Rivan -->
+                <div class="member-item">
+                  <div class="member-info-left">
+                    <div class="avatar-badge" style="color: #94A3B8; border-color: rgba(148,163,184,0.3);">RV</div>
+                    <div class="member-name-wrap">
+                      <div class="member-name">Rivan <span class="bot-tag">Simulasi</span></div>
+                      <div class="member-univ">ITATS · S1 Teknik Elektro</div>
+                    </div>
+                  </div>
+                  <div class="member-status-pill status-offline">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/></svg>
+                    Terputus
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Tab Bar (Tab 'Pod' Aktif) -->
+          <nav class="mobile-tab-bar" aria-label="Navigasi Utama Cockpit Mobile">
+            <button class="tab-item" aria-selected="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <span class="tab-label">Catatan</span>
+            </button>
+            <button class="tab-item" aria-selected="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="tab-label">Antrean</span>
+            </button>
+            <button class="tab-item" aria-selected="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              <span class="tab-label">Pemandu</span>
+            </button>
+            <button class="tab-item active" aria-selected="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span class="tab-label">Pod</span>
+            </button>
+          </nav>
+          <div class="mobile-home-indicator"><div class="home-bar"></div></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TABLET 768px BREAKPOINT SECTION ==================== -->
+    <section class="tablet-spec-section" id="tabletSection" aria-label="SyncPod Tablet 768px Viewport">
+      
+      <!-- Top Navigation -->
+      <header class="tablet-header">
+        <div class="tablet-brand-group">
+          <span class="tablet-logo">SyncPod</span>
+          <span class="tablet-module-crumb">Sesi / Traversal Graf dan Dijkstra (Pod 042)</span>
+        </div>
+        <div class="tablet-actions-group">
+          <button class="drawer-trigger-btn" onclick="toggleDrawer()">
+            <span class="purple-dot"></span>
+            Pemandu & Antrean (1)
+          </button>
+          <button class="btn-exit-tablet">Keluar</button>
+        </div>
+      </header>
+
+      <!-- Row Atas: Ring 90px & Anggota Horizontal -->
+      <div class="tablet-top-row">
+        <!-- Ring & Timer Column -->
+        <div class="tablet-ring-col">
+          <svg class="tablet-ring-svg" viewBox="0 0 90 90">
+            <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="4" />
+            <circle cx="45" cy="45" r="38" fill="none" stroke="#38BDF8" stroke-width="4" stroke-dasharray="238" stroke-dashoffset="60" stroke-linecap="round" />
+            <circle cx="83" cy="45" r="5" fill="#10B981" />
+            <circle cx="45" cy="83" r="5" fill="#38BDF8" />
+            <circle cx="7" cy="45" r="5" fill="#A855F7" />
+            <circle cx="45" cy="7" r="5" fill="#64748B" />
+          </svg>
+          <div class="tablet-timer-meta">
+            <div class="tablet-timer-val">24:18</div>
+            <div class="tablet-timer-tag">Sprint Fokus 1 · R1/4</div>
+            <div class="tablet-timer-ctrls">
+              <button class="tablet-btn-sm" style="background: #38BDF8; color: #04121F; font-weight: 600;">Jeda</button>
+              <button class="tablet-btn-sm">Lewati</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Members Horizontal Grid -->
+        <div class="tablet-members-col">
+          <div class="tablet-members-title">
+            <span>Anggota Pod Aktif (4)</span>
+            <span>Jaringan: Peer-to-Peer 14ms</span>
+          </div>
+          <div class="tablet-members-horizontal">
+            <!-- Member 1 -->
+            <div class="tablet-member-chip">
+              <div class="chip-top">
+                <span class="chip-name">Rizqi (L)</span>
+                <span style="color: #10B981;">●</span>
+              </div>
+              <div class="chip-status" style="color: #10B981;">Fokus</div>
+            </div>
+            <!-- Member 2 -->
+            <div class="tablet-member-chip">
+              <div class="chip-top">
+                <span class="chip-name">Rifqi [Sim]</span>
+                <span style="color: #38BDF8;">●</span>
+              </div>
+              <div class="chip-status" style="color: #38BDF8;">Mencatat</div>
+            </div>
+            <!-- Member 3 -->
+            <div class="tablet-member-chip">
+              <div class="chip-top">
+                <span class="chip-name">Farhan [Sim]</span>
+                <span style="color: #C084FC;">●</span>
+              </div>
+              <div class="chip-status" style="color: #C084FC;">Tanya AI</div>
+            </div>
+            <!-- Member 4 -->
+            <div class="tablet-member-chip">
+              <div class="chip-top">
+                <span class="chip-name">Rivan [Sim]</span>
+                <span style="color: #94A3B8;">○</span>
+              </div>
+              <div class="chip-status" style="color: #94A3B8;">Terputus</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bagian Bawah: Editor Catatan Bersama -->
+      <div class="tablet-notes-area">
+        <div class="tablet-notes-card">
+          <div class="tablet-notes-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-family: var(--font-heading); font-size: 14px; font-weight: 700;">Catatan Bersama</span>
+              <span style="font-size: 11px; color: var(--color-emerald);">● Tersimpan otomatis</span>
+            </div>
+            <div class="editor-toggle">
+              <button class="toggle-chip active">Tulis</button>
+              <button class="toggle-chip">Pratinjau</button>
+            </div>
+          </div>
+          <div class="tablet-notes-body">
+            <div># Tujuan Sesi Sprint 1: Optimasi Algoritma Dijkstra</div>
+            <br>
+            <div>Konteks: Penentuan jalur terpendek dari satu titik sumber (Single-Source Shortest Path).</div>
+            <div>- Analisis struktur data Min-Heap Priority Queue O((V + E) log V).</div>
+            <div>- Invarian relaksasi: jika <span style="color: #38BDF8;">dist[u] + w(u, v) &lt; dist[v]</span>, perbarui <span style="color: #38BDF8;">dist[v]</span>.</div>
+            <br>
+            <div style="color: #94A3B8;">// Inisialisasi struktur heap priority queue pada C++20</div>
+            <div>struct Node { int v, weight; };</div>
+            <div>priority_queue&lt;int&gt; pq;</div>
+            <br>
+            <div style="color: #F87171;">- Tantangan aktif: Bagaimana merepresentasikan edge berbobot negatif?</div>
+            <div style="background: rgba(56,189,248,0.1); padding: 8px; border-left: 2px solid #38BDF8; margin-top: 8px;">
+              Catatan: Dijkstra mengasumsikan non-negative weights. Jika terdapat negative edge, gunakan <strong>Bellman-Ford</strong> untuk deteksi negative cycle.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide-Over Drawer 380px (Pemandu & Antrean) with Scrim -->
+      <div class="drawer-scrim" id="drawerScrim">
+        <aside class="tablet-drawer" aria-label="Drawer Sokratik & Antrean Pertanyaan">
+          
+          <div class="drawer-header">
+            <div class="drawer-title-wrap">
+              <div class="drawer-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                Pemandu & Antrean
+              </div>
+              <div class="drawer-sub">Konteks Modul Traversal Graf</div>
+            </div>
+            <!-- 44px Accessible Close Button -->
+            <button class="drawer-close-btn" onclick="toggleDrawer()" title="Tutup Drawer (Esc)">
+              Esc ✕
+            </button>
+          </div>
+
+          <div class="drawer-content">
+            
+            <!-- Socratic Gemini Panel (Solid Purple Accent Only) -->
+            <div class="socratic-card">
+              <div class="socratic-tag-bar">
+                <span class="socratic-badge">PEMANDU SOKRATIK AI</span>
+                <span style="font-size: 11px; color: var(--text-muted); font-family: var(--font-mono);">Kuot: 1/20</span>
+              </div>
+
+              <div class="active-q-box">
+                "Bagaimana merepresentasikan edge berbobot negatif pada antrean prioritas?"
+              </div>
+
+              <button class="ask-gemini-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+                Tanya Pemandu
+              </button>
+
+              <div style="font-size: 11px; font-weight: 600; color: #E9D5FF; margin-top: 4px;">PERTANYAAN PANDUAN:</div>
+              <ol class="guiding-q-list">
+                <li>Apa yang terjadi pada penanda visited saat simpul ditarik dari antrean jika ada bobot negatif?</li>
+                <li>Mengapa invarian ketamakan (greedy choice property) Dijkstra gagal ketika bobot bernilai kurang dari nol?</li>
+                <li>Syarat apa yang harus dipenuhi struktur graf sebelum kita memilih algoritma Bellman-Ford dibanding Dijkstra?</li>
+              </ol>
+
+              <div class="concept-analogy">
+                <strong>Analogi Konseptual:</strong><br>
+                "Bayangkan rute jalan tol dengan kupon diskon mundur: jika ada ruas yang justru mengembalikan uangmu setelah melewatinya, rute termurah awal bisa tiba-tiba menjadi bukan yang tercepat."
+              </div>
+
+              <div class="privacy-notice">
+                Catatan pod dikirim ke Gemini saat kamu bertanya.
+              </div>
+            </div>
+
+            <!-- Antrean Pertanyaan -->
+            <div class="queue-box">
+              <div class="queue-header">
+                <span>Antrean Pertanyaan</span>
+                <span style="font-size: 11px; font-family: var(--font-mono); color: var(--color-primary);">1/4 Aktif</span>
+              </div>
+
+              <div class="queue-item">
+                <div class="queue-item-top">
+                  <span>Q1 · AKTIF (Rizqi)</span>
+                  <button class="queue-btn-resolve">Tandai selesai</button>
+                </div>
+                <div style="font-size: 13px; color: var(--text-primary); font-weight: 500;">
+                  Relaksasi edge berbobot negatif
+                </div>
+              </div>
+
+              <textarea class="queue-input" placeholder="Tulis pertanyaanmu (1 per anggota)..."></textarea>
+              <div class="queue-counter">0/280</div>
+            </div>
+
+          </div>
+
+        </aside>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+    // Breakpoint Filter Functionality
+    function filterView(view) {
+      const mobileSec = document.getElementById('mobileSection');
+      const tabletSec = document.getElementById('tabletSection');
+      const btns = document.querySelectorAll('.view-btn');
+      
+      btns.forEach(b => b.classList.remove('active'));
+
+      if (view === 'all') {
+        document.getElementById('btnShowAll').classList.add('active');
+        mobileSec.style.display = 'flex';
+        tabletSec.style.display = 'flex';
+      } else if (view === 'mobile') {
+        document.getElementById('btnShowMobile').classList.add('active');
+        mobileSec.style.display = 'flex';
+        tabletSec.style.display = 'none';
+      } else if (view === 'tablet') {
+        document.getElementById('btnShowTablet').classList.add('active');
+        mobileSec.style.display = 'none';
+        tabletSec.style.display = 'flex';
+      }
+    }
+
+    // Toggle Slide-over Drawer on Tablet View
+    function toggleDrawer() {
+      const scrim = document.getElementById('drawerScrim');
+      if (scrim.style.display === 'none') {
+        scrim.style.display = 'flex';
+      } else {
+        scrim.style.display = 'none';
+      }
+    }
+
+    // Keyboard ESC to close drawer
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const scrim = document.getElementById('drawerScrim');
+        if (scrim) scrim.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

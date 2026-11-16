@@ -65,6 +65,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
   const [connectionState, setConnectionState] = useState<ConnectionState>('connected');
   const [activePodId, setActivePodId] = useState<string | null>(null);
   const [isSearching, setIsSearching] = useState(false);
+  const [isMatched, setIsMatched] = useState(false);
   const [seatsCount, setSeatsCount] = useState(0);
   const [fallbackOffer, setFallbackOffer] = useState<MatchFallbackOfferEvent | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -100,14 +101,20 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
       setNowMs(Date.now());
     });
 
+    let matchTimer: ReturnType<typeof setTimeout> | null = null;
     const unsubFound = client.on('match:found', (ev) => {
-      setIsSearching(false);
       setFallbackOffer(null);
-      router.push(`/pod/${ev.podId}`);
+      setSeatsCount(4);
+      setIsMatched(true);
+      matchTimer = setTimeout(() => {
+        setIsSearching(false);
+        router.push(`/pod/${ev.podId}`);
+      }, 600);
     });
 
     return () => {
       cancelled = true;
+      if (matchTimer) clearTimeout(matchTimer);
       unsubConn();
       unsubUpdate();
       unsubFallback();
@@ -137,7 +144,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
   );
 
   const ringSeats: PodSeatState[] = useMemo(() => {
-    if (!isSearching || seatsCount <= 0) {
+    if ((!isSearching && !isMatched) || seatsCount <= 0) {
       return [1, 2, 3, 4].map((num) => ({ seatNumber: num as 1 | 2 | 3 | 4 }));
     }
 
@@ -161,7 +168,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
         member: DEMO_SIMULATED_PEERS[idx - 1],
       };
     });
-  }, [isSearching, seatsCount]);
+  }, [isSearching, isMatched, seatsCount]);
 
   const fallbackRemainingSec = fallbackOffer
     ? Math.max(0, Math.ceil((fallbackOffer.expiresAt - nowMs) / 1000))
@@ -219,6 +226,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
     if (!client) return;
     await client.matchCancel({});
     setIsSearching(false);
+    setIsMatched(false);
     setSeatsCount(0);
     setFallbackOffer(null);
     setSubmitError(null);
@@ -290,7 +298,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
             <button
               type="button"
               onClick={handleSignOut}
-              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-3 py-1.5 text-sm font-medium text-ink-secondary transition-colors duration-200 hover:border-border-active hover:text-ink-primary"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-[var(--radius-control)] border border-border-subtle bg-canvas px-3 py-1.5 text-sm font-medium text-ink-primary transition-all duration-200 hover:border-border-active hover:bg-surface-elevated active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
             >
               <LogOut className="h-4 w-4" aria-hidden="true" />
               <span>{COPY.auth.signOut}</span>
@@ -302,7 +310,7 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
       <main className="mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-8">
         <ConnectionBanner connectionState={connectionState} className="mb-4" />
 
-        {activePodId && (
+        {activePodId && !isMatched && (
           <div
             data-active-pod-banner="true"
             className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-[var(--radius-panel)] border border-border-active bg-surface-elevated px-4 py-3"
@@ -482,7 +490,11 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
               <button
                 type="submit"
                 disabled={!canStartSearch}
-                className="inline-flex min-h-[48px] w-full items-center justify-center rounded-[var(--radius-control)] bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary transition-colors duration-200 hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
+                className={
+                  canStartSearch
+                    ? 'inline-flex min-h-[48px] w-full items-center justify-center rounded-[var(--radius-control)] bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary shadow-sm transition-all duration-200 hover:bg-primary-hover active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 cursor-pointer'
+                    : 'inline-flex min-h-[48px] w-full items-center justify-center rounded-[var(--radius-control)] border border-border-subtle bg-surface-elevated px-5 py-2.5 text-sm font-medium text-ink-muted transition-colors duration-200 cursor-not-allowed opacity-60'
+                }
               >
                 {COPY.matchmaking.startMatching}
               </button>
@@ -543,18 +555,21 @@ export function MatchmakingShell({ demoModeEnabled, initialClient }: Matchmaking
                 <PodRing
                   mode="radar"
                   variant="full"
-                  radarActive={isSearching}
+                  radarActive={isSearching && !isMatched}
                   seats={ringSeats}
                   progress={0}
                   phase="LOBBY"
+                  isMatched={isMatched}
                   radarLabel={
-                    isSearching
-                      ? COPY.matchmaking.radarFinding(seatsCount)
-                      : COPY.matchmaking.radarIdle
+                    isMatched
+                      ? COPY.matchmaking.matchedSubtitle
+                      : isSearching
+                        ? COPY.matchmaking.radarFinding(seatsCount)
+                        : COPY.matchmaking.radarIdle
                   }
                 />
 
-                {isSearching && (
+                {isSearching && !isMatched && (
                   <div className="mt-5 flex w-full max-w-xs flex-col gap-2.5">
                     <button
                       type="button"

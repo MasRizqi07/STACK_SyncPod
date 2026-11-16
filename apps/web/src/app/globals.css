@@ -108,6 +108,10 @@ h3 {
   animation: syncpod-skeleton-pulse 2s ease-in-out infinite;
 }
 
+.syncpod-matched-track {
+  transition: stroke-dashoffset 480ms var(--ease-out), opacity 200ms var(--ease-out);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -128,6 +132,10 @@ h3 {
     animation: none !important;
     opacity: 1;
     transform: scale(1);
+  }
+
+  .syncpod-matched-track {
+    transition: none !important;
   }
 }
 

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>SyncPod - High-Density Cockpit Sprint Platform</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-primary-container": "#00422b",
+          "on-background": "#dfe2ef",
+          "on-secondary": "#00344d",
+          "surface-bright": "#353943",
+          "surface-container": "#1c1f29",
+          "surface-container-high": "#262a34",
+          "on-secondary-fixed": "#001e2f",
+          "tertiary": "#d0bcff",
+          "inverse-on-surface": "#2c303a",
+          "on-error": "#690005",
+          "on-tertiary-fixed": "#23005c",
+          "surface-variant": "#31353f",
+          "surface": "#0f131c",
+          "inverse-primary": "#006c49",
+          "secondary-fixed": "#c9e6ff",
+          "background": "#0f131c",
+          "surface-container-low": "#181b25",
+          "tertiary-fixed-dim": "#d0bcff",
+          "primary-fixed-dim": "#4edea3",
+          "primary-fixed": "#6ffbbe",
+          "secondary": "#89ceff",
+          "on-tertiary-fixed-variant": "#5516be",
+          "on-surface-variant": "#bbcabf",
+          "tertiary-container": "#b090ff",
+          "on-secondary-container": "#00344e",
+          "surface-container-highest": "#31353f",
+          "surface-dim": "#0f131c",
+          "outline-variant": "#3c4a42",
+          "surface-tint": "#4edea3",
+          "on-surface": "#dfe2ef",
+          "inverse-surface": "#dfe2ef",
+          "on-tertiary-container": "#4600a7",
+          "surface-container-lowest": "#0a0e17",
+          "on-primary": "#003824",
+          "on-primary-fixed-variant": "#005236",
+          "primary": "#4edea3",
+          "primary-container": "#10b981",
+          "secondary-container": "#00a2e6",
+          "on-tertiary": "#3c0091",
+          "outline": "#86948a",
+          "on-secondary-fixed-variant": "#004c6e",
+          "on-error-container": "#ffdad6",
+          "error-container": "#93000a",
+          "tertiary-fixed": "#e9ddff",
+          "error": "#ffb4ab",
+          "on-primary-fixed": "#002113",
+          "secondary-fixed-dim": "#89ceff"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "margin-desktop": "1.5rem",
+          "gutter": "0.75rem",
+          "gutter-desktop": "1rem",
+          "space-xs": "0.25rem",
+          "space-xl": "1.5rem",
+          "space-lg": "1rem",
+          "margin": "1rem",
+          "space-md": "0.75rem",
+          "space-sm": "0.5rem"
+        },
+        "fontFamily": {
+          "display-lg": [
+            "Bricolage Grotesque"
+          ],
+          "label-code-lg": [
+            "JetBrains Mono"
+          ],
+          "label-code-sm": [
+            "JetBrains Mono"
+          ],
+          "label-code-md": [
+            "JetBrains Mono"
+          ],
+          "display-lg-mobile": [
+            "Bricolage Grotesque"
+          ],
+          "headline-md": [
+            "Bricolage Grotesque"
+          ],
+          "body-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "body-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-lg": [
+            "Bricolage Grotesque"
+          ],
+          "body-md": [
+            "Plus Jakarta Sans"
+          ]
+        },
+        "fontSize": {
+          "display-lg": [
+            "40px",
+            {
+              "lineHeight": "44px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "label-code-lg": [
+            "18px",
+            {
+              "lineHeight": "22px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-code-sm": [
+            "10px",
+            {
+              "lineHeight": "14px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "500"
+            }
+          ],
+          "label-code-md": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "500"
+            }
+          ],
+          "display-lg-mobile": [
+            "30px",
+            {
+              "lineHeight": "34px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-md": [
+            "18px",
+            {
+              "lineHeight": "22px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-lg": [
+            "15px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "500"
+            }
+          ],
+          "body-sm": [
+            "12px",
+            {
+              "lineHeight": "18px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-lg": [
+            "24px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-md": [
+            "13px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "400"
+            }
+          ]
+        }
+      }
+    }
+  }</script></head><body class="bg-surface-container-lowest font-body-md text-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-50 w-full bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-16 w-full px-margin-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm" data-path="landing-sprint" href="#"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center"><span class="material-symbols-outlined text-primary text-[20px]">radar</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md font-bold tracking-tight text-on-surface">SYNCPOD</span><span class="font-label-code-sm text-label-code-sm text-primary uppercase tracking-wider">Pusat Kendali</span></div></a></div><nav class="hidden xl:flex items-center gap-space-sm" data-active-classes="bg-surface-container-high text-primary font-bold rounded"><a aria-current="page" class="px-space-md py-space-xs transition-colors bg-surface-container-high text-primary font-bold rounded" data-path="cara-kerja" href="#">Cara Kerja</a><a class="px-space-md py-space-xs rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="arsitektur" href="#">Arsitektur</a><a class="px-space-md py-space-xs rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="kurikulum-silabus" href="#">Kurikulum Silabus</a><a class="px-space-md py-space-xs rounded font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="bukti-riset" href="#">Bukti Riset</a></nav><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container-low font-label-code-sm text-label-code-sm text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>SIAGA 25:00</div><a class="hidden md:inline-flex items-center px-space-md py-space-xs rounded bg-surface-container text-on-surface font-body-md text-body-md hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="mode-demo-juri" href="#">Mode Demo Juri</a><a class="inline-flex items-center px-space-md py-space-xs rounded bg-primary-container text-on-primary-container font-body-md text-body-md font-bold hover:bg-primary hover:text-on-primary transition-all shadow-[0_1px_8px_rgba(0,0,0,0.04)]" data-path="mulai-sprint-sekarang" href="#">Mulai Sprint Sekarang</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface-container-lowest min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full max-w-7xl mx-auto px-margin-desktop py-space-xl flex flex-col gap-space-xl">
+<!-- Hero Section: Split 6/6 Architectural Bento -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-stretch">
+<!-- Left Column (6 Cols) -->
+<div class="lg:col-span-6 flex flex-col justify-between py-space-sm">
+<div class="flex flex-col gap-space-md">
+<!-- Eyebrow Badge -->
+<div class="inline-flex items-center gap-space-sm self-start px-space-md py-1 rounded-full bg-surface-container-low text-primary shadow-sm font-label-code-sm text-label-code-sm tracking-wide">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="font-semibold text-primary">KASUS 1: KAMPUS CERDAS &amp; PEMBELAJARAN</span>
+<span class="text-outline">•</span>
+<span class="text-on-surface-variant font-medium">GDGOC ITB STACK 2026</span>
+</div>
+<!-- Display Headline -->
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight leading-tight">
+            Hentikan Wacana Belajar Kelompok. <br class="hidden sm:inline"/>
+<span class="text-primary">Mulai Sprint Terstruktur.</span>
+</h1>
+<!-- Lead Paragraph -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[56ch] leading-relaxed">
+            Platform pencocokan micro-study pod 4 mahasiswa otomatis berbasis topik bottleneck silabus dan sinkronisasi waktu nyata. Dilengkapi timer terpusat, catatan Markdown kolaboratif, dan pemandu Socratic AI.
+          </p>
+<!-- CTA Action Row -->
+<div class="flex flex-wrap items-center gap-space-md pt-space-xs">
+<a class="inline-flex items-center gap-space-sm px-6 h-12 rounded-lg bg-primary text-on-primary font-headline-md text-headline-md font-bold shadow-lg shadow-primary-container/20 hover:bg-primary-fixed transition-all" data-path="mulai-sprint-sekarang" href="#">
+<span>Cari Pod Belajar (Gratis)</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</a>
+<a class="inline-flex items-center gap-space-sm px-5 h-12 rounded-lg bg-surface-container text-on-surface font-body-lg text-body-lg font-medium hover:bg-surface-container-high transition-all" data-path="mode-demo-juri" href="#">
+<span class="material-symbols-outlined text-primary text-[20px]">play_circle</span>
+<span>Eksplorasi Mode Simulasi</span>
+</a>
+</div>
+</div>
+<!-- Trust Micro-badge -->
+<div class="flex flex-wrap items-center gap-space-lg pt-space-lg text-on-surface-variant font-label-code-sm text-label-code-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[16px]">check_circle</span>
+<span>Bebas Login Berbelit (OAuth &amp; Mode Demo)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[16px]">bolt</span>
+<span>0ms CDN Latency (100% Self-Hosted)</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Interactive Sprint Cockpit Miniature Window Preview (6 Cols) -->
+<div class="lg:col-span-6 relative">
+<div class="bg-surface-container-low rounded-xl p-space-lg shadow-xl relative overflow-hidden flex flex-col justify-between h-full">
+<!-- Corner Ambient Gradient Accent -->
+<div class="absolute -top-16 -right-16 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Mini Window Header -->
+<div class="flex items-center justify-between pb-space-sm bg-surface-container-lowest/50 px-space-sm py-2 rounded-t-lg">
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant font-mono">pod-042 // Traversal Graf dan Dijkstra</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-surface-container-high text-primary font-label-code-sm text-label-code-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span>FASE FOKUS 1 • AKTIF</span>
+</div>
+</div>
+<!-- Main Visual: Centered SVG PodRing Cockpit -->
+<div class="relative py-space-lg flex items-center justify-center">
+<!-- Central Geometric SVG Display -->
+<div class="relative w-64 h-64 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 240 240">
+<!-- Background Inactive Track -->
+<circle class="text-surface-container-highest" cx="120" cy="120" fill="none" r="94" stroke="currentColor" stroke-width="4"></circle>
+<!-- Progress Active Emerald Track -->
+<circle class="text-primary transition-all duration-1000" cx="120" cy="120" fill="none" r="94" stroke="currentColor" stroke-dasharray="590" stroke-dashoffset="65" stroke-linecap="round" stroke-width="5"></circle>
+<!-- Inner Decorative Orbit -->
+<circle class="text-outline-variant" cx="120" cy="120" fill="none" r="70" stroke="currentColor" stroke-dasharray="3 4" stroke-width="1"></circle>
+<!-- Sweep Scanner Visual Line -->
+<line class="text-primary/40 animate-spin origin-center" stroke="currentColor" stroke-width="1.5" style="animation-duration: 6s;" x1="120" x2="120" y1="120" y2="28"></line>
+</svg>
+<!-- Central Digital Countdown Display -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant tracking-widest uppercase">SIKLUS POD</span>
+<span class="font-label-code-lg text-3xl font-bold text-on-surface tracking-tighter tabular-nums text-white" id="demo-timer">24:59</span>
+<span class="font-label-code-sm text-[11px] text-primary mt-0.5">SYNCHRONIZED (WIB)</span>
+</div>
+<!-- Seat 12h: AR (Ahmad Rizqi · ITATS) - Top -->
+<div class="absolute top-0 transform -translate-y-1/2 flex flex-col items-center">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-label-code-sm font-bold shadow-md shadow-primary/20">
+                  AR
+                </div>
+<div class="mt-1 px-1.5 py-0.5 bg-surface-container text-on-surface font-label-code-sm text-[9px] rounded whitespace-nowrap shadow-sm">
+                  A. Rizqi (ITATS) • <span class="text-primary">Fokus</span>
+</div>
+</div>
+<!-- Seat 3h: MR (Muhammad Rifqi · ITB) - Right -->
+<div class="absolute right-0 transform translate-x-1/2 flex flex-col items-center">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-secondary flex items-center justify-center font-label-code-sm font-bold shadow-md shadow-secondary/20">
+                  MR
+                </div>
+<div class="mt-1 px-1.5 py-0.5 bg-surface-container text-on-surface font-label-code-sm text-[9px] rounded whitespace-nowrap shadow-sm">
+                  M. Rifqi (ITB) • <span class="text-secondary">Mencatat</span>
+</div>
+</div>
+<!-- Seat 6h: RP (Rivan Pramudya · UGM) - Bottom -->
+<div class="absolute bottom-0 transform translate-y-1/2 flex flex-col items-center">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-tertiary flex items-center justify-center font-label-code-sm font-bold shadow-md shadow-tertiary/20">
+                  RP
+                </div>
+<div class="mt-1 px-1.5 py-0.5 bg-surface-container text-on-surface font-label-code-sm text-[9px] rounded whitespace-nowrap shadow-sm">
+                  R. Pramudya (UGM) • <span class="text-tertiary">Tanya AI</span>
+</div>
+</div>
+<!-- Seat 9h: FM (M. Farhan · UI) - Left -->
+<div class="absolute left-0 transform -translate-x-1/2 flex flex-col items-center">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-label-code-sm font-bold shadow-md shadow-primary/20">
+                  FM
+                </div>
+<div class="mt-1 px-1.5 py-0.5 bg-surface-container text-on-surface font-label-code-sm text-[9px] rounded whitespace-nowrap shadow-sm">
+                  M. Farhan (UI) • <span class="text-primary">Fokus</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sub-preview snippet below the ring: Compact Live Markdown / CRDT Terminal -->
+<div class="mt-space-md rounded-lg bg-surface-container p-space-sm flex flex-col gap-1.5 shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant font-label-code-sm text-label-code-sm">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-secondary">code_blocks</span>
+<span>catatan_kolaboratif.md</span>
+</span>
+<span class="inline-flex items-center gap-1 text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>Yjs CRDT Tersambung</span>
+</span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded font-label-code-sm text-label-code-sm text-on-surface flex flex-col gap-1 overflow-x-auto">
+<div class="text-primary font-bold"># Traversal Graf: Adjacency List + Min-Heap O((V+E) log V)</div>
+<div class="text-on-surface-variant font-mono text-[11px] flex items-center gap-1">
+<span>&gt; Mengapa Dijkstra gagal jika terdapat siklus bobot negatif?</span>
+<span class="inline-block w-1.5 h-3 bg-secondary animate-pulse ml-0.5"></span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-0.5 text-[10px] font-label-code-sm text-on-surface-variant">
+<span class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[12px]">edit</span>
+<span>Rifqi sedang mengetik di blok #2...</span>
+</span>
+<span class="text-outline">IndexedDB Sinkron • 0.2ms</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Architectural Bento Feature Grid (3 Asymmetric Cards) -->
+<section class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded bg-primary"></span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Arsitektur Ekosistem Pembelajaran</h2>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-on-surface-variant hidden md:inline">SPESIFIKASI ENGINE KOKPIT V2.4</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-stretch">
+<!-- Bento Card 1 (5 Cols): Formation Engine -->
+<div class="lg:col-span-5 bg-surface-container rounded-xl p-space-lg flex flex-col justify-between shadow-md hover:shadow-xl transition-all">
+<div class="flex flex-col gap-space-sm">
+<span class="font-label-code-sm text-label-code-sm text-primary tracking-wider uppercase font-semibold">01 // FORMATION ENGINE</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Pencocokan Silabus Otomatis (4/4)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Algoritma mencocokkan tepat 4 mahasiswa dengan hambatan modul daun yang sama dalam jendela ketersediaan waktu hari ini (WIB). Dilengkapi fallback bertiga dalam 60 detik.
+            </p>
+</div>
+<!-- Visual Mini-Graphic: Horizontal Timeline Convergence -->
+<div class="mt-space-md p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-on-surface-variant font-label-code-sm text-label-code-sm">
+<span class="text-primary font-bold">SLOT JADWAL MAHASISWA</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">100% KOMPATIBEL</span>
+</div>
+<!-- Schedule convergence bars -->
+<div class="space-y-1.5 pt-1">
+<div class="flex items-center gap-2">
+<span class="font-label-code-sm text-[10px] text-on-surface-variant w-12">ITATS #1</span>
+<div class="h-3 flex-1 bg-surface-container-highest rounded-full overflow-hidden flex">
+<div class="w-1/3 bg-transparent"></div>
+<div class="w-1/2 bg-primary/60 rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-code-sm text-[10px] text-on-surface-variant w-12">ITB #2</span>
+<div class="h-3 flex-1 bg-surface-container-highest rounded-full overflow-hidden flex">
+<div class="w-1/4 bg-transparent"></div>
+<div class="w-2/3 bg-primary/60 rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-code-sm text-[10px] text-on-surface-variant w-12">UGM #3</span>
+<div class="h-3 flex-1 bg-surface-container-highest rounded-full overflow-hidden flex">
+<div class="w-2/5 bg-transparent"></div>
+<div class="w-1/2 bg-primary/60 rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-code-sm text-[10px] text-on-surface-variant w-12">UI #4</span>
+<div class="h-3 flex-1 bg-surface-container-highest rounded-full overflow-hidden flex">
+<div class="w-1/3 bg-transparent"></div>
+<div class="w-3/5 bg-primary/60 rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="mt-2 pt-2 bg-surface-container rounded px-2 py-1 flex items-center justify-between text-on-surface font-label-code-sm text-label-code-sm">
+<span class="text-on-surface-variant">Konvergensi Pod Sprint:</span>
+<span class="text-primary font-bold">20:00 - 20:25 WIB</span>
+</div>
+</div>
+</div>
+<!-- Bento Card 2 (4 Cols): Yjs CRDT Scratchpad -->
+<div class="lg:col-span-4 bg-surface-container rounded-xl p-space-lg flex flex-col justify-between shadow-md hover:shadow-xl transition-all">
+<div class="flex flex-col gap-space-sm">
+<span class="font-label-code-sm text-label-code-sm text-secondary tracking-wider uppercase font-semibold">02 // REAL-TIME SCRATCHPAD</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Catatan Bersama Tanpa Konflik</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Editor Markdown peer-to-peer berbasis CRDT. Bebas tumpang tindih pengetikan, sanitasi XSS penuh (Zero Script Injection), dan ekspor instan .md pascasprint.
+            </p>
+</div>
+<!-- Visual Mini-Graphic: CRDT Multi-Cursor Terminal -->
+<div class="mt-space-md p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1.5 font-label-code-sm">
+<div class="flex items-center justify-between text-on-surface-variant text-label-code-sm">
+<span>lib/priority_queue.py</span>
+<span class="text-secondary font-semibold">IndexedDB OK</span>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded text-[11px] leading-snug space-y-1">
+<div class="text-outline"># Inisialisasi Min-Heap Dijkstra</div>
+<div class="flex items-center flex-wrap gap-1">
+<span class="text-primary">import</span>
+<span class="text-on-surface">heapq</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="text-on-surface">pq = [(0, start_node)]</span>
+<span class="px-1 py-0.2 bg-secondary text-on-secondary rounded text-[9px] font-bold">MR (ITB)</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="text-on-surface">dist[start_node] = 0</span>
+<span class="px-1 py-0.2 bg-primary text-on-primary rounded text-[9px] font-bold">AR (ITATS)</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-[10px] text-on-surface-variant pt-1">
+<span>Resolusi Mutasi: <strong class="text-on-surface">LWW-Register</strong></span>
+<span class="text-secondary">Delta 0 byte drop</span>
+</div>
+</div>
+</div>
+<!-- Bento Card 3 (3 Cols): Socratic AI Guardrail -->
+<div class="lg:col-span-3 bg-surface-container rounded-xl p-space-lg flex flex-col justify-between shadow-md hover:shadow-xl transition-all">
+<div class="flex flex-col gap-space-sm">
+<span class="font-label-code-sm text-label-code-sm text-tertiary tracking-wider uppercase font-semibold">03 // SOCRATIC AI GUARDRAIL</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Pemandu Socratic AI</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Didukung Google Gemini server-side dengan filter pagar anti-menyontek ketat: tepat 3 pertanyaan pemandu, 1 analogi konseptual, dan nol blok kode langsung.
+            </p>
+</div>
+<!-- Visual Mini-Graphic: Structured 3-Step Guided Framework -->
+<div class="mt-space-md flex flex-col gap-1.5 font-label-code-sm">
+<div class="p-2 rounded bg-surface-container-low flex items-start gap-2">
+<span class="w-4 h-4 rounded-full bg-tertiary text-on-tertiary text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+<p class="text-[11px] text-on-surface leading-tight">Apa yang terjadi pada shortest path jika edge berbobot negatif diiterasi ulang?</p>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex items-start gap-2">
+<span class="w-4 h-4 rounded-full bg-tertiary text-on-tertiary text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+<p class="text-[11px] text-on-surface leading-tight">Analogi: Mengapa algoritma Greedy seperti pembeli yang tidak bisa membatalkan diskon?</p>
+</div>
+<div class="p-2 rounded bg-surface-container-low flex items-start gap-2">
+<span class="w-4 h-4 rounded-full bg-tertiary text-on-tertiary text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+<p class="text-[11px] text-on-surface leading-tight">Bandingkan komputasi Bellman-Ford vs Dijkstra pada struktur directed acyclic.</p>
+</div>
+<div class="text-[10px] text-tertiary font-bold pt-1 text-center bg-tertiary/10 py-1 rounded">
+              PAGAR ANTI-SOLUSI LANGSUNG: AKTIF
+            </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Empirical Campus Evidence Strip (Full-Width Technical Metrics Bar) -->
+<section class="w-full bg-surface-container rounded-xl p-space-lg shadow-md">
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-sm border-b border-surface-variant">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">analytics</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">Validasi Empiris &amp; Telemetri Kampus</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-primary uppercase font-mono">STATUS: TERVERIFIKASI LAPANGAN</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter-desktop items-start">
+<!-- Column 1 -->
+<div class="flex flex-col gap-space-xs p-space-sm rounded-lg bg-surface-container-low">
+<div class="font-label-code-lg text-4xl font-bold text-on-surface tabular-nums">78%</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Mahasiswa kesulitan koordinasi jadwal belajar di grup chat konvensional karena koordinasi asinkron yang terfragmentasi.
+            </p>
+<span class="font-label-code-sm text-[11px] text-outline mt-1 font-mono">&gt; Data Riset Survei Baseline ITATS 2025</span>
+</div>
+<!-- Column 2 -->
+<div class="flex flex-col gap-space-xs p-space-sm rounded-lg bg-surface-container-low">
+<div class="font-label-code-lg text-4xl font-bold text-primary tabular-nums">4 Orang</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Kapasitas optimal per pod untuk menjaga akuntabilitas dua arah tanpa anggota pasif (social loafing prevention threshold).
+            </p>
+<span class="font-label-code-sm text-[11px] text-primary mt-1 font-mono">&gt; Formula Micro-Study Dunbar Cognitive Cap</span>
+</div>
+<!-- Column 3 -->
+<div class="flex flex-col gap-space-xs p-space-sm rounded-lg bg-surface-container-low">
+<div class="font-label-code-lg text-3xl font-bold text-secondary tabular-nums">100% Mandiri</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Font lokal self-hosted &amp; ketahanan jaringan luring penuh untuk demonstrasi venue penjurian tanpa ketergantungan CDN eksternal.
+            </p>
+<span class="font-label-code-sm text-[11px] text-secondary mt-1 font-mono">&gt; Zero Third-Party Latency Penalty</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Operational Bar -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md py-space-sm text-on-surface-variant font-label-code-sm text-label-code-sm">
+<div class="flex items-center gap-space-md">
+<span class="flex items-center gap-1.5 text-primary">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>WEBRTC MESH READY</span>
+</span>
+<span class="text-outline">•</span>
+<span>INDEXEDDB V2 ACTIVE</span>
+<span class="text-outline">•</span>
+<span>GEMINI-SOCRATIC SHIELD v1.2</span>
+</div>
+<a class="text-primary hover:text-primary-fixed underline transition-colors" data-path="mulai-sprint-sekarang" href="#">
+        Inisialisasi Pod Pertama Anda →
+      </a>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    // Subtle Tabular Countdown Simulation for Cockpit Ring
+    let secondsLeft = 1499;
+    const timerElement = document.getElementById('demo-timer');
+    if (timerElement) {
+      setInterval(() => {
+        if (secondsLeft > 0) {
+          secondsLeft--;
+          const minutes = Math.floor(secondsLeft / 60);
+          const seconds = secondsLeft % 60;
+          timerElement.textContent = 
+            String(minutes).padStart(2, '0') + ':' + 
+            String(seconds).padStart(2, '0');
+        } else {
+          secondsLeft = 1500;
+        }
+      }, 1000);
+    }
+  })();
+</script></main><footer class="w-full bg-surface-container-lowest text-on-surface-variant py-space-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full px-margin-desktop flex flex-col md:flex-row items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md"><div class="w-6 h-6 rounded bg-surface-container-high flex items-center justify-center"><span class="material-symbols-outlined text-primary text-[16px]">terminal</span></div><span class="font-label-code-sm text-label-code-sm tracking-widest uppercase text-on-surface-variant">SYNCPOD • TELEMETRI DISTRIBUSI MAHASISWA • V2.4-IND</span></div><div class="flex items-center gap-space-lg font-body-sm text-body-sm"><a class="hover:text-on-surface transition-colors" data-path="cara-kerja" href="#">Protokol Pod</a><a class="hover:text-on-surface transition-colors" data-path="arsitektur" href="#">Infrastruktur WebRTC</a><a class="hover:text-on-surface transition-colors" data-path="bukti-riset" href="#">Metrik Pembelajaran</a><span class="font-label-code-sm text-label-code-sm text-outline">© 2025 SyncPod Studio. Hak cipta dilindungi.</span></div></div></footer></body></html>
