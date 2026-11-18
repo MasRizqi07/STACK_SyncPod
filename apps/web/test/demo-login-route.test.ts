@@ -4,9 +4,11 @@ import { POST } from '../src/app/api/demo/login/route';
 
 describe('POST /api/demo/login (D10, 3.5)', () => {
   const originalDemoMode = process.env.DEMO_MODE;
+  const originalAuthSecret = process.env.AUTH_SECRET;
 
   beforeAll(async () => {
     process.env.DEMO_MODE = 'true';
+    process.env.AUTH_SECRET = 'test-auth-secret-32-bytes-minimum-ok!!';
     await db.user.upsert({
       where: { email: 'demo-1@demo.syncpod.local' },
       update: { name: 'Rizqi Pratama' },
@@ -19,6 +21,7 @@ describe('POST /api/demo/login (D10, 3.5)', () => {
 
   afterAll(() => {
     process.env.DEMO_MODE = originalDemoMode;
+    process.env.AUTH_SECRET = originalAuthSecret;
   });
 
   it('returns 403 immediately when DEMO_MODE is not true', async () => {

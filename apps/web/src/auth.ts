@@ -3,6 +3,11 @@ import type { Provider } from 'next-auth/providers';
 import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
 import { db } from '@syncpod/db';
+import {
+  isAllowedEmailDomain,
+  isBotEmail,
+  isSeededDemoEmail,
+} from '@/lib/auth-rules';
 
 const providers: Provider[] = [];
 
@@ -33,15 +38,12 @@ if (process.env.DEMO_MODE === 'true') {
         const normalized = email.trim().toLowerCase();
 
         // D8: Bots can NEVER log in
-        if (
-          normalized.endsWith('@bot.syncpod.local') ||
-          normalized.startsWith('simulasi-')
-        ) {
+        if (isBotEmail(normalized)) {
           return null;
         }
 
         // D10: Only seeded demo accounts can sign in
-        if (!/^demo-[1-4]@demo\.syncpod\.local$/.test(normalized)) {
+        if (!isSeededDemoEmail(normalized)) {
           return null;
         }
 
@@ -71,33 +73,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: 'jwt',
   },
-  cookies: {
-    sessionToken: {
-      name:
-        process.env.NODE_ENV === 'production'
-          ? '__Secure-authjs.session-token'
-          : 'authjs.session-token',
-      options: {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
-      },
-    },
-  },
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === 'google') {
-        const allowedDomains = process.env.ALLOWED_EMAIL_DOMAINS?.split(',')
-          .map((d) => d.trim().toLowerCase())
-          .filter(Boolean);
-
-        if (allowedDomains && allowedDomains.length > 0) {
-          const email = user.email?.toLowerCase() || '';
-          const domain = email.split('@')[1];
-          if (!domain || !allowedDomains.includes(domain)) {
-            return false;
-          }
+        if (!isAllowedEmailDomain(user.email, process.env.ALLOWED_EMAIL_DOMAINS)) {
+          return false;
         }
       }
 

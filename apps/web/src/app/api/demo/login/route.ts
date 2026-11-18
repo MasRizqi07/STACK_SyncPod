@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import { encode } from 'next-auth/jwt';
 import { db } from '@syncpod/db';
+import {
+  getSessionCookieName,
+  isBotEmail,
+  isSecureRequest,
+  isSeededDemoEmail,
+} from '@/lib/auth-rules';
 
 export async function POST(request: Request) {
   if (process.env.DEMO_MODE !== 'true') {
@@ -31,10 +37,7 @@ export async function POST(request: Request) {
   const normalized = email.trim().toLowerCase();
 
   // D8: Bots can NEVER log in
-  if (
-    normalized.endsWith('@bot.syncpod.local') ||
-    normalized.startsWith('simulasi-')
-  ) {
+  if (isBotEmail(normalized)) {
     return NextResponse.json(
       { error: { code: 'FORBIDDEN', message: 'Bot accounts cannot log in' } },
       { status: 403 },
@@ -42,10 +45,18 @@ export async function POST(request: Request) {
   }
 
   // D10: Only seeded demo accounts can sign in
-  if (!/^demo-[1-4]@demo\.syncpod\.local$/.test(normalized)) {
+  if (!isSeededDemoEmail(normalized)) {
     return NextResponse.json(
       { error: { code: 'FORBIDDEN', message: 'Only seeded demo accounts can log in' } },
       { status: 403 },
+    );
+  }
+
+  const secret = process.env.AUTH_SECRET;
+  if (!secret || secret.trim().length < 16) {
+    return NextResponse.json(
+      { error: { code: 'INTERNAL_ERROR', message: 'Auth secret is not configured' } },
+      { status: 500 },
     );
   }
 
@@ -60,12 +71,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const isProduction = process.env.NODE_ENV === 'production';
-  const cookieName = isProduction
-    ? '__Secure-authjs.session-token'
-    : 'authjs.session-token';
-
-  const secret = process.env.AUTH_SECRET || 'syncpod-dev-secret-auth-32bytes-syncpod!!';
+  const secure = isSecureRequest(request);
+  const cookieName = getSessionCookieName(secure);
 
   const token = await encode({
     token: {
@@ -96,7 +103,7 @@ export async function POST(request: Request) {
     value: token,
     httpOnly: true,
     sameSite: 'lax',
-    secure: isProduction,
+    secure,
     path: '/',
     maxAge: 30 * 24 * 60 * 60,
   });
