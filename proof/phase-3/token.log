@@ -1,0 +1,10 @@
+
+ RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/shared
+
+ ✓ test/realtime-token.test.ts (5 tests) 16ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  22:57:12
+   Duration  233ms (import 63%, tests 20%, transform 11%, worker 5%)
+

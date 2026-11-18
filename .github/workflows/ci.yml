@@ -88,6 +88,9 @@ jobs:
       - name: Workspace Build
         run: pnpm -r build
 
+      - name: Secret Hygiene Gate (3.10)
+        run: pnpm check:secrets
+
       - name: Prototype Build Gate (D30)
         run: pnpm build:prototype
         env:

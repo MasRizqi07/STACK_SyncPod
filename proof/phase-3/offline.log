@@ -1,0 +1,9 @@
+=== PHASE 3 OFFLINE VERIFICATION (Local Postgres + External Network Blocked) ===
+Blocking method: Chrome DevTools Protocol Fetch.enable blocking all non-localhost/127.0.0.1 URLs with InternetDisconnected
+Flow executed:   GET /masuk -> click "Masuk sebagai akun demo" -> POST /api/demo/login (local Postgres) -> redirect /pod
+Final URL:       http://127.0.0.1:3123/pod
+Local requests:  20 succeeded
+External reqs:   0 attempted (ZERO external network dependencies)
+Screenshots:     proof/phase-3/auth-demo-1-masuk.png, proof/phase-3/auth-demo-2-authenticated.png
+
+OFFLINE VERIFICATION RESULT: PASS

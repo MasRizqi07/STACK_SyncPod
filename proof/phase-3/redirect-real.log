@@ -1,0 +1,6 @@
+=== REAL-MODE ROUTE PROTECTION AUDIT (Task 3.6, Next 16 proxy.ts) ===
+HEAD /pod -> HTTP 307 | Location: /masuk
+HEAD /pod/x -> HTTP 307 | Location: /masuk
+HEAD /pod/x/selesai -> HTTP 307 | Location: /masuk
+
+REDIRECT AUDIT RESULT: PASS (All protected routes return HTTP 307 -> /masuk)

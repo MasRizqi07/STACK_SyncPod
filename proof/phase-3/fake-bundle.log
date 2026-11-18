@@ -1,0 +1,10 @@
+=== FAKE & REAL BUNDLE ISOLATION AUDIT (Tasks 3.6 & D18, D25) ===
+FAKE BUILD: Scanned 48 client assets in apps/web/.next/static
+  Forbidden tokens checked: next-auth, @prisma/client, PrismaClient, SignJWT, jwtVerify
+  Matches found: 0 (PASS)
+  HTTP GET /pod without session in fake mode: HTTP 200 (PASS)
+
+REAL BUILD: Scanned 48 client assets in apps/web/.next/static
+  Checked DemoControls / "Kontrol demo (simulasi)" (D25): 0 matches (PASS)
+
+BUNDLE ISOLATION RESULT: PASS

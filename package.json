@@ -15,7 +15,8 @@
     "test": "pnpm -r test",
     "db:migrate": "pnpm --filter @syncpod/db db:migrate",
     "db:seed": "pnpm --filter @syncpod/db db:seed",
-    "db:reset": "pnpm --filter @syncpod/db db:reset"
+    "db:reset": "pnpm --filter @syncpod/db db:reset",
+    "check:secrets": "node scripts/check-secret-hygiene.mjs"
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",

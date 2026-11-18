@@ -1,7 +1,7 @@
-﻿packages/shared typecheck$ tsc --noEmit
+packages/shared typecheck$ tsc --noEmit
 packages/shared typecheck: Done
-apps/realtime typecheck$ tsc --noEmit
 packages/db typecheck$ tsc --noEmit
+apps/realtime typecheck$ tsc --noEmit
 apps/realtime typecheck: Done
 packages/db typecheck: Done
 apps/web typecheck$ next typegen && tsc --noEmit

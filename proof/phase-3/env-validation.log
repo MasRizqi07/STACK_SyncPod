@@ -1,0 +1,23 @@
+=== apps/web env validation ===
+
+ RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/web
+
+ ✓ test/env.test.ts (5 tests) 8ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  22:57:17
+   Duration  357ms (import 75%, transform 14%, tests 7%, worker 4%)
+
+
+=== apps/realtime env validation ===
+
+ RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/realtime
+
+ ✓ test/env.test.ts (5 tests) 12ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  22:57:18
+   Duration  363ms (import 83%, transform 9%, tests 5%, worker 3%)
+

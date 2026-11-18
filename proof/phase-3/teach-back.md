@@ -1,24 +1,27 @@
-# Teach-Back: Phase 3A (Database, Seed, Auth.js, Demo Login)
+# Teach-Back: Phase 3 Complete (DB, Auth.js, Next 16 Proxy, Realtime JWT, Authz & Env)
 
 ## 1. Tiga Pertanyaan Penguji (Examiner Questions)
 
-1. **Konkurensi & Indeks Parsial PostgreSQL:**
-   Ketika dua request pencarian pod (`match:enqueue`) dari satu pengguna yang sama tiba di server pada milidetik yang identik sebelum baris pertama selesai disimpan, mengapa pemeriksaan tingkat aplikasi seperti `prisma.matchRequest.findFirst({ where: { userId, status: 'WAITING' } })` rentan terhadap *time-of-check to time-of-use (TOCTOU) race condition*, dan bagaimana indeks unik parsial `CREATE UNIQUE INDEX one_waiting_per_user ON "MatchRequest"("userId") WHERE status = 'WAITING'` menyelesaikan kondisi balapan tersebut secara deterministik di level *page latch/tuple lock* PostgreSQL?
+1. **Isolasi Token Realtime HS256 vs Sesi Cookie JWE (`proxy.ts` & `/api/realtime/token`):**
+   Mengapa arsitektur SyncPod memisahkan cookie sesi Auth.js (`HttpOnly` JWE `A256CBC-HS512` berdurasi 30 hari di domain web) dari token otentikasi server realtime (`HS256` JWT berdurasi 5 menit dari `GET /api/realtime/token`), alih-alih meneruskan cookie sesi web secara langsung pada handshake Socket.IO dan upgrade WebSocket `/yjs/:podId`? Apa dampak keamanan jika `REALTIME_JWT_SECRET` dan `AUTH_SECRET` disamakan?
 
-2. **Enkripsi JWE vs Bearer Token pada Auth.js v5:**
-   Mengapa Auth.js v5 menggunakan enkripsi JWE (`A256CBC-HS512`) untuk cookie `authjs.session-token` alih-alih JWT bertanda tangan biasa (`JWS`), dan apa konsekuensi latensi serta beban CPU pada server ketika setiap pemanggilan `auth()` di server-rendered component harus mendekripsi payload cookie tersebut dibandingkan dengan memverifikasi tanda tangan simetris ringan HS256?
+2. **Batas Kepercayaan `proxy.ts` (Next.js 16) vs Otorisasi Berbasis DB (`assertPodMember` / `assertPodLeader`):**
+   `apps/web/src/proxy.ts` hanya memverifikasi integritas kriptografis token JWT di cookie tanpa menyentuh PostgreSQL agar tidak memicu *DB round-trip* pada setiap navigasi, sementara `assertPodMember` dan `assertPodLeader` di `packages/db` melakukan query langsung ke tabel `SprintPod` dan `PodMember`. Dalam skenario apa permintaan yang lolos `proxy.ts` tetap wajib ditolak oleh `assertPodMember` atau `assertPodLeader` di Phase 4–8?
 
-3. **Idempotensi Seed pada Multi-Instance CI:**
-   Pada lingkungan CI paralel atau orkestrasi multi-kontainer yang menjalankan migrasi dan seed secara bersamaan, bagaimana pola `upsert` pada kunci unik (`code` pada Course dan `id` pada Module) menjamin bahwa data referensi silang (`parentId` pada hierarki pohon modul) tidak memicu *foreign key violation* atau *deadlock* saat transaksi dieksekusi di bawah isolasi transaksi *Read Committed*?
+3. **Konkurensi Indeks Parsial PostgreSQL & Fail-Fast Environment Guard:**
+   Ketika dua permintaan `match:enqueue` dari user yang sama tiba serentak, bagaimana indeks unik parsial `CREATE UNIQUE INDEX one_waiting_per_user ON "MatchRequest"("userId") WHERE status = 'WAITING'` mencegah *TOCTOU race condition* di level tuple PostgreSQL — dan mengapa `validateWebEnv()` di `apps/web/src/instrumentation.ts` sengaja melewati pemeriksaan rahasia saat `NEXT_PHASE === 'phase-production-build'` namun tetap gagal cepat (*fail-fast*) saat server boot (`next start`)?
 
 ---
 
 ## 2. Satu Analogi (One Analogy)
 
-Indeks unik parsial `one_waiting_per_user` diibaratkan seperti **gantungan nomor antrean di loket perpustakaan**: seorang mahasiswa boleh memiliki banyak kuitansi pengembalian buku yang telah selesai atau dibatalkan (`CANCELLED`), namun papan gantungan fisik hanya menyediakan satu slot nomor aktif (`WAITING`) untuk setiap nomor induk mahasiswa. Jika mahasiswa tersebut mencoba mengambil nomor antrean kedua sebelum nomor antrean pertama dipanggil atau dikembalikan, pasak slot fisik akan terkunci dan menolak karcis kedua secara mekanis, terlepas dari berapa banyak petugas loket yang melayani di waktu bersamaan.
+Pemisahan antara **cookie sesi web Auth.js** dan **token realtime 5 menit (`/api/realtime/token`)** diibaratkan seperti **kartu tanda mahasiswa (KTM) dan tiket masuk ruang laboratorium komputer**: KTM disimpan aman di dalam dompet (`HttpOnly` cookie, tidak pernah disentuh skrip pihak ketiga di browser), sedangkan untuk masuk ke ruang lab realtime yang terpisah gedungnya (port 4000 / Socket.IO + Yjs), petugas resepsionis (`GET /api/realtime/token`) mengecek KTM-mu lalu mencetak tiket akses sekali pakai yang otomatis kedaluwarsa dalam 5 menit. Jika tiket ruang lab terjatuh, aksesnya mati sendiri dalam 5 menit tanpa membocorkan KTM maupun memberi akses ke akun web utamamu.
 
 ---
 
 ## 3. Apa yang Rapuh (What is Fragile)
 
-Penamaan cookie sesi Auth.js bervariasi secara otomatis bergantung pada protokol koneksi: `authjs.session-token` pada HTTP (lokal/dev) dan `__Secure-authjs.session-token` pada HTTPS (produksi). Jika aplikasi dijalankan di lingkungan produksi (`NODE_ENV === 'production'`) di belakang *reverse proxy* (misalnya NGINX, Cloudflare, atau Docker ingress) yang melakukan *TLS termination* namun tidak meneruskan header `X-Forwarded-Proto: https`, Next.js dapat menganggap koneksi sebagai HTTP biasa sementara handler login menulis cookie berawalan `__Secure-`. Hal ini dapat menyebabkan browser menolak menyimpan cookie tersebut atau server gagal membacanya, mengakibatkan *redirect loop* unauthenticated yang sulit didiagnosis.
+1. **Sinkronisasi Cookie `authjs.session-token` pada Mode Reverse Proxy / LAN HTTP:**  
+   `isSecureRequest()` mengandalkan header `X-Forwarded-Proto` dan protokol URL request untuk memilih antara `authjs.session-token` (HTTP LAN/dev) dan `__Secure-authjs.session-token` (HTTPS produksi). Jika aplikasi di-deploy di belakang *reverse proxy* yang memutus TLS tetapi tidak meneruskan `X-Forwarded-Proto: https` (atau meneruskan header palsu dari klien yang tidak dibersihkan di edge), cookie yang ditulis oleh `/api/demo/login` bisa tidak cocok dengan cookie yang dibaca oleh `auth()` atau `proxy.ts`.
+2. **Ketergantungan `apps/web` Test pada `DATABASE_URL` Aktif:**  
+   Berbeda dengan `packages/db` yang otomatis mengisolasi test ke database `syncpod_test` lewat `globalSetup`, dua file test integrasi di `apps/web` (`auth.test.ts` dan `demo-login-route.test.ts`) masih menyentuh `DATABASE_URL` langsung (`upsert` akun seeded `demo-1@demo.syncpod.local`). Jika lingkungan lokal belum menjalankan `pnpm db:migrate`, dua test tersebut akan gagal hingga migrasi diterapkan.
