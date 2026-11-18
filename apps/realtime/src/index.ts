@@ -1,18 +1,12 @@
+import { validateRealtimeEnv } from './env.js';
 import { createRealtimeServer } from './server.js';
 
-function readPort(raw: string | undefined, fallback: number): number {
-  if (!raw) return fallback;
-  const parsed = Number.parseInt(raw, 10);
-  if (!Number.isInteger(parsed) || parsed <= 0 || parsed > 65535) {
-    throw new Error(`Invalid REALTIME_PORT value: ${raw}`);
-  }
-  return parsed;
-}
+const env = validateRealtimeEnv(process.env);
 
-const port = readPort(process.env.REALTIME_PORT ?? process.env.PORT, 4000);
-const webOrigin = process.env.WEB_ORIGIN?.trim() || 'http://localhost:3000';
-
-const server = await createRealtimeServer({ port, webOrigin });
+const server = await createRealtimeServer({
+  port: env.REALTIME_PORT,
+  webOrigin: env.WEB_ORIGIN,
+});
 console.log(`SyncPod realtime server listening on http://localhost:${server.port}`);
 
 const shutdown = async (): Promise<void> => {
@@ -26,4 +20,3 @@ process.on('SIGINT', () => {
 process.on('SIGTERM', () => {
   void shutdown();
 });
-

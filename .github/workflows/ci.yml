@@ -66,6 +66,9 @@ jobs:
           fi
           echo "PASS: Zero skipped or filtered tests found."
 
+      - name: Generate Prisma Client
+        run: pnpm --filter @syncpod/db db:generate
+
       - name: Workspace Typecheck
         run: pnpm -r typecheck
 
