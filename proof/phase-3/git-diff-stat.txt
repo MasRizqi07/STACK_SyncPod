@@ -1,40 +1,68 @@
-﻿ .github/workflows/ci.yml                           |   7 +
+﻿ .env.example                                       |   1 +
+ .github/workflows/ci.yml                           |  13 +
  .gitignore                                         |   1 +
+ apps/realtime/src/env.ts                           |  65 ++
+ apps/realtime/src/index.ts                         |  19 +-
+ apps/realtime/test/env.test.ts                     |  69 +++
  apps/web/package.json                              |   2 +
  apps/web/src/app/api/auth/[...nextauth]/route.ts   |   3 +
- apps/web/src/app/api/demo/login/route.ts           | 105 +++++
- apps/web/src/auth.ts                               | 144 +++++++
+ apps/web/src/app/api/demo/login/route.ts           | 112 ++++
+ apps/web/src/app/api/realtime/token/route.ts       |  42 ++
+ apps/web/src/auth.ts                               | 124 ++++
  apps/web/src/components/auth/MasukCard.tsx         |  39 +-
- apps/web/test/auth.test.ts                         |  55 +++
- apps/web/test/demo-login-route.test.ts             | 108 +++++
+ apps/web/src/env.ts                                |  70 +++
+ apps/web/src/instrumentation.ts                    |  12 +
+ apps/web/src/lib/auth-rules.ts                     |  58 ++
+ apps/web/src/proxy.ts                              |  40 ++
+ apps/web/test/auth.test.ts                         |  63 ++
+ apps/web/test/demo-login-route.test.ts             | 111 ++++
+ apps/web/test/env.test.ts                          |  67 +++
+ apps/web/test/proxy.test.ts                        |  79 +++
+ apps/web/test/realtime-token-route.test.ts         |  56 ++
  apps/web/tsconfig.json                             |   2 +
  apps/web/vitest.config.ts                          |  11 +
- package.json                                       |   5 +-
+ package.json                                       |   6 +-
  packages/db/package.json                           |  11 +-
- .../migrations/20261116095753_init/migration.sql   | 180 ++++++++
+ .../migrations/20261116095753_init/migration.sql   | 180 ++++++
  packages/db/prisma/migrations/migration_lock.toml  |   3 +
+ packages/db/src/authz.ts                           |  58 ++
  packages/db/src/index.ts                           |  30 +-
- packages/db/src/seed.ts                            | 167 ++++++++
- packages/db/test/global-setup.ts                   |  91 ++++
+ packages/db/src/seed.ts                            | 167 ++++++
+ packages/db/test/authz.test.ts                     | 101 ++++
+ packages/db/test/global-setup.ts                   |  91 +++
  packages/db/test/index.test.ts                     |  35 +-
- packages/db/test/partial-index.test.ts             | 106 +++++
- packages/db/test/seed.test.ts                      |  74 ++++
+ packages/db/test/partial-index.test.ts             | 106 ++++
+ packages/db/test/seed.test.ts                      |  74 +++
  packages/db/vitest.config.ts                       |   9 +
- pnpm-lock.yaml                                     |  85 ++++
- proof/phase-3/auth-demo-1-masuk.png                | Bin 0 -> 48087 bytes
- proof/phase-3/auth-demo-2-authenticated.png        | Bin 0 -> 14840 bytes
- proof/phase-3/auth-matrix.log                      |  26 ++
- proof/phase-3/build.log                            |  47 +++
- proof/phase-3/git-diff-stat.txt                    | Bin 0 -> 2778 bytes
- proof/phase-3/ladder.md                            |  23 +
+ packages/shared/package.json                       |   8 +-
+ packages/shared/src/index.ts                       |   1 +
+ packages/shared/src/realtime-token.ts              | 146 +++++
+ packages/shared/test/realtime-token.test.ts        | 101 ++++
+ pnpm-lock.yaml                                     |  88 +++
+ proof/phase-3/auth-demo-1-masuk.png                | Bin 0 -> 46671 bytes
+ proof/phase-3/auth-demo-2-authenticated.png        | Bin 0 -> 13853 bytes
+ proof/phase-3/auth-matrix.log                      |  39 ++
+ proof/phase-3/authz.log                            |  10 +
+ proof/phase-3/build.log                            |  50 ++
+ proof/phase-3/bundle-secrets.log                   |   9 +
+ proof/phase-3/ci-run.txt                           |  16 +
+ proof/phase-3/env-validation.log                   |  23 +
+ proof/phase-3/fake-bundle.log                      |  10 +
+ proof/phase-3/git-diff-stat.txt                    |  40 ++
+ proof/phase-3/ladder.md                            |  33 ++
  proof/phase-3/lint.log                             |   8 +
  proof/phase-3/migrate.log                          |  10 +
  proof/phase-3/no-skip.log                          |   1 +
+ proof/phase-3/offline.log                          |   9 +
  proof/phase-3/partial-index.log                    |  11 +
+ proof/phase-3/redirect-real.log                    |   6 +
  proof/phase-3/seed-idempotent.log                  |  11 +
  proof/phase-3/seed.log                             |   5 +
- proof/phase-3/teach-back.md                        |  24 ++
- proof/phase-3/test.log                             |  65 +++
+ proof/phase-3/teach-back.md                        |  27 +
+ proof/phase-3/test.log                             |  79 +++
+ proof/phase-3/token.log                            |  10 +
  proof/phase-3/typecheck.log                        |  10 +
- scripts/phase3a-verify.mjs                         | 466 +++++++++++++++++++++
- 39 files changed, 1945 insertions(+), 35 deletions(-)
+ scripts/check-secret-hygiene.mjs                   | 135 +++++
+ scripts/phase3a-verify.mjs                         | 466 +++++++++++++++
+ scripts/phase3b-verify.mjs                         | 652 +++++++++++++++++++++
+ 67 files changed, 3896 insertions(+), 48 deletions(-)
