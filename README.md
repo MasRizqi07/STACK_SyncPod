@@ -25,9 +25,9 @@ Mahasiswa teknik dan komputasi semester awal sering terhenti pada satu modul spe
 
 | Gesekan Awal | Solusi SyncPod | Implementasi Kunci |
 |---|---|---|
-| **Mencari rekan sepemahaman modul** | Pencocokan otomatis berbasis taksonomi silabus 3 tingkat (`Course -> Topik -> Modul daun`) & jendela waktu hari ini (WIB) | Layar Matchmaking + `PodRing` Radar (3–4 anggota, opsi *fallback* bertiga 60 detik) |
+| **Mencari rekan sepemahaman modul** | Pencocokan otomatis berbasis taksonomi silabus 3 tingkat (`Course -> Topik -> Modul daun`) & jendela waktu hari ini (WIB) | Layar Matchmaking + `PodRing` Radar (3–4 anggota, opsi *fallback* bertiga 60 detik; disimulasikan pada prototipe semifinal) |
 | **Koordinasi sprint yang berantakan** | Satu ruang kerja serempak: timer fokus/istirahat, status kehadiran, catatan Markdown bersama, dan antrean 1 pertanyaan/anggota | `Cockpit` responsif dengan koreksi offset jam server & sanitasi pratinjau |
-| **Ketergantungan jawaban instan AI** | Pemandu Sokratik berbasis konteks modul & catatan bersama: tepat **3 pertanyaan pemandu**, **1 analogi konseptual**, tanpa blok kode solusi | Server-side Gemini Engine + filter anti-menyontek & batas kuota |
+| **Ketergantungan jawaban instan AI** | Pemandu Sokratik berbasis konteks modul & catatan bersama: tepat **3 pertanyaan pemandu**, **1 analogi konseptual**, tanpa blok kode solusi | Panel Sokratik terintegrasi (keluaran simulasi di prototipe semifinal; server-side Gemini Engine terhubung di Build Period) |
 
 > [!NOTE]
 > **Transparansi Status Prototipe (`NEXT_PUBLIC_REALTIME_MODE`):**
@@ -148,14 +148,14 @@ pnpm -r test
 pnpm -r build
 ```
 
-Untuk menjalankan server web + realtime secara paralel:
+Untuk menjalankan server web + server realtime (skeleton health check port 4000) secara paralel:
 
 ```bash
 pnpm dev
 ```
 
-- **Web:** `http://localhost:3000`
-- **Realtime health check:** `http://localhost:4000/health`
+- **Web:** `http://localhost:3000` (mode simulasi aktif via `NEXT_PUBLIC_REALTIME_MODE=fake`)
+- **Realtime health check:** `http://localhost:4000/health` (fondasi server Node.js)
 
 ---
 
