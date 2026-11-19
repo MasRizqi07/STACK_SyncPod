@@ -69,6 +69,11 @@ jobs:
       - name: Generate Prisma Client
         run: pnpm --filter @syncpod/db db:generate
 
+      - name: Verify Scripts and Proof Tools (P0)
+        run: |
+          pnpm test:scripts
+          node scripts/check-proof-logs.mjs proof
+
       - name: Workspace Typecheck
         run: pnpm -r typecheck
 

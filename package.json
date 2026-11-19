@@ -13,6 +13,7 @@
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
+    "test:scripts": "node --test scripts/test/*.test.mjs",
     "db:migrate": "pnpm --filter @syncpod/db db:migrate",
     "db:seed": "pnpm --filter @syncpod/db db:seed",
     "db:reset": "pnpm --filter @syncpod/db db:reset",
