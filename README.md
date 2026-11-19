@@ -2,7 +2,8 @@
 
 # SyncPod
 
-**Automated Micro-Study Pod & Socratic AI Collaborative Sprint Platform**
+**Platform Sprint Belajar Kolaboratif Terarah & Pemandu Sokratik AI**  
+*Micro-study pods beranggotakan 3–4 mahasiswa dengan sinkronisasi sprint serempak dan AI tanpa bocoran kode solusi.*
 
 Dibangun oleh **Tim Cah Kacawww** (Institut Teknologi Adhi Tama Surabaya)  
 untuk **GDGoC ITB STACK 2026 — Case 1: Smarter Campus and Learning**
@@ -13,9 +14,41 @@ untuk **GDGoC ITB STACK 2026 — Case 1: Smarter Campus and Learning**
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-6.19.3-2D3748?style=flat-square&logo=prisma&logoColor=white)
 
-[Dokumentasi (`Docs/`)](Docs/README.md) · [Arsitektur](Docs/ARCHITECTURE.md) · [Naskah Demo](Docs/DEMO_SCRIPT.md) · [Panduan Kontribusi](CONTRIBUTING.md) · [Keamanan](SECURITY.md)
+**Tautan Prototipe Publik (Vercel):** `PENDING USER (deploy)`
+
+[Tabel Klaim & Bukti](Docs/semifinal/CLAIMS_AND_EVIDENCE.md) · [Panduan Deploy Prototipe](Docs/semifinal/DEPLOY_PROTOTYPE.md) · [Naskah Demo 120 Detik](Docs/DEMO_SCRIPT.md) · [Arsitektur Teknis](Docs/ARCHITECTURE.md) · [ADR (Decisions)](Docs/DECISIONS.md) · [Dokumentasi Lengkap](Docs/README.md)
 
 </div>
+
+---
+
+> [!IMPORTANT]
+> **Status Kejujuran Prototipe Semifinal (D32):**
+> Versi yang dinilai pada tahap semifinal ini adalah **prototipe antarmuka frontend penuh yang berjalan dalam mode simulasi deterministik (`NEXT_PUBLIC_REALTIME_MODE=fake`)** dengan penanda visual `"Prototipe: data simulasi"`. Seluruh interaksi rekan pod berlabel `"Simulasi"`.
+> 
+> Backend multipemain sesungguhnya (autentikasi Google SSO via Auth.js, basis data PostgreSQL + Prisma, gateway WebSocket Socket.IO, kolaborasi dokumen Yjs CRDT, dan pemandu live Gemini 2.5 Flash dengan guardrail anti-menyontek) dijadwalkan dan diselesaikan pada **Build Period (7–15 Des 2026)**.
+
+---
+
+## Cara Menjalankan Cepat (3 Perintah)
+
+Tanpa perlu menginstal Docker atau basis data eksternal, jalankan prototipe secara lokal dalam 3 perintah:
+
+```bash
+# 1. Pasang seluruh dependensi monorepo
+pnpm install --frozen-lockfile
+
+# 2. Bangun paket bersama dan bundel prototipe web
+pnpm build:prototype
+
+# 3. Jalankan server lokal production
+pnpm --filter @syncpod/web start -p 3000
+```
+
+Buka **`http://localhost:3000`** di browser Anda untuk menelusuri seluruh alur:
+`Masuk (/masuk)` ➔ `Matchmaking (/pod)` ➔ `Sprint Cockpit (/pod/pod-042)` ➔ `Ringkasan Sesi (/pod/pod-042/selesai)`.
+
+---
 
 ---
 
