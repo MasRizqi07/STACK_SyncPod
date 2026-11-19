@@ -12,7 +12,8 @@
     "build:prototype": "pnpm --filter @syncpod/shared build && pnpm --filter @syncpod/db build && pnpm --filter @syncpod/web build",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test",
+    "test:scripts": "node --test scripts/test/*.test.mjs"
   },
   "devDependencies": {
     "@eslint/js": "9.39.5",

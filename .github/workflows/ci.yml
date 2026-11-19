@@ -66,6 +66,11 @@ jobs:
           fi
           echo "PASS: Zero skipped or filtered tests found."
 
+      - name: Verify Scripts and Proof Tools (P0)
+        run: |
+          pnpm test:scripts
+          node scripts/check-proof-logs.mjs proof
+
       - name: Workspace Typecheck
         run: pnpm -r typecheck
 
