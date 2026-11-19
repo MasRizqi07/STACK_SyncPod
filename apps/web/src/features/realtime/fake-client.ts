@@ -652,6 +652,19 @@ export class FakeRealtimeClient implements RealtimeClient, FakeStoreClient {
     }
 
     const offer = this.activeOffer;
+    if (!offer && parsed.data.offerId === 'demo-fallback-offer') {
+      if ('accept' in parsed.data && parsed.data.accept) {
+        this.clearAllMatchTimers();
+        this.activeMatchRequestId = null;
+        this.activeMatchModule = null;
+        const defaultModule = findModuleNodeById('mod-dijkstra')!;
+        const pod = this.resetMatchedPod(defaultModule, 3);
+        this.emitLocal('match:found', { podId: pod.podId });
+        return ok({ accepted: true });
+      }
+      return ok({ accepted: false });
+    }
+
     if (!offer || offer.offerId !== parsed.data.offerId) {
       return fail('INVALID_STATE', 'Tawaran memulai bertiga sudah tidak aktif.');
     }
