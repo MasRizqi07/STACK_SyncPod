@@ -1,0 +1,74 @@
+$ node scripts/smoke-url.mjs http://127.0.0.1:3120
+# cwd .
+# started 2026-11-19T12:51:51.236Z
+========================================
+SyncPod URL Smoke Test
+Base URL: http://127.0.0.1:3120
+Timestamp: 2026-11-19T12:51:51.296Z
+========================================
+
+CHECK ROUTE: / (http://127.0.0.1:3120/)
+  PASS [Status]: 200 OK (final URL: http://127.0.0.1:3120/masuk)
+  PASS [Set-Cookie]: None present
+  PASS [Prototype Notice]: Found "Prototipe: data simulasi"
+  PASS [Localhost Leak]: None detected in body
+
+CHECK ROUTE: /masuk (http://127.0.0.1:3120/masuk)
+  PASS [Status]: 200 OK (final URL: http://127.0.0.1:3120/masuk)
+  PASS [Set-Cookie]: None present
+  PASS [Prototype Notice]: Found "Prototipe: data simulasi"
+  PASS [Localhost Leak]: None detected in body
+
+CHECK ROUTE: /pod (http://127.0.0.1:3120/pod)
+  PASS [Status]: 200 OK (final URL: http://127.0.0.1:3120/pod)
+  PASS [Set-Cookie]: None present
+  PASS [Prototype Notice]: Found "Prototipe: data simulasi"
+  PASS [Localhost Leak]: None detected in body
+
+CHECK ROUTE: /pod?scenario=fallback (http://127.0.0.1:3120/pod?scenario=fallback)
+  PASS [Status]: 200 OK (final URL: http://127.0.0.1:3120/pod?scenario=fallback)
+  PASS [Set-Cookie]: None present
+  PASS [Prototype Notice]: Found "Prototipe: data simulasi"
+  PASS [Localhost Leak]: None detected in body
+
+CHECK ROUTE: /pod/pod-042 (http://127.0.0.1:3120/pod/pod-042)
+  PASS [Status]: 200 OK (final URL: http://127.0.0.1:3120/pod/pod-042)
+  PASS [Set-Cookie]: None present
+  PASS [Prototype Notice]: Found "Prototipe: data simulasi"
+  PASS [Localhost Leak]: None detected in body
+
+CHECK ROUTE: /pod/pod-042?demo=1 (http://127.0.0.1:3120/pod/pod-042?demo=1)
+  PASS [Status]: 200 OK (final URL: http://127.0.0.1:3120/pod/pod-042?demo=1)
+  PASS [Set-Cookie]: None present
+  PASS [Prototype Notice]: Found "Prototipe: data simulasi"
+  PASS [Localhost Leak]: None detected in body
+
+CHECK ROUTE: /pod/pod-042/selesai (http://127.0.0.1:3120/pod/pod-042/selesai)
+  PASS [Status]: 200 OK (final URL: http://127.0.0.1:3120/pod/pod-042/selesai)
+  PASS [Set-Cookie]: None present
+  PASS [Prototype Notice]: Found "Prototipe: data simulasi"
+  PASS [Localhost Leak]: None detected in body
+
+CHECK STATIC ASSETS: Sampled 17 of 17 discovered /_next/static assets
+  PASS [Asset]: 200 OK -> /_next/static/css/1af43c9bcd85dfc3.css
+  PASS [Asset]: 200 OK -> /_next/static/chunks/webpack-65258d822f28992e.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/bb05510b-ab7b10089d1752b7.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/154-54f2965205de9bae.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/main-app-cdd416cf3c648289.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/214-15e44d2a9f300b8f.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/690-6cbcad5e7f8276ce.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/app/masuk/page-39e500d5c50d9019.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/polyfills-42372ed130431b0a.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/499-547f0c23093ea055.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/app/pod/page-7483b43bb334d074.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/app/pod/%5BpodId%5D/error-489fd940fbd9e371.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/9b118287-7053fe231bf9784f.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/672-fabc5f8db3f05d33.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/120-e3e2b187572bbf3d.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/app/pod/%5BpodId%5D/page-d77bfc0b30e5b541.js
+  PASS [Asset]: 200 OK -> /_next/static/chunks/app/pod/%5BpodId%5D/selesai/page-08bd3deab6dc0e1a.js
+
+========================================
+ALL SMOKE CHECKS PASSED (7 routes + 17 static assets)
+========================================
+EXIT=0
