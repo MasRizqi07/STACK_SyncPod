@@ -1,0 +1,23 @@
+$ node scripts/check-proof-logs.mjs proof
+# cwd .
+# started 2026-11-19T13:14:57.758Z
+Scanning proof logs in: proof
+Audited 46 proof file(s).
+
+=== HISTORICAL / LEGACY VIOLATIONS REPORT (Informational — Do Not Rewrite History) ===
+  [LEGACY NUL_BYTE] proof/phase-1/build.log: File contains NUL (0x00) bytes (possible UTF-16 or binary corruption)
+  [LEGACY UTF16_BOM] proof/phase-1/build.log: File starts with UTF-16 Byte Order Mark (LE or BE)
+  [LEGACY INVALID_UTF8] proof/phase-1/build.log: Invalid UTF-8 encoding: The encoded data was not valid for encoding utf-8
+  [LEGACY NUL_BYTE] proof/phase-1/lint.log: File contains NUL (0x00) bytes (possible UTF-16 or binary corruption)
+  [LEGACY UTF16_BOM] proof/phase-1/lint.log: File starts with UTF-16 Byte Order Mark (LE or BE)
+  [LEGACY INVALID_UTF8] proof/phase-1/lint.log: Invalid UTF-8 encoding: The encoded data was not valid for encoding utf-8
+  [LEGACY NUL_BYTE] proof/phase-1/prisma.log: File contains NUL (0x00) bytes (possible UTF-16 or binary corruption)
+  [LEGACY UTF16_BOM] proof/phase-1/prisma.log: File starts with UTF-16 Byte Order Mark (LE or BE)
+  [LEGACY INVALID_UTF8] proof/phase-1/prisma.log: Invalid UTF-8 encoding: The encoded data was not valid for encoding utf-8
+  [LEGACY NUL_BYTE] proof/phase-1/typecheck.log: File contains NUL (0x00) bytes (possible UTF-16 or binary corruption)
+  [LEGACY UTF16_BOM] proof/phase-1/typecheck.log: File starts with UTF-16 Byte Order Mark (LE or BE)
+  [LEGACY INVALID_UTF8] proof/phase-1/typecheck.log: Invalid UTF-8 encoding: The encoded data was not valid for encoding utf-8
+Total historical legacy violations: 12
+
+PASS: All active proof logs conform to UTF-8 encoding, valid workspace dirs, and zero token leaks.
+EXIT=0

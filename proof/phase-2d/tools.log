@@ -1,32 +1,22 @@
 $ pnpm test:scripts
 # cwd .
-# started 2026-11-19T12:47:34.793Z
-Scope: all 5 workspace projects
-✓ Lockfile passes supply-chain policies (verified 8d ago)
-Lockfile is up to date, resolution step is skipped
-Packages: -7
--------
-.../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
-.../node_modules/@prisma/client postinstall$ node scripts/postinstall.js
-.../esbuild@0.28.2/node_modules/esbuild postinstall: Done
-.../node_modules/@prisma/client postinstall: Done
-Done in 4.6s using pnpm v12.8.1
+# started 2026-11-19T13:14:53.347Z
 $ node --test scripts/test/*.test.mjs
 ▶ proof-run: masking and formatting
-  ✔ masks Cookie and Set-Cookie headers while preserving attributes (1.6545ms)
-  ✔ masks JWT/JWE, GOCSPX, AIza, and *SECRET* assignments (0.1986ms)
-  ✔ formats log with command, cwd, started, output, and EXIT code (0.2187ms)
-✔ proof-run: masking and formatting (3.1308ms)
+  ✔ masks Cookie and Set-Cookie headers while preserving attributes (1.0098ms)
+  ✔ masks JWT/JWE, GOCSPX, AIza, and *SECRET* assignments (0.125ms)
+  ✔ formats log with command, cwd, started, output, and EXIT code (0.1715ms)
+✔ proof-run: masking and formatting (2.0017ms)
 ▶ check-proof-logs: verification and fixture detection
-  ✔ detects intentionally invalid packages/realtime directory (P0 fixture check) (0.9684ms)
-  ✔ detects NUL bytes and UTF-16 BOM corruption (0.255ms)
-  ✔ detects unredacted JWT tokens in logs (0.1479ms)
-✔ check-proof-logs: verification and fixture detection (1.6662ms)
+  ✔ detects intentionally invalid packages/realtime directory (P0 fixture check) (0.788ms)
+  ✔ detects NUL bytes and UTF-16 BOM corruption (0.1883ms)
+  ✔ detects unredacted JWT tokens in logs (0.1154ms)
+✔ check-proof-logs: verification and fixture detection (1.2843ms)
 Cookie: session=[REDACTED]
 Done
 ▶ proof-run: execution end-to-end
-  ✔ executes command and writes masked log to disk (87.1432ms)
-✔ proof-run: execution end-to-end (87.5318ms)
+  ✔ executes command and writes masked log to disk (71.2277ms)
+✔ proof-run: execution end-to-end (71.5671ms)
 ℹ tests 7
 ℹ suites 3
 ℹ pass 7
@@ -34,5 +24,5 @@ Done
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 180.4443
+ℹ duration_ms 141.3366
 EXIT=0
