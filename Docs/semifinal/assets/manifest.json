@@ -1,0 +1,373 @@
+{
+  "generatedAt": "2026-11-19T12:58:57.211Z",
+  "gitSha": "28256cababbb0be35119ce1f4bcdd82658f63a86",
+  "totalFiles": 28,
+  "totalSizeBytes": 2708413,
+  "totalSizeMB": 2.58,
+  "assets": [
+    {
+      "file": "desktop-01-masuk.png",
+      "state": "Masuk",
+      "id": "01-masuk",
+      "route": "/masuk",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 56539
+    },
+    {
+      "file": "mobile-01-masuk.png",
+      "state": "Masuk",
+      "id": "01-masuk",
+      "route": "/masuk",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 97942
+    },
+    {
+      "file": "desktop-02-matchmaking-idle.png",
+      "state": "Matchmaking idle",
+      "id": "02-matchmaking-idle",
+      "route": "/pod",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 90558
+    },
+    {
+      "file": "mobile-02-matchmaking-idle.png",
+      "state": "Matchmaking idle",
+      "id": "02-matchmaking-idle",
+      "route": "/pod",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 129061
+    },
+    {
+      "file": "desktop-03-radar-1-of-4.png",
+      "state": "Radar 1/4",
+      "id": "03-radar-1-of-4",
+      "route": "/pod",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 94243
+    },
+    {
+      "file": "mobile-03-radar-1-of-4.png",
+      "state": "Radar 1/4",
+      "id": "03-radar-1-of-4",
+      "route": "/pod",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 86523
+    },
+    {
+      "file": "desktop-04-radar-3-of-4.png",
+      "state": "Radar 3/4",
+      "id": "04-radar-3-of-4",
+      "route": "/pod",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 96632
+    },
+    {
+      "file": "mobile-04-radar-3-of-4.png",
+      "state": "Radar 3/4",
+      "id": "04-radar-3-of-4",
+      "route": "/pod",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 90423
+    },
+    {
+      "file": "desktop-05-tawaran-bertiga.png",
+      "state": "Tawaran bertiga",
+      "id": "05-tawaran-bertiga",
+      "route": "/pod?scenario=fallback",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 92449
+    },
+    {
+      "file": "mobile-05-tawaran-bertiga.png",
+      "state": "Tawaran bertiga",
+      "id": "05-tawaran-bertiga",
+      "route": "/pod?scenario=fallback",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 85781
+    },
+    {
+      "file": "desktop-06-pod-ditemukan.png",
+      "state": "Pod ditemukan",
+      "id": "06-pod-ditemukan",
+      "route": "/pod",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 91135
+    },
+    {
+      "file": "mobile-06-pod-ditemukan.png",
+      "state": "Pod ditemukan",
+      "id": "06-pod-ditemukan",
+      "route": "/pod",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 81560
+    },
+    {
+      "file": "desktop-07-cockpit-lobby.png",
+      "state": "Cockpit LOBBY",
+      "id": "07-cockpit-lobby",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 111562
+    },
+    {
+      "file": "mobile-07-cockpit-lobby.png",
+      "state": "Cockpit LOBBY",
+      "id": "07-cockpit-lobby",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 79580
+    },
+    {
+      "file": "desktop-08-cockpit-focus.png",
+      "state": "Cockpit FOCUS tengah",
+      "id": "08-cockpit-focus",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 112757
+    },
+    {
+      "file": "mobile-08-cockpit-focus.png",
+      "state": "Cockpit FOCUS tengah",
+      "id": "08-cockpit-focus",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 79757
+    },
+    {
+      "file": "desktop-09-cockpit-last60s.png",
+      "state": "Cockpit 60s terakhir",
+      "id": "09-cockpit-last60s",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 112614
+    },
+    {
+      "file": "mobile-09-cockpit-last60s.png",
+      "state": "Cockpit 60s terakhir",
+      "id": "09-cockpit-last60s",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 80275
+    },
+    {
+      "file": "desktop-10-cockpit-break.png",
+      "state": "Cockpit BREAK",
+      "id": "10-cockpit-break",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 112479
+    },
+    {
+      "file": "mobile-10-cockpit-break.png",
+      "state": "Cockpit BREAK",
+      "id": "10-cockpit-break",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 78886
+    },
+    {
+      "file": "desktop-11-pemandu-sokratik.png",
+      "state": "Pemandu Sokratik",
+      "id": "11-pemandu-sokratik",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 112223
+    },
+    {
+      "file": "mobile-11-pemandu-sokratik.png",
+      "state": "Pemandu Sokratik",
+      "id": "11-pemandu-sokratik",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 116045
+    },
+    {
+      "file": "desktop-12-drawer-tablet.png",
+      "state": "Drawer tablet",
+      "id": "12-drawer-tablet",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 82085
+    },
+    {
+      "file": "mobile-12-drawer-tablet.png",
+      "state": "Drawer tablet",
+      "id": "12-drawer-tablet",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 116045
+    },
+    {
+      "file": "desktop-13-ringkasan-pertanyaan.png",
+      "state": "Ringkasan dengan pertanyaan",
+      "id": "13-ringkasan-pertanyaan",
+      "route": "/pod/pod-042/selesai",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 80979
+    },
+    {
+      "file": "mobile-13-ringkasan-pertanyaan.png",
+      "state": "Ringkasan dengan pertanyaan",
+      "id": "13-ringkasan-pertanyaan",
+      "route": "/pod/pod-042/selesai",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 135092
+    },
+    {
+      "file": "desktop-14-connection-banner.png",
+      "state": "ConnectionBanner",
+      "id": "14-connection-banner",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "deviceScaleFactor": 1,
+        "mobile": false
+      },
+      "sizeBytes": 116330
+    },
+    {
+      "file": "mobile-14-connection-banner.png",
+      "state": "ConnectionBanner",
+      "id": "14-connection-banner",
+      "route": "/pod/pod-042",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "deviceScaleFactor": 2,
+        "mobile": true
+      },
+      "sizeBytes": 88858
+    }
+  ]
+}
