@@ -1,6 +1,7 @@
-import { spawn } from 'node:child_process';
+import { spawn, execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { maskSensitiveData } from './proof-run.mjs';
 
@@ -9,7 +10,9 @@ const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..');
 
 function loadEnv() {
-  const envContent = fs.readFileSync(path.join(REPO_ROOT, '.env'), 'utf8');
+  const envPath = path.join(REPO_ROOT, '.env');
+  if (!fs.existsSync(envPath)) return {};
+  const envContent = fs.readFileSync(envPath, 'utf8');
   const envVars = {};
   for (const line of envContent.split('\n')) {
     const trimmed = line.trim();
@@ -23,6 +26,19 @@ function loadEnv() {
     }
   }
   return envVars;
+}
+
+function getLanIp() {
+  if (process.env.LAN_IP) return process.env.LAN_IP;
+  const interfaces = os.networkInterfaces();
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name] || []) {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        return iface.address;
+      }
+    }
+  }
+  return '127.0.0.1';
 }
 
 async function waitForServer(url, timeoutMs = 20000) {
@@ -41,8 +57,8 @@ async function waitForServer(url, timeoutMs = 20000) {
 
 async function main() {
   const baseEnv = loadEnv();
-  const PORT = 3198;
-  const LAN_IP = '10.26.56.86';
+  const PORT = Number(process.env.PORT || 3198);
+  const LAN_IP = getLanIp();
 
   const serverEnv = {
     ...process.env,
@@ -51,7 +67,9 @@ async function main() {
     ALLOW_DEMO_IN_PROD: 'true',
     DEMO_MODE: 'true',
     PORT: String(PORT),
-    AUTH_SECRET: 'syncpod-dev-secret-auth-32bytes-syncpod!!',
+    AUTH_SECRET: process.env.AUTH_SECRET || 'syncpod-dev-secret-auth-32bytes-syncpod!!',
+    REALTIME_JWT_SECRET: process.env.REALTIME_JWT_SECRET || 'syncpod-dev-secret-realtime-32bytes!',
+    DATABASE_URL: process.env.DATABASE_URL || 'postgresql://syncpod:syncpod@localhost:5433/syncpod?schema=public',
   };
 
   console.log(`Starting Next.js production server on 0.0.0.0:${PORT}...`);

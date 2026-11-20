@@ -18,6 +18,8 @@ describe('safeCallbackPath (D38, 3.6)', () => {
     { input: 'data:text/html;base64,123', expected: null, desc: 'data pseudo-protocol' },
     { input: '%2F%2Fevil.com', expected: null, desc: 'encoded protocol-relative' },
     { input: '/pod/%5Cevil.com', expected: null, desc: 'encoded backslash' },
+    { input: '/pod/\\evil.com', expected: null, desc: 'backslash immediately after /pod/' },
+    { input: '/pod/%E0%A4', expected: null, desc: 'malformed URI decoding' },
     { input: '/pod/../admin', expected: null, desc: 'relative path traversal with ..' },
     { input: '/pod/%2e%2e/secret', expected: null, desc: 'encoded path traversal' },
     { input: '/masuk', expected: null, desc: 'different path (/masuk)' },

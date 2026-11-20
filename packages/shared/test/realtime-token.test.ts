@@ -52,6 +52,19 @@ describe('realtime token sign & verify table-driven suite (3.7, D39)', () => {
     });
   });
 
+  it('2b. clock tolerance: allows token within 5s clock tolerance window (nowSec + 303s)', async () => {
+    const signed = await signRealtimeToken({
+      userId: 'user-demo-1',
+      secret: VALID_SECRET,
+      nowSec,
+    });
+
+    const verified = await verifyRealtimeToken(signed.token, VALID_SECRET, {
+      currentDate: new Date((nowSec + 303) * 1000), // 303s <= 300s + 5s
+    });
+    expect(verified.userId).toBe('user-demo-1');
+  });
+
   it('3. wrong secret: rejects token signed with one secret and verified with another', async () => {
     const signed = await signRealtimeToken({
       userId: 'user-demo-1',
@@ -231,5 +244,14 @@ describe('realtime token sign & verify table-driven suite (3.7, D39)', () => {
       name: 'RealtimeTokenError',
       code: 'INVALID_SECRET',
     });
+  });
+
+  it('12. empty token string: rejects empty or whitespace token', async () => {
+    await expect(verifyRealtimeToken('', VALID_SECRET)).rejects.toThrowError(
+      'Realtime token is missing or empty',
+    );
+    await expect(verifyRealtimeToken('   ', VALID_SECRET)).rejects.toThrowError(
+      'Realtime token is missing or empty',
+    );
   });
 });

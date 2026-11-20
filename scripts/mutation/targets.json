@@ -1,0 +1,227 @@
+[
+  {
+    "module": "auth-policy",
+    "file": "apps/web/src/lib/auth-policy.ts",
+    "testCommand": "pnpm --filter @syncpod/web test test/auth.test.ts",
+    "behaviors": [
+      "Demo account authorization allowlist",
+      "Bot account exclusion & domain matching",
+      "Google OAuth verified email enforcement",
+      "Google OAuth domain allowlist restrictions"
+    ],
+    "mutants": [
+      {
+        "id": "mutant-1-bot-domain",
+        "description": "Bypass bot domain check by replacing endsWith(@bot.syncpod.local) with false",
+        "find": "normalized.endsWith('@bot.syncpod.local')",
+        "replace": "false"
+      },
+      {
+        "id": "mutant-2-bot-prefix",
+        "description": "Bypass bot username prefix check by replacing startsWith('simulasi-') with false",
+        "find": "normalized.startsWith('simulasi-')",
+        "replace": "false"
+      },
+      {
+        "id": "mutant-3-demo-allowlist",
+        "description": "Invert demo login email check to reject all demo accounts",
+        "find": "return DEMO_EMAIL_SET.has(normalized);",
+        "replace": "return false;"
+      },
+      {
+        "id": "mutant-4-google-unverified",
+        "description": "Invert verified email enforcement to reject verified accounts and allow unverified accounts",
+        "find": "if (emailVerified !== true)",
+        "replace": "if (emailVerified === true)"
+      },
+      {
+        "id": "mutant-5-google-domain-whitelist",
+        "description": "Invert domain whitelist checking in Google sign-in",
+        "find": "return allowedDomains.includes(domain);",
+        "replace": "return !allowedDomains.includes(domain);"
+      },
+      {
+        "id": "mutant-6-google-empty-allowlist",
+        "description": "Reject sign-ins when allowed domains list is empty instead of allowing any verified Google user",
+        "find": "if (!allowedDomains || allowedDomains.length === 0) {\n    return true;\n  }",
+        "replace": "if (!allowedDomains || allowedDomains.length === 0) {\n    return false;\n  }"
+      }
+    ]
+  },
+  {
+    "module": "safeCallbackPath",
+    "file": "apps/web/src/lib/callback-url.ts",
+    "testCommand": "pnpm --filter @syncpod/web test test/callback-path.test.ts",
+    "behaviors": [
+      "Reject backslashes and encoded backslashes within/after /pod",
+      "Reject directory traversals (.. and %2e%2e)",
+      "Strict /pod path boundary prefix requirement",
+      "Reject non-string types",
+      "Reject malformed URI encoding"
+    ],
+    "mutants": [
+      {
+        "id": "mutant-1-no-backslash-check",
+        "description": "Remove backslash character rejection check",
+        "find": "decoded.includes('\\\\')",
+        "replace": "false"
+      },
+      {
+        "id": "mutant-2-no-traversal-check",
+        "description": "Remove path traversal dot-dot check",
+        "find": "/(^|\\/)\\.\\.(\\/|$)/.test(decoded) || decoded.includes('..')",
+        "replace": "false"
+      },
+      {
+        "id": "mutant-3-invert-pod-prefix",
+        "description": "Invert /pod prefix requirement",
+        "find": "if (!/^\\/pod(\\/|\\?|$)/.test(decoded))",
+        "replace": "if (/^\\/pod(\\/|\\?|$)/.test(decoded))"
+      },
+      {
+        "id": "mutant-4-bypass-type-check",
+        "description": "Bypass input type check (allow non-string inputs)",
+        "find": "if (typeof input !== 'string')",
+        "replace": "if (false)"
+      },
+      {
+        "id": "mutant-5-bypass-malformed-encoding",
+        "description": "Allow malformed URI encoding to return trimmed string instead of null",
+        "find": "// Malformed URI encoding\n    return null;",
+        "replace": "return trimmed;"
+      }
+    ]
+  },
+  {
+    "module": "verifyRealtimeToken",
+    "file": "packages/shared/src/server/realtime-token.ts",
+    "testCommand": "pnpm --filter @syncpod/shared test test/realtime-token.test.ts",
+    "behaviors": [
+      "Signature verification with HS256",
+      "Clock tolerance <= 5 seconds (allows within 5s, rejects past 5s)",
+      "Enforce maximum token lifetime <= 600s",
+      "Reject malformed or empty tokens with specific message",
+      "Enforce issuer and audience match"
+    ],
+    "mutants": [
+      {
+        "id": "mutant-1-remove-max-ttl-check",
+        "description": "Disable maximum token TTL check (600 seconds)",
+        "find": "if (payload.exp - payload.iat > REALTIME_TOKEN_MAX_TTL_SEC)",
+        "replace": "if (false)"
+      },
+      {
+        "id": "mutant-2-invert-max-ttl-operator",
+        "description": "Invert comparison operator on maximum token TTL",
+        "find": "payload.exp - payload.iat > REALTIME_TOKEN_MAX_TTL_SEC",
+        "replace": "payload.exp - payload.iat < REALTIME_TOKEN_MAX_TTL_SEC"
+      },
+      {
+        "id": "mutant-3-change-clock-tolerance",
+        "description": "Change clock tolerance from 5s to 0s breaking borderline valid requests",
+        "find": "clockTolerance: 5,",
+        "replace": "clockTolerance: 0,"
+      },
+      {
+        "id": "mutant-4-corrupt-issuer",
+        "description": "Change expected issuer from syncpod-web to incorrect string",
+        "find": "issuer: REALTIME_TOKEN_ISSUER,",
+        "replace": "issuer: 'syncpod-invalid-issuer',"
+      },
+      {
+        "id": "mutant-5-corrupt-audience",
+        "description": "Change expected audience from syncpod-realtime to incorrect string",
+        "find": "audience: REALTIME_TOKEN_AUDIENCE,",
+        "replace": "audience: 'syncpod-invalid-audience',"
+      }
+    ]
+  },
+  {
+    "module": "assertPodMember / assertPodLeader",
+    "file": "packages/db/src/authz.ts",
+    "testCommand": "pnpm --filter @syncpod/db test test/authz.test.ts",
+    "behaviors": [
+      "Assert user is member of pod in either parameter order",
+      "Assert user is leader of pod",
+      "Throw FORBIDDEN when member is not leader",
+      "Throw NOT_A_MEMBER when user is not enrolled in pod",
+      "Throw POD_NOT_FOUND when pod does not exist"
+    ],
+    "mutants": [
+      {
+        "id": "mutant-1-bypass-leader-role-check",
+        "description": "Bypass leader role check in assertPodLeader",
+        "find": "if (membership.role !== 'LEADER')",
+        "replace": "if (false)"
+      },
+      {
+        "id": "mutant-2-invert-leader-role-check",
+        "description": "Invert leader role check to require non-leader",
+        "find": "membership.role !== 'LEADER'",
+        "replace": "membership.role === 'LEADER'"
+      },
+      {
+        "id": "mutant-3-wrong-leader-error-code",
+        "description": "Change assertPodLeader rejection code from FORBIDDEN to NOT_A_MEMBER",
+        "find": "throw new AuthzError(\n      'FORBIDDEN',",
+        "replace": "throw new AuthzError(\n      'NOT_A_MEMBER',"
+      },
+      {
+        "id": "mutant-4-wrong-non-member-error-code",
+        "description": "Change assertPodMember non-member error code from NOT_A_MEMBER to FORBIDDEN",
+        "find": "throw new AuthzError('NOT_A_MEMBER', `User ${second}",
+        "replace": "throw new AuthzError('FORBIDDEN', `User ${second}"
+      },
+      {
+        "id": "mutant-5-wrong-pod-not-found-error-code",
+        "description": "Change pod not found error code from POD_NOT_FOUND to FORBIDDEN",
+        "find": "throw new AuthzError('POD_NOT_FOUND', `Pod ${first} not found`);",
+        "replace": "throw new AuthzError('FORBIDDEN', `Pod ${first} not found`);"
+      }
+    ]
+  },
+  {
+    "module": "env-schema-refinement",
+    "file": "apps/web/src/env.ts",
+    "testCommand": "pnpm --filter @syncpod/web test test/env.test.ts",
+    "behaviors": [
+      "Forbid DEMO_MODE in production without ALLOW_DEMO_IN_PROD",
+      "Enforce Google OAuth ID and secret parity",
+      "Require DATABASE_URL in real mode",
+      "Enforce minimum 32 chars for AUTH_SECRET",
+      "Enforce minimum 32 chars for REALTIME_JWT_SECRET"
+    ],
+    "mutants": [
+      {
+        "id": "mutant-1-allow-demo-in-prod-unconditionally",
+        "description": "Remove ALLOW_DEMO_IN_PROD check allowing demo mode in prod unconditionally",
+        "find": "env.ALLOW_DEMO_IN_PROD !== 'true'",
+        "replace": "false"
+      },
+      {
+        "id": "mutant-2-remove-google-parity-check",
+        "description": "Remove Google OAuth credentials parity check",
+        "find": "if (hasGoogleId !== hasGoogleSecret)",
+        "replace": "if (false)"
+      },
+      {
+        "id": "mutant-3-remove-database-url-check",
+        "description": "Remove real mode DATABASE_URL requirement check",
+        "find": "if (!env.DATABASE_URL || env.DATABASE_URL.trim().length === 0)",
+        "replace": "if (false)"
+      },
+      {
+        "id": "mutant-4-reduce-auth-secret-min-length",
+        "description": "Reduce AUTH_SECRET minimum length from 32 to 10 characters",
+        "find": "env.AUTH_SECRET.trim().length < 32",
+        "replace": "env.AUTH_SECRET.trim().length < 10"
+      },
+      {
+        "id": "mutant-5-remove-realtime-jwt-secret-check",
+        "description": "Remove REALTIME_JWT_SECRET requirement check in real mode",
+        "find": "if (!env.REALTIME_JWT_SECRET || env.REALTIME_JWT_SECRET.trim().length < 32)",
+        "replace": "if (false)"
+      }
+    ]
+  }
+]

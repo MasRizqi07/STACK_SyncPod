@@ -31,19 +31,23 @@ function walkFiles(dir, out = []) {
   return out;
 }
 
-console.log('=== Step 1: Building web app in fake prototype mode (NEXT_PUBLIC_REALTIME_MODE=fake) ===');
-execSync('pnpm --filter @syncpod/web build', {
-  cwd: REPO_ROOT,
-  encoding: 'utf8',
-  env: {
-    ...process.env,
-    NODE_ENV: 'production',
-    NEXT_PUBLIC_REALTIME_MODE: 'fake',
-    DEMO_MODE: 'false',
-    NO_COLOR: '1',
-  },
-  stdio: 'inherit',
-});
+if (process.env.SKIP_BUILD === '1') {
+  console.log('=== Step 1: Skipping build (SKIP_BUILD=1 specified) ===');
+} else {
+  console.log('=== Step 1: Building web app in fake prototype mode (NEXT_PUBLIC_REALTIME_MODE=fake) ===');
+  execSync('pnpm --filter @syncpod/web build', {
+    cwd: REPO_ROOT,
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      NODE_ENV: 'production',
+      NEXT_PUBLIC_REALTIME_MODE: 'fake',
+      DEMO_MODE: 'false',
+      NO_COLOR: '1',
+    },
+    stdio: 'inherit',
+  });
+}
 
 console.log('\n=== Step 2: Scanning client static bundles (.next/static) for forbidden auth/db/jose symbols ===');
 const staticDir = path.join(REPO_ROOT, 'apps', 'web', '.next', 'static');

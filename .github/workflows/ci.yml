@@ -98,5 +98,134 @@ jobs:
 
       - name: Prototype Build Gate (D30)
         run: pnpm build:prototype
+
+  real-mode-matrix:
+    name: Real Mode Security Matrix (C3, D38, D39, D40)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgres:16-alpine
         env:
-          NEXT_PUBLIC_REALTIME_MODE: fake
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: syncpod
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://postgres:password@localhost:5432/syncpod
+      NEXT_TELEMETRY_DISABLED: '1'
+      NO_COLOR: '1'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Setup Node.js (.nvmrc)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install workspace dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: pnpm --filter @syncpod/db db:generate
+
+      - name: Setup Database, Migrate and Seed
+        run: |
+          docker exec ${{ job.services.postgres.id }} psql -U postgres -d syncpod -c "CREATE DATABASE syncpod_test;" || true
+          pnpm db:migrate
+          pnpm db:seed
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/syncpod
+
+      - name: Generate Random Runtime Secrets (No Secrets in Repo)
+        id: secrets
+        run: |
+          AUTH_SEC=$(openssl rand -hex 32)
+          RT_SEC=$(openssl rand -hex 32)
+          echo "auth_secret=${AUTH_SEC}" >> "$GITHUB_OUTPUT"
+          echo "realtime_jwt_secret=${RT_SEC}" >> "$GITHUB_OUTPUT"
+
+      - name: Build Web App in Real Mode
+        run: pnpm --filter @syncpod/web build
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_REALTIME_MODE: real
+          DEMO_MODE: 'true'
+          ALLOW_DEMO_IN_PROD: 'true'
+          AUTH_SECRET: ${{ steps.secrets.outputs.auth_secret }}
+          REALTIME_JWT_SECRET: ${{ steps.secrets.outputs.realtime_jwt_secret }}
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/syncpod
+
+      - name: Run Real-Mode Security Verification Matrix
+        run: |
+          node scripts/proof-run.mjs ci-real-matrix verify-redirect-real -- node scripts/verify-redirect-real.mjs
+          node scripts/proof-run.mjs ci-real-matrix verify-protocol-cookies -- node scripts/verify-protocol-cookies.mjs
+          node scripts/proof-run.mjs ci-real-matrix verify-realtime-token-endpoint -- node scripts/verify-realtime-token-endpoint.mjs
+          node scripts/proof-run.mjs ci-real-matrix auth-matrix -- node scripts/verify-auth-matrix.mjs
+          node scripts/proof-run.mjs ci-real-matrix check-bundle-secrets -- node scripts/check-bundle-secrets.mjs
+          node scripts/proof-run.mjs ci-real-matrix check-env-reads -- node scripts/check-env-reads.mjs
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_REALTIME_MODE: real
+          DEMO_MODE: 'true'
+          ALLOW_DEMO_IN_PROD: 'true'
+          AUTH_SECRET: ${{ steps.secrets.outputs.auth_secret }}
+          REALTIME_JWT_SECRET: ${{ steps.secrets.outputs.realtime_jwt_secret }}
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/syncpod
+
+      - name: Validate CI Proof Logs
+        run: node scripts/check-proof-logs.mjs proof/ci-real-matrix
+
+      - name: Upload Security Proof Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-proofs-ci
+          path: proof/ci-real-matrix/
+
+  fake-bundle:
+    name: Fake Prototype Bundle Gate (Zero Secrets, D40)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Setup Node.js (.nvmrc)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install workspace dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Fake Prototype (Zero Env Vars)
+        run: pnpm build:prototype
+
+      - name: Verify Client Static Bundles Free of Server/Auth Code
+        run: node scripts/check-fake-bundle.mjs
+        env:
+          SKIP_BUILD: '1'

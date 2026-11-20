@@ -9,8 +9,9 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 
 const PORT = 3134;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
-const AUTH_SECRET = 'super-secret-auth-key-32-chars-min!!';
-const REALTIME_JWT_SECRET = 'different-realtime-jwt-secret-32-chars!';
+const AUTH_SECRET = process.env.AUTH_SECRET || 'super-secret-auth-key-32-chars-min!!';
+const REALTIME_JWT_SECRET = process.env.REALTIME_JWT_SECRET || 'different-realtime-jwt-secret-32-chars!';
+const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://syncpod:syncpod@localhost:5433/syncpod?schema=public';
 
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -44,7 +45,7 @@ async function main() {
         ALLOW_DEMO_IN_PROD: 'true',
         AUTH_SECRET,
         REALTIME_JWT_SECRET,
-        DATABASE_URL: 'postgresql://syncpod:syncpod@localhost:5433/syncpod?schema=public',
+        DATABASE_URL,
         NO_COLOR: '1',
       },
       stdio: ['ignore', 'pipe', 'pipe'],

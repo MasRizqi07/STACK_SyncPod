@@ -55,6 +55,7 @@ describe('Auth policy and configuration (X3, D33, D34)', () => {
       { email: 'SIMULASI-1@BOT.SYNCPOD.LOCAL', expected: true, desc: 'uppercase bot' },
       { email: '  simulasi-2@bot.syncpod.local  ', expected: true, desc: 'trimmed bot' },
       { email: 'simulasi-99@bot.syncpod.local', expected: true, desc: 'bot domain' },
+      { email: 'custom-bot@bot.syncpod.local', expected: true, desc: 'bot domain without simulasi prefix' },
       { email: 'simulasi-other@example.com', expected: true, desc: 'simulasi prefix' },
       { email: 'demo-1@demo.syncpod.local', expected: false, desc: 'demo account is not bot' },
       { email: 'student@itats.ac.id', expected: false, desc: 'student is not bot' },

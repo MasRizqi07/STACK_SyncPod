@@ -14,16 +14,6 @@ export function safeCallbackPath(input: unknown): string | null {
     return null;
   }
 
-  // Reject immediately if it has an absolute scheme (e.g. https://, http://, javascript:, data:)
-  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(trimmed)) {
-    return null;
-  }
-
-  // Reject backslashes or protocol-relative slashes
-  if (trimmed.startsWith('//') || trimmed.startsWith('/\\') || trimmed.includes('\\')) {
-    return null;
-  }
-
   // Check URL decoding to catch %2f%2f, %5c, %2e%2e, etc.
   let decoded = trimmed;
   try {
@@ -33,12 +23,13 @@ export function safeCallbackPath(input: unknown): string | null {
     return null;
   }
 
-  if (
-    decoded.startsWith('//') ||
-    decoded.startsWith('/\\') ||
-    decoded.includes('\\') ||
-    /^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(decoded)
-  ) {
+  // Reject backslashes or protocol-relative slashes
+  if (decoded.startsWith('//') || decoded.startsWith('/\\') || decoded.includes('\\')) {
+    return null;
+  }
+
+  // Reject absolute schemes (https:, javascript:, data:, etc.)
+  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(decoded)) {
     return null;
   }
 

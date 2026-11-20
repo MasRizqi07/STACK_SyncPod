@@ -35,6 +35,19 @@ describe('web env fail-fast validation (3.9, D40)', () => {
     ).toThrow(/REALTIME_JWT_SECRET/);
   });
 
+  it('requires DATABASE_URL in real mode', () => {
+    expect(() =>
+      validateWebEnv({
+        ...VALID_REAL_ENV,
+        DATABASE_URL: '',
+      }),
+    ).toThrow(/DATABASE_URL/);
+
+    const envWithoutDb = { ...VALID_REAL_ENV };
+    delete (envWithoutDb as { DATABASE_URL?: string }).DATABASE_URL;
+    expect(() => validateWebEnv(envWithoutDb)).toThrow(/DATABASE_URL/);
+  });
+
   it('rejects identical AUTH_SECRET and REALTIME_JWT_SECRET (D39, D40)', () => {
     const identicalSecret = 'same-shared-secret-32-bytes-should-fail!';
     expect(() =>
