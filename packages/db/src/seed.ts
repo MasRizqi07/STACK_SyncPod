@@ -1,46 +1,8 @@
-import { MODULE_CATALOG } from '@syncpod/shared';
+import { MODULE_CATALOG, DEMO_ACCOUNTS, BOT_ACCOUNTS } from '@syncpod/shared';
 import { db } from './index.js';
 
-export const DEMO_USERS = [
-  {
-    email: 'demo-1@demo.syncpod.local',
-    name: 'Rizqi Pratama',
-    universityName: 'Institut Teknologi Adhi Tama Surabaya',
-  },
-  {
-    email: 'demo-2@demo.syncpod.local',
-    name: 'Rifqi Hidayat',
-    universityName: 'Institut Teknologi Adhi Tama Surabaya',
-  },
-  {
-    email: 'demo-3@demo.syncpod.local',
-    name: 'Farhan Ramadhan',
-    universityName: 'Institut Teknologi Adhi Tama Surabaya',
-  },
-  {
-    email: 'demo-4@demo.syncpod.local',
-    name: 'Rivan Alamsyah',
-    universityName: 'Institut Teknologi Adhi Tama Surabaya',
-  },
-] as const;
-
-export const BOT_USERS = [
-  {
-    email: 'simulasi-1@bot.syncpod.local',
-    name: 'Simulasi 1 (Bot)',
-    universityName: 'Institut Teknologi Adhi Tama Surabaya',
-  },
-  {
-    email: 'simulasi-2@bot.syncpod.local',
-    name: 'Simulasi 2 (Bot)',
-    universityName: 'Institut Teknologi Adhi Tama Surabaya',
-  },
-  {
-    email: 'simulasi-3@bot.syncpod.local',
-    name: 'Simulasi 3 (Bot)',
-    universityName: 'Institut Teknologi Adhi Tama Surabaya',
-  },
-] as const;
+export const DEMO_USERS = DEMO_ACCOUNTS;
+export const BOT_USERS = BOT_ACCOUNTS;
 
 export async function seed(): Promise<{
   courses: number;
