@@ -2,6 +2,7 @@ import { MatchmakingShell } from '@/components/matchmaking';
 import { requireSession } from '@/lib/session';
 import { signOut } from '@/auth';
 import { COPY } from '@/copy';
+import { getEnv } from '@/env';
 
 export const dynamic = 'force-dynamic';
 
@@ -64,6 +65,6 @@ export default async function MatchmakingPage() {
     );
   }
 
-  const demoModeEnabled = process.env.DEMO_MODE === 'true';
+  const demoModeEnabled = getEnv().DEMO_MODE === 'true';
   return <MatchmakingShell demoModeEnabled={demoModeEnabled} />;
 }

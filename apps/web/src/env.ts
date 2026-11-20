@@ -1,4 +1,4 @@
-import { z } from '@syncpod/shared';
+import { z } from 'zod';
 
 const booleanFlag = z.enum(['true', 'false']).default('false');
 
@@ -14,6 +14,7 @@ export const webEnvSchema = z
     REALTIME_JWT_SECRET: z.string().optional(),
     AUTH_GOOGLE_ID: z.string().optional(),
     AUTH_GOOGLE_SECRET: z.string().optional(),
+    AUTH_URL: z.string().url().optional(),
     ALLOWED_EMAIL_DOMAINS: z.string().optional(),
     APP_TIMEZONE: z.string().min(1).default('Asia/Jakarta'),
   })
@@ -27,7 +28,17 @@ export const webEnvSchema = z
         code: z.ZodIssueCode.custom,
         path: ['DEMO_MODE'],
         message:
-          'DEMO_MODE=true is forbidden when NODE_ENV=production unless ALLOW_DEMO_IN_PROD=true is explicitly set',
+          'DEMO_MODE=true is forbidden in production unless ALLOW_DEMO_IN_PROD=true is explicitly set',
+      });
+    }
+
+    const hasGoogleId = Boolean(env.AUTH_GOOGLE_ID?.trim());
+    const hasGoogleSecret = Boolean(env.AUTH_GOOGLE_SECRET?.trim());
+    if (hasGoogleId !== hasGoogleSecret) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: [hasGoogleId ? 'AUTH_GOOGLE_SECRET' : 'AUTH_GOOGLE_ID'],
+        message: 'AUTH_GOOGLE_ID and AUTH_GOOGLE_SECRET must both be present or both absent',
       });
     }
 
@@ -39,18 +50,29 @@ export const webEnvSchema = z
           message: 'DATABASE_URL is required in real mode',
         });
       }
-      if (!env.AUTH_SECRET || env.AUTH_SECRET.trim().length < 16) {
+      if (!env.AUTH_SECRET || env.AUTH_SECRET.trim().length < 32) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ['AUTH_SECRET'],
-          message: 'AUTH_SECRET must be at least 16 characters in real mode',
+          message: 'AUTH_SECRET must be at least 32 characters in real mode',
         });
       }
-      if (!env.REALTIME_JWT_SECRET || env.REALTIME_JWT_SECRET.trim().length < 16) {
+      if (!env.REALTIME_JWT_SECRET || env.REALTIME_JWT_SECRET.trim().length < 32) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ['REALTIME_JWT_SECRET'],
-          message: 'REALTIME_JWT_SECRET must be at least 16 characters in real mode',
+          message: 'REALTIME_JWT_SECRET must be at least 32 characters in real mode',
+        });
+      }
+      if (
+        env.AUTH_SECRET &&
+        env.REALTIME_JWT_SECRET &&
+        env.AUTH_SECRET.trim() === env.REALTIME_JWT_SECRET.trim()
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['REALTIME_JWT_SECRET'],
+          message: 'REALTIME_JWT_SECRET must not be identical to AUTH_SECRET',
         });
       }
     }
@@ -67,4 +89,17 @@ export function validateWebEnv(raw: Record<string, string | undefined> = process
     throw new Error(`Invalid web environment configuration: ${details}`);
   }
   return result.data;
+}
+
+let memoizedWebEnv: WebEnv | null = null;
+
+export function getEnv(): WebEnv {
+  if (!memoizedWebEnv) {
+    memoizedWebEnv = validateWebEnv();
+  }
+  return memoizedWebEnv;
+}
+
+export function resetEnvCache(): void {
+  memoizedWebEnv = null;
 }

@@ -2,9 +2,10 @@ import { NextResponse } from 'next/server';
 import { db } from '@syncpod/db';
 import { signIn } from '@/auth';
 import { isBotEmail, isDemoLoginEmail } from '@/lib/auth-policy';
+import { getEnv } from '@/env';
 
 export async function POST(request: Request) {
-  if (process.env.DEMO_MODE !== 'true') {
+  if (getEnv().DEMO_MODE !== 'true') {
     return NextResponse.json(
       { error: { code: 'FORBIDDEN', message: 'Demo mode is disabled' } },
       { status: 403 },
@@ -64,24 +65,39 @@ export async function POST(request: Request) {
       redirect: false,
     });
 
-    return NextResponse.json({
-      ok: true,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        universityName: user.universityName,
-      },
-    });
-  } catch (error) {
-    console.error('[demo/login] signIn error:', error);
     return NextResponse.json(
       {
-        error: {
-          code: 'INTERNAL_ERROR',
-          message: error instanceof Error ? error.message : 'Sign in failed',
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
         },
       },
+      { status: 200 },
+    );
+  } catch (err) {
+    if (
+      err &&
+      typeof err === 'object' &&
+      'digest' in err &&
+      typeof (err as { digest?: unknown }).digest === 'string' &&
+      ((err as { digest: string }).digest.startsWith('NEXT_REDIRECT') ||
+        (err as { digest: string }).digest.startsWith('NEXT_URL_REDIRECT'))
+    ) {
+      return NextResponse.json(
+        {
+          user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+          },
+        },
+        { status: 200 },
+      );
+    }
+
+    return NextResponse.json(
+      { error: { code: 'AUTH_FAILED', message: 'Failed to sign in demo user' } },
       { status: 500 },
     );
   }

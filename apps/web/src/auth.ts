@@ -8,19 +8,21 @@ import {
   isBotEmail,
   isDemoLoginEmail,
 } from '@/lib/auth-policy';
+import { getEnv } from '@/env';
 
+const env = getEnv();
 const providers: Provider[] = [];
 
-if (process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET) {
+if (env.AUTH_GOOGLE_ID && env.AUTH_GOOGLE_SECRET) {
   providers.push(
     Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      clientId: env.AUTH_GOOGLE_ID,
+      clientSecret: env.AUTH_GOOGLE_SECRET,
     }),
   );
 }
 
-if (process.env.DEMO_MODE === 'true') {
+if (env.DEMO_MODE === 'true') {
   providers.push(
     Credentials({
       id: 'demo-login',
@@ -29,7 +31,7 @@ if (process.env.DEMO_MODE === 'true') {
         email: { label: 'Email', type: 'email' },
       },
       async authorize(credentials) {
-        if (process.env.DEMO_MODE !== 'true') {
+        if (getEnv().DEMO_MODE !== 'true') {
           return null;
         }
 
@@ -68,7 +70,7 @@ if (process.env.DEMO_MODE === 'true') {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
-  secret: process.env.AUTH_SECRET,
+  secret: env.AUTH_SECRET,
   providers,
   session: {
     strategy: 'jwt',
@@ -83,7 +85,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           !isAllowedGoogleSignIn({
             email: user.email,
             emailVerified,
-            allowedDomainsCsv: process.env.ALLOWED_EMAIL_DOMAINS,
+            allowedDomainsCsv: getEnv().ALLOWED_EMAIL_DOMAINS,
           })
         ) {
           return false;
@@ -107,25 +109,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       return true;
     },
-    async jwt({ token, user }) {
-      if (user?.email) {
-        const dbUser = await db.user.findUnique({
-          where: { email: user.email.toLowerCase() },
-        });
-        if (dbUser) {
-          token.sub = dbUser.id;
-          token.id = dbUser.id;
-          token.name = dbUser.name;
-          token.universityName = dbUser.universityName;
-        }
+    jwt({ token, user }) {
+      if (user?.id) {
+        token.sub = user.id;
       }
       return token;
     },
-    async session({ session, token }) {
+    session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = token.sub;
-        (session.user as { universityName?: string }).universityName =
-          token.universityName as string | undefined;
       }
       return session;
     },

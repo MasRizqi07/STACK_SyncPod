@@ -1,7 +1,7 @@
-import { validateRealtimeEnv } from './env.js';
+import { getEnv } from './env.js';
 import { createRealtimeServer } from './server.js';
 
-const env = validateRealtimeEnv(process.env);
+const env = getEnv();
 
 const server = await createRealtimeServer({
   port: env.REALTIME_PORT,

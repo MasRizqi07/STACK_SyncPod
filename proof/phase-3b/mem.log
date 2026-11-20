@@ -33,3 +33,24 @@ FreePhysicalMemory     : 3508308
 TotalVirtualMemorySize : 28559204
 FreeVirtualMemory      : 7263532
 EXIT=0
+$ node scripts/record-mem.mjs phase-3b
+# started 2026-11-20T10:35:41.768Z
+TotalVisibleMemorySize : 16500580
+FreePhysicalMemory     : 2792200
+TotalVirtualMemorySize : 28559204
+FreeVirtualMemory      : 6284608
+EXIT=0
+$ node scripts/record-mem.mjs phase-3b
+# started 2026-11-20T10:36:28.847Z
+TotalVisibleMemorySize : 16500580
+FreePhysicalMemory     : 2753776
+TotalVirtualMemorySize : 28559204
+FreeVirtualMemory      : 6275144
+EXIT=0
+$ node scripts/record-mem.mjs phase-3b
+# started 2026-11-20T10:36:58.226Z
+TotalVisibleMemorySize : 16500580
+FreePhysicalMemory     : 3532236
+TotalVirtualMemorySize : 28559204
+FreeVirtualMemory      : 7009764
+EXIT=0

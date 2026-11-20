@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { validateRealtimeEnv } from '../src/env.js';
+import { getEnv, resetEnvCache, validateRealtimeEnv } from '../src/env.js';
 
 const VALID_REALTIME_ENV = {
   NODE_ENV: 'development',
@@ -9,15 +9,13 @@ const VALID_REALTIME_ENV = {
   REALTIME_PORT: '4000',
   DEMO_MODE: 'true',
   ALLOW_DEMO_IN_PROD: 'false',
-  GEMINI_MOCK: 'true',
 };
 
-describe('realtime env fail-fast validation (3.9)', () => {
+describe('realtime env fail-fast validation (3.9, D40)', () => {
   it('accepts valid realtime environment configuration', () => {
     const parsed = validateRealtimeEnv(VALID_REALTIME_ENV);
     expect(parsed.REALTIME_PORT).toBe(4000);
     expect(parsed.WEB_ORIGIN).toBe('http://localhost:3000');
-    expect(parsed.GEMINI_MODEL).toBe('gemini-3.8-flash');
   });
 
   it('fails fast when REALTIME_JWT_SECRET or DATABASE_URL is empty', () => {
@@ -34,6 +32,15 @@ describe('realtime env fail-fast validation (3.9)', () => {
         DATABASE_URL: '',
       }),
     ).toThrow(/DATABASE_URL/);
+  });
+
+  it('rejects REALTIME_JWT_SECRET shorter than 32 characters', () => {
+    expect(() =>
+      validateRealtimeEnv({
+        ...VALID_REALTIME_ENV,
+        REALTIME_JWT_SECRET: 'short-secret-under-32-bytes',
+      }),
+    ).toThrow(/REALTIME_JWT_SECRET/);
   });
 
   it('rejects DEMO_MODE=true in production without ALLOW_DEMO_IN_PROD=true', () => {
@@ -57,13 +64,20 @@ describe('realtime env fail-fast validation (3.9)', () => {
     expect(parsed.ALLOW_DEMO_IN_PROD).toBe('true');
   });
 
-  it('requires GEMINI_API_KEY when GEMINI_MOCK=false', () => {
-    expect(() =>
-      validateRealtimeEnv({
-        ...VALID_REALTIME_ENV,
-        GEMINI_MOCK: 'false',
-        GEMINI_API_KEY: '',
-      }),
-    ).toThrow(/GEMINI_API_KEY/);
+  it('memoizes environment validation result via getEnv()', () => {
+    resetEnvCache();
+    const origDb = process.env.DATABASE_URL;
+    const origSecret = process.env.REALTIME_JWT_SECRET;
+    try {
+      process.env.DATABASE_URL = 'postgresql://syncpod:syncpod@localhost:5432/syncpod';
+      process.env.REALTIME_JWT_SECRET = 'super-secret-realtime-jwt-key-32-bytes!';
+      const env1 = getEnv();
+      const env2 = getEnv();
+      expect(env1).toBe(env2);
+    } finally {
+      process.env.DATABASE_URL = origDb;
+      process.env.REALTIME_JWT_SECRET = origSecret;
+      resetEnvCache();
+    }
   });
 });

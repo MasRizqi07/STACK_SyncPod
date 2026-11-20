@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { signRealtimeToken } from '@syncpod/shared/realtime-token';
+import { signRealtimeToken } from '@syncpod/shared/server';
 import { requireSession } from '@/lib/session';
+import { getEnv } from '@/env';
 
 export async function GET() {
   // D38 defense-in-depth: route handler requires authenticated session
@@ -9,7 +10,7 @@ export async function GET() {
     return sessionOrRes;
   }
 
-  const secret = process.env.REALTIME_JWT_SECRET;
+  const secret = getEnv().REALTIME_JWT_SECRET;
   if (!secret || secret.trim().length < 32) {
     return NextResponse.json(
       { error: { code: 'INTERNAL_ERROR', message: 'Realtime token secret is not configured' } },

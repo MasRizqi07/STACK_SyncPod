@@ -1,0 +1,38 @@
+$ node --experimental-strip-types scripts/test-env-matrix.mjs
+# cwd .
+# started 2026-11-20T10:36:58.280Z
+=== ENV VALIDATION MATRIX & SENTINEL HYGIENE PROOF (3.9, D40) ===
+
+--- Case 1: Build fake mode with ZERO secrets (D18, D40) ---
+Result: PASS (Fake mode build successfully finished without server secrets)
+
+--- Case 2: Start real mode without AUTH_SECRET (fails with non-zero exit) ---
+(node:22044) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Result: PASS (Real mode without AUTH_SECRET correctly rejected unauthed requests/halted, caughtFailure=true)
+
+--- Case 3: Short secret rejected (< 32 chars) ---
+Caught expected error: Invalid web environment configuration: AUTH_SECRET: AUTH_SECRET must be at least 32 characters in real mode
+Result: PASS (Short secret rejected with clear condition, zero secret value printed)
+
+--- Case 4: Identical AUTH_SECRET and REALTIME_JWT_SECRET rejected ---
+Caught expected error: Invalid web environment configuration: REALTIME_JWT_SECRET: REALTIME_JWT_SECRET must not be identical to AUTH_SECRET
+Result: PASS (Identical secrets rejected, names and conditions only)
+
+--- Case 5: Production + DEMO_MODE=true without permission fails ---
+Caught expected error: Invalid web environment configuration: DEMO_MODE: DEMO_MODE=true is forbidden in production unless ALLOW_DEMO_IN_PROD=true is explicitly set
+Result: PASS (Production demo mode without permission failed)
+
+--- Case 6: Production + DEMO_MODE=true with permission succeeds ---
+Parsed config successfully: DEMO_MODE=true, ALLOW_DEMO_IN_PROD=true
+Result: PASS (Production demo mode with explicit permission accepted)
+
+--- Case 7: Realtime env validation ---
+Parsed realtime config: PORT=4000, WEB_ORIGIN=http://localhost:3000
+Result: PASS (Realtime env validated)
+
+=== SENTINEL LEAK AUDIT ===
+PASS: Zero sentinel secret leaks detected in validation output!
+
+ALL ENV VALIDATION MATRIX CHECKS PASSED PERFECTLY!
+EXIT=0

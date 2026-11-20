@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 
 export async function proxy(request: NextRequest) {
   // D18: In fake prototype mode, no auth or network check occurs, and Auth.js is never imported
+  // Literal member expression required by Next.js for build-time static inlining
   if (process.env.NEXT_PUBLIC_REALTIME_MODE === 'fake') {
     return NextResponse.next();
   }
