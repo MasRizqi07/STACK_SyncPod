@@ -13,6 +13,9 @@ export const COPY = {
       'Masuk dengan Google dan endpoint sesi terhubung setelah autentikasi diaktifkan.',
     domainRejected: 'Gunakan email institusi yang diizinkan untuk masuk.',
     prototypeNotice: 'Prototipe: data simulasi',
+    realtimeUnavailableTitle: 'Realtime belum tersedia',
+    realtimeUnavailableDesc:
+      'Backend kolaborasi realtime akan aktif pada Build Period (Phase 4). Sesi autentikasi Anda telah terverifikasi dengan aman.',
   },
   matchmaking: {
     pageTitle: 'Cari pod belajar',

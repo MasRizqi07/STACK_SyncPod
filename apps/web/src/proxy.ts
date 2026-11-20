@@ -1,34 +1,64 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { getToken } from 'next-auth/jwt';
 
 export async function proxy(request: NextRequest) {
-  // D18: In fake prototype mode, no auth or network check occurs
+  // D18: In fake prototype mode, no auth or network check occurs, and Auth.js is never imported
   if (process.env.NEXT_PUBLIC_REALTIME_MODE === 'fake') {
     return NextResponse.next();
   }
 
+  const { getToken } = await import('next-auth/jwt');
   const secret = process.env.AUTH_SECRET;
-  if (!secret) {
-    return NextResponse.redirect(new URL('/masuk', request.url), 307);
-  }
+  const { pathname } = request.nextUrl;
 
   let token: Awaited<ReturnType<typeof getToken>> = null;
-  try {
-    token = await getToken({
-      req: request,
-      secret,
-    });
-  } catch {
-    token = null;
+  if (secret) {
+    try {
+      token = await getToken({
+        req: request,
+        secret,
+      });
+    } catch {
+      token = null;
+    }
   }
 
-  if (!token || typeof token.sub !== 'string' || token.sub.length === 0) {
-    return NextResponse.redirect(new URL('/masuk', request.url), 307);
+  const isAuthenticated = Boolean(
+    token && typeof token.sub === 'string' && token.sub.trim().length > 0,
+  );
+
+  // Authenticated users visiting /masuk are redirected to /pod (307)
+  if (pathname === '/masuk') {
+    if (isAuthenticated) {
+      return NextResponse.redirect(new URL('/pod', request.url), 307);
+    }
+    return NextResponse.next();
+  }
+
+  // Realtime API endpoints require authentication (return 401 JSON)
+  if (pathname.startsWith('/api/realtime')) {
+    if (!isAuthenticated) {
+      return NextResponse.json(
+        { error: { code: 'UNAUTHENTICATED', message: 'Authentication required' } },
+        {
+          status: 401,
+          headers: { 'Cache-Control': 'no-store' },
+        },
+      );
+    }
+    return NextResponse.next();
+  }
+
+  // Protected pod pages: redirect unauthenticated requests to /masuk (307)
+  if (pathname === '/pod' || pathname.startsWith('/pod/')) {
+    if (!isAuthenticated) {
+      return NextResponse.redirect(new URL('/masuk', request.url), 307);
+    }
+    return NextResponse.next();
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/pod', '/pod/:path*'],
+  matcher: ['/pod', '/pod/:path*', '/api/realtime/:path*', '/masuk'],
 };

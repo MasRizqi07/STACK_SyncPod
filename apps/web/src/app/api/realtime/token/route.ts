@@ -1,23 +1,16 @@
 import { NextResponse } from 'next/server';
 import { signRealtimeToken } from '@syncpod/shared/realtime-token';
-import { auth } from '@/auth';
+import { requireSession } from '@/lib/session';
 
 export async function GET() {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) {
-    return NextResponse.json(
-      { error: { code: 'UNAUTHENTICATED', message: 'Authentication required' } },
-      {
-        status: 401,
-        headers: { 'Cache-Control': 'no-store' },
-      },
-    );
+  // D38 defense-in-depth: route handler requires authenticated session
+  const sessionOrRes = await requireSession('api');
+  if (sessionOrRes instanceof NextResponse) {
+    return sessionOrRes;
   }
 
   const secret = process.env.REALTIME_JWT_SECRET;
-  if (!secret || secret.trim().length < 16) {
+  if (!secret || secret.trim().length < 32) {
     return NextResponse.json(
       { error: { code: 'INTERNAL_ERROR', message: 'Realtime token secret is not configured' } },
       {
@@ -28,7 +21,7 @@ export async function GET() {
   }
 
   const { token, expiresAt } = await signRealtimeToken({
-    userId,
+    userId: sessionOrRes.userId,
     secret,
   });
 

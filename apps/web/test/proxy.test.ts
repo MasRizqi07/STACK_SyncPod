@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import { encode } from 'next-auth/jwt';
 import { config, proxy } from '../src/proxy';
 
-describe('Next.js 16 proxy route protection (3.6, D18)', () => {
+describe('Next.js 16 proxy route protection (3.6, D18, D38)', () => {
   const originalMode = process.env.NEXT_PUBLIC_REALTIME_MODE;
   const originalSecret = process.env.AUTH_SECRET;
   const TEST_SECRET = 'proxy-test-auth-secret-32-bytes-minimum!';
@@ -18,8 +18,13 @@ describe('Next.js 16 proxy route protection (3.6, D18)', () => {
     process.env.AUTH_SECRET = originalSecret;
   });
 
-  it('matches /pod and all nested /pod/* paths', () => {
-    expect(config.matcher).toEqual(['/pod', '/pod/:path*']);
+  it('matches /pod, /pod/:path*, /api/realtime/:path*, and /masuk', () => {
+    expect(config.matcher).toEqual([
+      '/pod',
+      '/pod/:path*',
+      '/api/realtime/:path*',
+      '/masuk',
+    ]);
   });
 
   it('redirects unauthenticated requests on /pod, /pod/x, /pod/x/selesai with 307 to /masuk in real mode', async () => {
@@ -31,6 +36,45 @@ describe('Next.js 16 proxy route protection (3.6, D18)', () => {
       expect(res.status).toBe(307);
       expect(res.headers.get('location')).toBe('http://localhost:3000/masuk');
     }
+  });
+
+  it('returns 401 UNAUTHENTICATED JSON on /api/realtime/* when unauthenticated in real mode', async () => {
+    const req = new NextRequest('http://localhost:3000/api/realtime/token');
+    const res = await proxy(req);
+    expect(res.status).toBe(401);
+    expect(res.headers.get('cache-control')).toBe('no-store');
+    const body = await res.json();
+    expect(body.error.code).toBe('UNAUTHENTICATED');
+  });
+
+  it('redirects authenticated users visiting /masuk to /pod with 307 in real mode', async () => {
+    const cookieName = 'authjs.session-token';
+    const token = await encode({
+      token: {
+        sub: 'user-demo-1',
+        email: 'demo-1@demo.syncpod.local',
+        name: 'Rizqi Pratama',
+      },
+      secret: TEST_SECRET,
+      salt: cookieName,
+    });
+
+    const req = new NextRequest('http://localhost:3000/masuk', {
+      headers: {
+        cookie: `${cookieName}=${token}`,
+      },
+    });
+
+    const res = await proxy(req);
+    expect(res.status).toBe(307);
+    expect(res.headers.get('location')).toBe('http://localhost:3000/pod');
+  });
+
+  it('allows unauthenticated users on /masuk to proceed in real mode', async () => {
+    const req = new NextRequest('http://localhost:3000/masuk');
+    const res = await proxy(req);
+    expect(res.status).toBe(200);
+    expect(res.headers.get('location')).toBeNull();
   });
 
   it('rejects tampered/invalid session cookie with 307 to /masuk in real mode', async () => {

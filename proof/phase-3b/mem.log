@@ -1,0 +1,28 @@
+$ node scripts/record-mem.mjs phase-3b
+# started 2026-11-20T10:19:14.842Z
+TotalVisibleMemorySize : 16500580
+FreePhysicalMemory     : 3188740
+TotalVirtualMemorySize : 28559204
+FreeVirtualMemory      : 7540404
+EXIT=0
+$ node scripts/record-mem.mjs phase-3b
+# started 2026-11-20T10:24:31.904Z
+TotalVisibleMemorySize : 16500580
+FreePhysicalMemory     : 3147340
+TotalVirtualMemorySize : 28559204
+FreeVirtualMemory      : 7176872
+EXIT=0
+$ node scripts/record-mem.mjs phase-3b
+# started 2026-11-20T10:27:18.092Z
+TotalVisibleMemorySize : 16500580
+FreePhysicalMemory     : 3413620
+TotalVirtualMemorySize : 28559204
+FreeVirtualMemory      : 7035956
+EXIT=0
+$ node scripts/record-mem.mjs phase-3b
+# started 2026-11-20T10:28:27.302Z
+TotalVisibleMemorySize : 16500580
+FreePhysicalMemory     : 3572340
+TotalVirtualMemorySize : 28559204
+FreeVirtualMemory      : 7247620
+EXIT=0

@@ -1,0 +1,23 @@
+$ node scripts/test-callback-mutation.mjs
+# cwd .
+# started 2026-11-20T10:23:44.891Z
+--- BASELINE RUN (ORIGINAL) ---
+BASELINE: GREEN (24/24 tests passed)
+
+--- MUTATION 1: Remove /pod prefix check ---
+MUTANT 1 KILLED (RED, failed as expected):
+       × handles different path (/masuk): /masuk 4ms
+
+--- MUTATION 2: Remove backslash rejection ---
+MUTANT 2 KILLED (RED, failed as expected):
+       × handles encoded backslash: /pod/%5Cevil.com 4ms
+
+--- MUTATION 3: Remove path traversal check ---
+MUTANT 3 KILLED (RED, failed as expected):
+       × handles relative path traversal with ..: /pod/../admin 5ms
+
+--- RESTORE RUN (ORIGINAL) ---
+RESTORED: GREEN (24/24 tests passed)
+
+SUCCESS: 3/3 mutants killed, baseline and restored green.
+EXIT=0
