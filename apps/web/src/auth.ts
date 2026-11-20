@@ -4,10 +4,10 @@ import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
 import { db } from '@syncpod/db';
 import {
-  isAllowedEmailDomain,
+  isAllowedGoogleSignIn,
   isBotEmail,
-  isSeededDemoEmail,
-} from '@/lib/auth-rules';
+  isDemoLoginEmail,
+} from '@/lib/auth-policy';
 
 const providers: Provider[] = [];
 
@@ -43,7 +43,7 @@ if (process.env.DEMO_MODE === 'true') {
         }
 
         // D10: Only seeded demo accounts can sign in
-        if (!isSeededDemoEmail(normalized)) {
+        if (!isDemoLoginEmail(normalized)) {
           return null;
         }
 
@@ -74,9 +74,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: 'jwt',
   },
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ user, account, profile }) {
       if (account?.provider === 'google') {
-        if (!isAllowedEmailDomain(user.email, process.env.ALLOWED_EMAIL_DOMAINS)) {
+        const emailVerified = Boolean(
+          (profile as { email_verified?: boolean } | null)?.email_verified,
+        );
+        if (
+          !isAllowedGoogleSignIn({
+            email: user.email,
+            emailVerified,
+            allowedDomainsCsv: process.env.ALLOWED_EMAIL_DOMAINS,
+          })
+        ) {
           return false;
         }
       }

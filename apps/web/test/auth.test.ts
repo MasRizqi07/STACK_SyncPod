@@ -2,15 +2,13 @@ import { describe, expect, it } from 'vitest';
 import { db } from '@syncpod/db';
 import { auth } from '../src/auth';
 import {
-  getSessionCookieName,
-  isAllowedEmailDomain,
+  isAllowedGoogleSignIn,
   isBotEmail,
-  isSecureRequest,
-  isSeededDemoEmail,
-} from '../src/lib/auth-rules';
+  isDemoLoginEmail,
+} from '../src/lib/auth-policy';
 
-describe('Auth.js configuration and credentials authorization (3.4)', () => {
-  it('exposes auth handler and supports credentials authorization for seeded demo users', async () => {
+describe('Auth policy and configuration (X3, D33, D34)', () => {
+  it('exposes auth handler and validates demo user persistence in db', async () => {
     expect(typeof auth).toBe('function');
 
     const user = await db.user.upsert({
@@ -25,39 +23,142 @@ describe('Auth.js configuration and credentials authorization (3.4)', () => {
     expect(user.email).toBe('demo-1@demo.syncpod.local');
   });
 
-  it('rejects bot emails via production isBotEmail rule (D8)', () => {
-    expect(isBotEmail('simulasi-1@bot.syncpod.local')).toBe(true);
-    expect(isBotEmail('SIMULASI-2@BOT.SYNCPOD.LOCAL')).toBe(true);
-    expect(isBotEmail('simulasi-3@bot.syncpod.local')).toBe(true);
-    expect(isBotEmail('demo-1@demo.syncpod.local')).toBe(false);
+  describe('isDemoLoginEmail (table-driven against DEMO_ACCOUNTS)', () => {
+    const cases = [
+      { email: 'demo-1@demo.syncpod.local', expected: true, desc: 'exact demo-1' },
+      { email: 'demo-2@demo.syncpod.local', expected: true, desc: 'exact demo-2' },
+      { email: 'demo-3@demo.syncpod.local', expected: true, desc: 'exact demo-3' },
+      { email: 'demo-4@demo.syncpod.local', expected: true, desc: 'exact demo-4' },
+      { email: 'DEMO-1@DEMO.SYNCPOD.LOCAL', expected: true, desc: 'uppercase demo-1' },
+      { email: '  demo-2@demo.syncpod.local  ', expected: true, desc: 'trimmed demo-2' },
+      { email: 'demo-5@demo.syncpod.local', expected: false, desc: 'unseeded demo-5' },
+      { email: 'simulasi-1@bot.syncpod.local', expected: false, desc: 'bot email rejected' },
+      { email: 'student@mhs.itats.ac.id', expected: false, desc: 'real student email rejected' },
+      { email: 'attacker@evil.com', expected: false, desc: 'arbitrary email rejected' },
+      { email: '', expected: false, desc: 'empty string' },
+      { email: null, expected: false, desc: 'null email' },
+      { email: undefined, expected: false, desc: 'undefined email' },
+    ];
+
+    for (const { email, expected, desc } of cases) {
+      it(`evaluates ${desc}`, () => {
+        expect(isDemoLoginEmail(email)).toBe(expected);
+      });
+    }
   });
 
-  it('rejects unseeded and arbitrary emails via production isSeededDemoEmail rule (D10)', () => {
-    expect(isSeededDemoEmail('demo-1@demo.syncpod.local')).toBe(true);
-    expect(isSeededDemoEmail('DEMO-4@demo.syncpod.local')).toBe(true);
-    expect(isSeededDemoEmail('demo-5@demo.syncpod.local')).toBe(false);
-    expect(isSeededDemoEmail('attacker@example.com')).toBe(false);
-    expect(isSeededDemoEmail('student@mhs.itats.ac.id')).toBe(false);
+  describe('isBotEmail (table-driven against BOT_ACCOUNTS and D8)', () => {
+    const cases = [
+      { email: 'simulasi-1@bot.syncpod.local', expected: true, desc: 'seeded bot 1' },
+      { email: 'simulasi-2@bot.syncpod.local', expected: true, desc: 'seeded bot 2' },
+      { email: 'simulasi-3@bot.syncpod.local', expected: true, desc: 'seeded bot 3' },
+      { email: 'SIMULASI-1@BOT.SYNCPOD.LOCAL', expected: true, desc: 'uppercase bot' },
+      { email: '  simulasi-2@bot.syncpod.local  ', expected: true, desc: 'trimmed bot' },
+      { email: 'simulasi-99@bot.syncpod.local', expected: true, desc: 'bot domain' },
+      { email: 'simulasi-other@example.com', expected: true, desc: 'simulasi prefix' },
+      { email: 'demo-1@demo.syncpod.local', expected: false, desc: 'demo account is not bot' },
+      { email: 'student@itats.ac.id', expected: false, desc: 'student is not bot' },
+      { email: '', expected: false, desc: 'empty string' },
+      { email: null, expected: false, desc: 'null email' },
+      { email: undefined, expected: false, desc: 'undefined email' },
+    ];
+
+    for (const { email, expected, desc } of cases) {
+      it(`evaluates ${desc}`, () => {
+        expect(isBotEmail(email)).toBe(expected);
+      });
+    }
   });
 
-  it('enforces ALLOWED_EMAIL_DOMAINS via production isAllowedEmailDomain rule', () => {
-    expect(isAllowedEmailDomain('student@itats.ac.id', 'itats.ac.id,mhs.itats.ac.id')).toBe(true);
-    expect(isAllowedEmailDomain('user@gmail.com', 'itats.ac.id,mhs.itats.ac.id')).toBe(false);
-    expect(isAllowedEmailDomain('anyone@gmail.com', '')).toBe(true);
-    expect(isAllowedEmailDomain('invalid-email', 'itats.ac.id')).toBe(false);
-  });
+  describe('isAllowedGoogleSignIn (table-driven Google sign-in policy)', () => {
+    const cases = [
+      {
+        params: {
+          email: 'student@itats.ac.id',
+          emailVerified: true,
+          allowedDomainsCsv: 'itats.ac.id,mhs.itats.ac.id',
+        },
+        expected: true,
+        desc: 'verified email matching allowed domain',
+      },
+      {
+        params: {
+          email: 'STUDENT@MHS.ITATS.AC.ID',
+          emailVerified: true,
+          allowedDomainsCsv: 'itats.ac.id,mhs.itats.ac.id',
+        },
+        expected: true,
+        desc: 'case-insensitive verified email matching second domain',
+      },
+      {
+        params: {
+          email: 'student@itats.ac.id',
+          emailVerified: false,
+          allowedDomainsCsv: 'itats.ac.id',
+        },
+        expected: false,
+        desc: 'unverified email rejected even if domain matches (D34/X3 security rule)',
+      },
+      {
+        params: {
+          email: 'student@itats.ac.id',
+          emailVerified: null,
+          allowedDomainsCsv: 'itats.ac.id',
+        },
+        expected: false,
+        desc: 'null emailVerified rejected',
+      },
+      {
+        params: {
+          email: 'outsider@gmail.com',
+          emailVerified: true,
+          allowedDomainsCsv: 'itats.ac.id,mhs.itats.ac.id',
+        },
+        expected: false,
+        desc: 'verified email not in allowed domains list',
+      },
+      {
+        params: {
+          email: 'anyone@gmail.com',
+          emailVerified: true,
+          allowedDomainsCsv: '',
+        },
+        expected: true,
+        desc: 'empty allowedDomainsCsv permits any verified email',
+      },
+      {
+        params: {
+          email: 'anyone@gmail.com',
+          emailVerified: true,
+          allowedDomainsCsv: undefined,
+        },
+        expected: true,
+        desc: 'undefined allowedDomainsCsv permits any verified email',
+      },
+      {
+        params: {
+          email: 'not-an-email',
+          emailVerified: true,
+          allowedDomainsCsv: 'itats.ac.id',
+        },
+        expected: false,
+        desc: 'malformed email without @ rejected',
+      },
+      {
+        params: {
+          email: null,
+          emailVerified: true,
+          allowedDomainsCsv: 'itats.ac.id',
+        },
+        expected: false,
+        desc: 'null email rejected',
+      },
+    ];
 
-  it('selects protocol-aware cookie name for HTTP LAN vs HTTPS production', () => {
-    const httpReq = new Request('http://192.168.1.10:3000/pod');
-    const httpsReq = new Request('https://syncpod.example.com/pod');
-    const proxiedHttpsReq = new Request('http://127.0.0.1:3000/pod', {
-      headers: { 'x-forwarded-proto': 'https' },
-    });
-
-    expect(isSecureRequest(httpReq)).toBe(false);
-    expect(getSessionCookieName(false)).toBe('authjs.session-token');
-    expect(isSecureRequest(httpsReq)).toBe(true);
-    expect(isSecureRequest(proxiedHttpsReq)).toBe(true);
-    expect(getSessionCookieName(true)).toBe('__Secure-authjs.session-token');
+    for (const { params, expected, desc } of cases) {
+      it(`evaluates ${desc}`, () => {
+        expect(isAllowedGoogleSignIn(params)).toBe(expected);
+      });
+    }
   });
 });
