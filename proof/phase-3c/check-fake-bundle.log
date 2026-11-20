@@ -1,0 +1,53 @@
+$ node scripts/check-fake-bundle.mjs
+# cwd .
+# started 2026-11-20T13:03:42.403Z
+=== Step 1: Building web app in fake prototype mode (NEXT_PUBLIC_REALTIME_MODE=fake) ===
+$ next build --webpack
+▲ Next.js 16.4.6 (webpack)
+✓ Running next.config.ts took 24ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.8s
+  Running TypeScript ...
+  Finished TypeScript in 1720ms ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/5) ...
+  Generating static pages using 11 workers (1/5) 
+  Generating static pages using 11 workers (2/5) 
+  Generating static pages using 11 workers (3/5) 
+✓ Generating static pages using 11 workers (5/5) in 1337ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/auth/[...nextauth]
+├ ƒ /api/demo/login
+├ ƒ /api/realtime/token
+├ ƒ /masuk
+├ ƒ /pod
+├ ƒ /pod/[podId]
+└ ƒ /pod/[podId]/selesai
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+=== Step 2: Scanning client static bundles (.next/static) for forbidden auth/db/jose symbols ===
+Auditing 34 client static files...
+PASS: Zero occurrences of forbidden tokens in fake client bundle:
+  ✓ next-auth: 0 hits
+  ✓ @auth/core: 0 hits
+  ✓ authjs: 0 hits
+  ✓ @prisma/client: 0 hits
+  ✓ PrismaClient: 0 hits
+  ✓ jose: 0 hits
+  ✓ SignJWT: 0 hits
+  ✓ jwtVerify: 0 hits
+
+Fake client bundle is completely isolated from auth, prisma, and jose.
+EXIT=0

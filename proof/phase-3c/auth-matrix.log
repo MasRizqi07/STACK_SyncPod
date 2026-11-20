@@ -1,0 +1,52 @@
+$ node scripts/verify-auth-matrix.mjs
+# cwd .
+# started 2026-11-20T13:03:13.618Z
+Starting Next.js production server for auth-matrix on port 3125...
+(node:21808) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Server ready for auth matrix verification.
+
+CHECK 1: Bot account rejection
+  Request:  POST /api/demo/login { email: "simulasi-1@bot.syncpod.local" }
+  Response: HTTP 403 -> {"error":{"code":"FORBIDDEN","message":"Bot accounts cannot log in"}}
+  Result:   PASS
+
+CHECK 2: Arbitrary email rejection
+  Request:  POST /api/demo/login { email: "random@example.com" }
+  Response: HTTP 403 -> {"error":{"code":"FORBIDDEN","message":"Only seeded demo accounts can log in"}}
+  Result:   PASS
+
+CHECK 3.1: Valid demo account login (demo-1@demo.syncpod.local)
+  Request:  POST /api/demo/login { email: "demo-1@demo.syncpod.local" }
+  Response: HTTP 200 -> ok=true, user=demo-1@demo.syncpod.local
+  Set-Cookie: authjs.session-token=[REDACTED]; Path=/; Expires=Sun, 20 Dec 2026 13:03:14 GMT; HttpOnly; SameSite=lax
+  Result:   PASS
+
+CHECK 3.2: Valid demo account login (demo-2@demo.syncpod.local)
+  Request:  POST /api/demo/login { email: "demo-2@demo.syncpod.local" }
+  Response: HTTP 200 -> ok=true, user=demo-2@demo.syncpod.local
+  Set-Cookie: authjs.session-token=[REDACTED]; Path=/; Expires=Sun, 20 Dec 2026 13:03:14 GMT; HttpOnly; SameSite=lax
+  Result:   PASS
+
+CHECK 3.3: Valid demo account login (demo-3@demo.syncpod.local)
+  Request:  POST /api/demo/login { email: "demo-3@demo.syncpod.local" }
+  Response: HTTP 200 -> ok=true, user=demo-3@demo.syncpod.local
+  Set-Cookie: authjs.session-token=[REDACTED]; Path=/; Expires=Sun, 20 Dec 2026 13:03:14 GMT; HttpOnly; SameSite=lax
+  Result:   PASS
+
+CHECK 3.4: Valid demo account login (demo-4@demo.syncpod.local)
+  Request:  POST /api/demo/login { email: "demo-4@demo.syncpod.local" }
+  Response: HTTP 200 -> ok=true, user=demo-4@demo.syncpod.local
+  Set-Cookie: authjs.session-token=[REDACTED]; Path=/; Expires=Sun, 20 Dec 2026 13:03:14 GMT; HttpOnly; SameSite=lax
+  Result:   PASS
+
+=== AUTH MATRIX VERIFICATION SUMMARY ===
+✓ CHECK 1 (bot rejection): PASS
+✓ CHECK 2 (arbitrary email rejection): PASS
+✓ CHECK 3.1 (demo-1@demo.syncpod.local): PASS
+✓ CHECK 3.2 (demo-2@demo.syncpod.local): PASS
+✓ CHECK 3.3 (demo-3@demo.syncpod.local): PASS
+✓ CHECK 3.4 (demo-4@demo.syncpod.local): PASS
+
+ALL AUTH MATRIX CHECKS PASSED SUCCESSFULLY.
+EXIT=0

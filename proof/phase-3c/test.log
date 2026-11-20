@@ -1,0 +1,81 @@
+$ pnpm -r test
+# cwd .
+# started 2026-11-20T13:00:04.749Z
+Scope: 4 of 5 workspace projects
+packages/shared test$ vitest run
+packages/shared test: 
+packages/shared test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/shared
+packages/shared test: 
+packages/shared test:  ✓ test/realtime-token.test.ts (13 tests) 26ms
+packages/shared test:  ✓ test/syllabus.test.ts (2 tests) 5ms
+packages/shared test:  ✓ test/schemas.test.ts (4 tests) 9ms
+packages/shared test:  ✓ test/summary-markdown.test.ts (2 tests) 17ms
+packages/shared test: 
+packages/shared test:  Test Files  4 passed (4)
+packages/shared test:       Tests  21 passed (21)
+packages/shared test:    Start at  20:00:05
+packages/shared test:    Duration  282ms (import 51%, transform 36%, tests 10%, worker 3%)
+packages/shared test: 
+packages/shared test: Done
+apps/realtime test$ vitest run
+packages/db test$ vitest run
+packages/db test: 
+packages/db test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/db
+packages/db test: 
+apps/realtime test: 
+apps/realtime test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/realtime
+apps/realtime test: 
+apps/realtime test:  ✓ test/env.test.ts (6 tests) 7ms
+apps/realtime test:  ✓ test/health.test.ts (2 tests) 42ms
+apps/realtime test: 
+apps/realtime test:  Test Files  2 passed (2)
+apps/realtime test:       Tests  8 passed (8)
+apps/realtime test:    Start at  20:00:05
+apps/realtime test:    Duration  293ms (import 52%, transform 31%, tests 15%, worker 2%)
+apps/realtime test: 
+apps/realtime test: Done
+packages/db test:  ✓ test/authz.test.ts (6 tests) 203ms
+packages/db test:  ✓ test/index.test.ts (3 tests) 37ms
+packages/db test:  ✓ test/seed.test.ts (5 tests) 202ms
+packages/db test:  ✓ test/partial-index.test.ts (1 test) 68ms
+packages/db test: 
+packages/db test:  Test Files  4 passed (4)
+packages/db test:       Tests  15 passed (15)
+packages/db test:    Start at  20:00:05
+packages/db test:    Duration  2.82s (tests 67%, import 22%, transform 9%, worker 2%)
+packages/db test: 
+packages/db test:     Isolate  4 workers spawned · ~91ms startup each (spawn + environment, per file)
+packages/db test:              at least ~272ms faster with isolate: false — reuses workers across files instead of one per file
+packages/db test: 
+packages/db test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/web
+apps/web test: 
+apps/web test:  ✓ test/callback-path.test.ts (26 tests) 9ms
+apps/web test:  ✓ test/env.test.ts (9 tests) 19ms
+apps/web test:  ✓ test/session.test.ts (4 tests) 15ms
+apps/web test:  ✓ test/proxy.test.ts (8 tests) 62ms
+apps/web test:  ✓ test/summary-export.test.ts (2 tests) 29ms
+apps/web test:  ✓ test/demo-login-route.test.ts (5 tests) 150ms
+apps/web test:  ✓ test/realtime-token-route.test.ts (2 tests) 74ms
+apps/web test:  ✓ test/realtime-contract.test.ts (4 tests) 34ms
+apps/web test:  ✓ test/auth.test.ts (36 tests) 123ms
+apps/web test:  ✓ test/pod-ring.test.tsx (2 tests) 37ms
+apps/web test:  ✓ test/matchmaking-logic.test.ts (4 tests) 12ms
+apps/web test:  ✓ test/drawer-focus-trap.test.tsx (6 tests) 12ms
+apps/web test:  ✓ test/fake-client.test.ts (2 tests) 37ms
+apps/web test:  ✓ test/clock.test.ts (5 tests) 13ms
+apps/web test:  ✓ test/resilience-components.test.tsx (5 tests) 59ms
+apps/web test:  ✓ test/realtime-mode.test.ts (4 tests) 9ms
+apps/web test:  ✓ test/fake-client-phase2b.test.ts (4 tests) 45ms
+apps/web test:  ✓ test/markdown-sanitize.test.tsx (1 test) 49ms
+apps/web test:  ✓ test/copy.test.ts (2 tests) 8ms
+apps/web test: 
+apps/web test:  Test Files  19 passed (19)
+apps/web test:       Tests  131 passed (131)
+apps/web test:    Start at  20:00:08
+apps/web test:    Duration  2.86s (import 64%, transform 22%, tests 11%, worker 3%)
+apps/web test: 
+apps/web test: Done
+EXIT=0

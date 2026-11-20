@@ -1,0 +1,8 @@
+$ node scripts/check-env-reads.mjs
+# cwd .
+# started 2026-11-20T13:04:04.567Z
+=== AUDITING DIRECT process.env READS IN apps/*/src (Gate G9, D40) ===
+
+PASS: All direct process.env reads in apps/*/src strictly match the documented ENV_EXCEPTIONS allowlist.
+Zero unauthorized process.env reads found.
+EXIT=0

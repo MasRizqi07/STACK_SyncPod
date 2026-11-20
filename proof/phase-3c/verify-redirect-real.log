@@ -1,0 +1,71 @@
+$ node scripts/verify-redirect-real.mjs
+# cwd .
+# started 2026-11-20T13:02:34.057Z
+=== Step 1: Building web app in real mode ===
+$ next build --webpack
+▲ Next.js 16.4.6 (webpack)
+✓ Running next.config.ts took 24ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.1s
+  Running TypeScript ...
+  Finished TypeScript in 1280ms ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/5) ...
+  Generating static pages using 11 workers (1/5) 
+  Generating static pages using 11 workers (2/5) 
+  Generating static pages using 11 workers (3/5) 
+✓ Generating static pages using 11 workers (5/5) in 1049ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/auth/[...nextauth]
+├ ƒ /api/demo/login
+├ ƒ /api/realtime/token
+├ ƒ /masuk
+├ ƒ /pod
+├ ƒ /pod/[podId]
+└ ƒ /pod/[podId]/selesai
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+=== Step 2: Starting Next.js production server on port 3133 ===
+(node:20112) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Server is ready.
+
+--- Check 1: GET /pod without cookie ---
+Status: 307
+Location: /masuk
+
+--- Check 2: GET /pod/test-sprint-42 without cookie ---
+Status: 307
+Location: /masuk
+
+--- Check 3: GET /api/realtime/token without cookie ---
+Status: 401
+Cache-Control: no-store
+Body: {"error":{"code":"UNAUTHENTICATED","message":"Authentication required"}}
+
+--- Check 4: POST /api/demo/login (demo-1@demo.syncpod.local) ---
+Login Status: 200
+Received 2 cookies, including session-token
+
+--- Check 5: GET /pod with authenticated session cookie ---
+Status: 200
+✓ Found user name "Rizqi Pratama" and notice "Realtime belum tersedia" in response HTML
+
+--- Check 6: GET /masuk with authenticated session cookie ---
+Status: 307
+Location: /pod
+
+ALL 6 REDIRECT & REAL-MODE AUTH MATRIX CHECKS PASSED PERFECTLY!
+EXIT=0

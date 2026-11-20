@@ -1,0 +1,7 @@
+$ node scripts/record-mem.mjs phase-3c
+# started 2026-11-20T12:59:40.914Z
+TotalVisibleMemorySize : 16500580
+FreePhysicalMemory     : 3505296
+TotalVirtualMemorySize : 28559204
+FreeVirtualMemory      : 7162520
+EXIT=0

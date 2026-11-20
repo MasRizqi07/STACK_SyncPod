@@ -1,0 +1,96 @@
+$ node scripts/mutation-check.mjs
+# cwd .
+# started 2026-11-20T13:01:29.447Z
+===============================================================
+ CONFIG-DRIVEN SECURITY MUTATION TESTING HARNESS (C5, D38-D40)
+===============================================================
+
+
+>>> Testing Module: auth-policy (apps/web/src/lib/auth-policy.ts)
+    Behaviors protected: 4
+      - Demo account authorization allowlist
+      - Bot account exclusion & domain matching
+      - Google OAuth verified email enforcement
+      - Google OAuth domain allowlist restrictions
+    Test command: pnpm --filter @syncpod/web test test/auth.test.ts
+    ✓ KILLED:   mutant-1-bot-domain - Bypass bot domain check by replacing endsWith(@bot.syncpod.local) with false
+    ✓ KILLED:   mutant-2-bot-prefix - Bypass bot username prefix check by replacing startsWith('simulasi-') with false
+    ✓ KILLED:   mutant-3-demo-allowlist - Invert demo login email check to reject all demo accounts
+    ✓ KILLED:   mutant-4-google-unverified - Invert verified email enforcement to reject verified accounts and allow unverified accounts
+    ✓ KILLED:   mutant-5-google-domain-whitelist - Invert domain whitelist checking in Google sign-in
+    ✓ KILLED:   mutant-6-google-empty-allowlist - Reject sign-ins when allowed domains list is empty instead of allowing any verified Google user
+
+>>> Testing Module: safeCallbackPath (apps/web/src/lib/callback-url.ts)
+    Behaviors protected: 5
+      - Reject backslashes and encoded backslashes within/after /pod
+      - Reject directory traversals (.. and %2e%2e)
+      - Strict /pod path boundary prefix requirement
+      - Reject non-string types
+      - Reject malformed URI encoding
+    Test command: pnpm --filter @syncpod/web test test/callback-path.test.ts
+    ✓ KILLED:   mutant-1-no-backslash-check - Remove backslash character rejection check
+    ✓ KILLED:   mutant-2-no-traversal-check - Remove path traversal dot-dot check
+    ✓ KILLED:   mutant-3-invert-pod-prefix - Invert /pod prefix requirement
+    ✓ KILLED:   mutant-4-bypass-type-check - Bypass input type check (allow non-string inputs)
+    ✓ KILLED:   mutant-5-bypass-malformed-encoding - Allow malformed URI encoding to return trimmed string instead of null
+
+>>> Testing Module: verifyRealtimeToken (packages/shared/src/server/realtime-token.ts)
+    Behaviors protected: 5
+      - Signature verification with HS256
+      - Clock tolerance <= 5 seconds (allows within 5s, rejects past 5s)
+      - Enforce maximum token lifetime <= 600s
+      - Reject malformed or empty tokens with specific message
+      - Enforce issuer and audience match
+    Test command: pnpm --filter @syncpod/shared test test/realtime-token.test.ts
+    ✓ KILLED:   mutant-1-remove-max-ttl-check - Disable maximum token TTL check (600 seconds)
+    ✓ KILLED:   mutant-2-invert-max-ttl-operator - Invert comparison operator on maximum token TTL
+    ✓ KILLED:   mutant-3-change-clock-tolerance - Change clock tolerance from 5s to 0s breaking borderline valid requests
+    ✓ KILLED:   mutant-4-corrupt-issuer - Change expected issuer from syncpod-web to incorrect string
+    ✓ KILLED:   mutant-5-corrupt-audience - Change expected audience from syncpod-realtime to incorrect string
+
+>>> Testing Module: assertPodMember / assertPodLeader (packages/db/src/authz.ts)
+    Behaviors protected: 5
+      - Assert user is member of pod in either parameter order
+      - Assert user is leader of pod
+      - Throw FORBIDDEN when member is not leader
+      - Throw NOT_A_MEMBER when user is not enrolled in pod
+      - Throw POD_NOT_FOUND when pod does not exist
+    Test command: pnpm --filter @syncpod/db test test/authz.test.ts
+    ✓ KILLED:   mutant-1-bypass-leader-role-check - Bypass leader role check in assertPodLeader
+    ✓ KILLED:   mutant-2-invert-leader-role-check - Invert leader role check to require non-leader
+    ✓ KILLED:   mutant-3-wrong-leader-error-code - Change assertPodLeader rejection code from FORBIDDEN to NOT_A_MEMBER
+    ✓ KILLED:   mutant-4-wrong-non-member-error-code - Change assertPodMember non-member error code from NOT_A_MEMBER to FORBIDDEN
+    ✓ KILLED:   mutant-5-wrong-pod-not-found-error-code - Change pod not found error code from POD_NOT_FOUND to FORBIDDEN
+
+>>> Testing Module: env-schema-refinement (apps/web/src/env.ts)
+    Behaviors protected: 5
+      - Forbid DEMO_MODE in production without ALLOW_DEMO_IN_PROD
+      - Enforce Google OAuth ID and secret parity
+      - Require DATABASE_URL in real mode
+      - Enforce minimum 32 chars for AUTH_SECRET
+      - Enforce minimum 32 chars for REALTIME_JWT_SECRET
+    Test command: pnpm --filter @syncpod/web test test/env.test.ts
+    ✓ KILLED:   mutant-1-allow-demo-in-prod-unconditionally - Remove ALLOW_DEMO_IN_PROD check allowing demo mode in prod unconditionally
+    ✓ KILLED:   mutant-2-remove-google-parity-check - Remove Google OAuth credentials parity check
+    ✓ KILLED:   mutant-3-remove-database-url-check - Remove real mode DATABASE_URL requirement check
+    ✓ KILLED:   mutant-4-reduce-auth-secret-min-length - Reduce AUTH_SECRET minimum length from 32 to 10 characters
+    ✓ KILLED:   mutant-5-remove-realtime-jwt-secret-check - Remove REALTIME_JWT_SECRET requirement check in real mode
+
+--- Checking working tree cleanliness after mutation check ---
+✓ All target files cleanly restored to original state.
+
+===============================================================
+ MUTATION TEST RESULTS SUMMARY
+===============================================================
+| Module | Behaviors Tested | Mutants | Killed | Survived | Rate |
+|---|---|---|---|---|---|
+| auth-policy | 4 behaviors | 6 | 6 | 0 | 100% |
+| safeCallbackPath | 5 behaviors | 5 | 5 | 0 | 100% |
+| verifyRealtimeToken | 5 behaviors | 5 | 5 | 0 | 100% |
+| assertPodMember / assertPodLeader | 5 behaviors | 5 | 5 | 0 | 100% |
+| env-schema-refinement | 5 behaviors | 5 | 5 | 0 | 100% |
+---------------------------------------------------------------
+TOTAL: 26 mutants | 26 killed | 0 survived | 100% kill rate
+
+ALL MUTANTS KILLED. Test suite exhibits high fault-detection sensitivity.
+EXIT=0
