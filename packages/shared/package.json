@@ -12,6 +12,12 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./server": {
+      "types": "./src/server/realtime-token.ts",
+      "development": "./src/server/realtime-token.ts",
+      "import": "./dist/server/realtime-token.js",
+      "default": "./dist/server/realtime-token.js"
+    },
     "./realtime-token": {
       "types": "./src/realtime-token.ts",
       "development": "./src/realtime-token.ts",

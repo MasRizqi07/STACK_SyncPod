@@ -1,0 +1,23 @@
+$ node scripts/test-token-mutation.mjs
+# cwd .
+# started 2026-11-20T10:29:55.718Z
+--- BASELINE RUN (ORIGINAL) ---
+BASELINE: GREEN (11/11 tests passed)
+
+--- MUTATION 1: Remove max TTL (exp - iat > 600) check ---
+MUTANT 1 KILLED (RED, failed as expected):
+       × 10. exp too far: rejects token where exp - iat > 600 seconds (10 minutes) 6ms
+
+--- MUTATION 2: Remove secret minimum length check ---
+MUTANT 2 KILLED (RED, failed as expected):
+       × 11. secret too short: rejects signing or verifying with secret < 32 chars 6ms
+
+--- MUTATION 3: Remove empty sub validation check ---
+MUTANT 3 KILLED (RED, failed as expected):
+       × 8. empty subject (sub): rejects token with empty or whitespace userId 7ms
+
+--- RESTORE RUN (ORIGINAL) ---
+RESTORED: GREEN (11/11 tests passed)
+
+SUCCESS: 3/3 token mutants killed, baseline and restored green.
+EXIT=0

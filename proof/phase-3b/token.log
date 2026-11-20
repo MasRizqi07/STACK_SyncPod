@@ -1,0 +1,35 @@
+$ node scripts/verify-realtime-token-endpoint.mjs
+# cwd .
+# started 2026-11-20T10:30:06.119Z
+=== Step 1: Starting server on port 3134 ===
+(node:16540) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Server ready.
+
+--- 1. GET /api/realtime/token without session ---
+Status: 401
+Cache-Control: no-store
+Body: {"error":{"code":"UNAUTHENTICATED","message":"Authentication required"}}
+✓ Unauthenticated request rejected with 401 UNAUTHENTICATED
+
+--- 2. POST /api/demo/login (demo-1@demo.syncpod.local) ---
+Login Status: 200
+Session established, cookie acquired.
+
+--- 3. GET /api/realtime/token with authenticated session ---
+Status: 200
+Cache-Control: no-store
+ExpiresAt: 1795170907000
+
+--- 4. Decoded Token Claims (Header + Payload only, signature omitted) ---
+Header: {"alg":"HS256","typ":"JWT"}
+Payload: {"sub":"cmwj3jbtv0000gug4c2q4h6ia","iss":"syncpod-web","aud":"syncpod-realtime","iat":1795170607,"exp":1795170907}
+Computed TTL: 300s (expected 300s)
+✓ Token header and payload claims strictly conform to D39
+
+--- 5. Verifier Execution via verifyRealtimeToken ---
+Verified Result: {"userId":"cmwj3jbtv0000gug4c2q4h6ia","iat":1795170607,"exp":1795170907}
+✓ Token successfully verified by server verifier with correct userId and lifetime
+
+ALL REALTIME TOKEN CHECKS PASSED PERFECTLY!
+EXIT=0
