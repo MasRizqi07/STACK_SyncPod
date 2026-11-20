@@ -16,7 +16,6 @@
     "test:scripts": "node --test scripts/test/*.test.mjs",
     "db:migrate": "pnpm --filter @syncpod/db db:migrate",
     "db:seed": "pnpm --filter @syncpod/db db:seed",
-    "db:reset": "pnpm --filter @syncpod/db db:reset",
     "check:secrets": "node scripts/check-secret-hygiene.mjs"
   },
   "devDependencies": {

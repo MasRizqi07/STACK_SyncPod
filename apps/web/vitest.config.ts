@@ -13,6 +13,7 @@ export default defineConfig({
     },
   },
   test: {
+    globalSetup: [path.resolve(import.meta.dirname, '../../packages/db/test/global-setup.ts')],
     server: {
       deps: {
         inline: [/next-auth/],

@@ -3,6 +3,31 @@ import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { PrismaClient } from '@prisma/client';
 
+const ALLOWED_TEST_HOSTS = new Set(['localhost', '127.0.0.1', 'postgres']);
+
+export function assertSafeTestDatabase(urlStr: string): void {
+  let parsed: URL;
+  try {
+    parsed = new URL(urlStr);
+  } catch (err) {
+    throw new Error(`D36 Guard: Invalid test database URL: ${String(err)}`);
+  }
+
+  const hostname = parsed.hostname.toLowerCase();
+  if (!ALLOWED_TEST_HOSTS.has(hostname)) {
+    throw new Error(
+      `D36 Database Safety: Test database host "${hostname}" is not allowlisted (${Array.from(ALLOWED_TEST_HOSTS).join(', ')}). Aborting test execution to protect remote/external environments.`,
+    );
+  }
+
+  const pathname = parsed.pathname.replace(/^\//, '');
+  if (!pathname.endsWith('_test')) {
+    throw new Error(
+      `D36 Database Safety: Test database name "${pathname}" must end with "_test". Aborting test execution to protect non-test database "${pathname}".`,
+    );
+  }
+}
+
 function loadEnvFallback() {
   if (process.env.DATABASE_URL) return;
   const candidates = [
@@ -39,16 +64,20 @@ function loadEnvFallback() {
 export async function setup() {
   loadEnvFallback();
   const baseDbUrl =
-    process.env.DATABASE_URL || 'postgresql://syncpod:syncpod@localhost:5432/syncpod?schema=public';
+    process.env.DATABASE_URL || 'postgresql://syncpod:syncpod@localhost:5433/syncpod?schema=public';
 
   const u = new URL(baseDbUrl);
   u.pathname = '/syncpod_test';
   const testDbUrl = process.env.DATABASE_URL_TEST || u.toString();
+
+  // D36: Abort test execution if target test database does not pass safety checks
+  assertSafeTestDatabase(testDbUrl);
+
   process.env.DATABASE_URL = testDbUrl;
 
   try {
     execSync('pnpm prisma migrate deploy', {
-      cwd: process.cwd(),
+      cwd: resolve(import.meta.dirname, '..'),
       env: { ...process.env, DATABASE_URL: testDbUrl },
       stdio: 'pipe',
     });
@@ -62,11 +91,11 @@ export async function setup() {
       await adminPrisma.$executeRawUnsafe('CREATE DATABASE syncpod_test;');
       await adminPrisma.$disconnect();
     } catch {
-      // Ignored
+      // Ignored if already exists
     }
 
     execSync('pnpm prisma migrate deploy', {
-      cwd: process.cwd(),
+      cwd: resolve(import.meta.dirname, '..'),
       env: { ...process.env, DATABASE_URL: testDbUrl },
       stdio: 'pipe',
     });
