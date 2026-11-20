@@ -130,3 +130,14 @@ D20. Allowed new dependencies in Phase 2 (only when imported): codemirror, @code
 - **D31. Laporan fase menambah `TEACH-BACK` dan `git diff --stat`.** Tiga pertanyaan penguji (bukan jawabannya), satu analogi, dan satu bagian "Apa yang rapuh".
 - **D32. Kejujuran prototipe.** Di mode fake, semua layar menampilkan penanda kecil tetap "Prototipe: data simulasi" yang tidak menutup kontrol. Anggota simulasi tetap berlabel "Simulasi" (D8). Naskah demo menyatakan secara eksplisit bahwa ini prototipe dan backend realtime dibangun pada Build Period.
 
+---
+
+- **D33. Akun demo punya sumber tunggal.** `packages/shared/src/fixtures/demo-accounts.ts` berisi daftar akun demo (email, nama) dan akun bot. Seed, allowlist login, dan konstanta `fake-client` semuanya membaca daftar ini. Allowlist berupa pencarian himpunan, **bukan regex**. Regex `^demo-[1-4]@…` dihapus dari semua tempat.
+- **D34. Auth.js memiliki sesi dan cookie.** Dilarang: JWE buatan sendiri, blok `cookies` kustom (default Auth.js sudah `HttpOnly`, `SameSite=Lax`, `path=/`, dan menentukan `Secure` serta prefix `__Secure-` dari protokol), dan fallback rahasia di mana pun. Gate: `grep -rnE "process\.env\.[A-Z_]*(SECRET|KEY|TOKEN|PASSWORD)[A-Z_]* *(\|\||\?\?) *['\"]" apps packages --include=*.ts --include=*.tsx` tidak mengembalikan apa pun.
+- **D35. Bukti dihasilkan alat.** Semua log lewat `scripts/proof-run.mjs`, divalidasi `check-proof-logs` di CI. Dilarang mengetik ulang log dan menyimpan nilai cookie atau token di bukti.
+- **D36. Keamanan database tes.** `global-setup` menolak berjalan kecuali nama database berakhiran `_test` dan host ada di allowlist (`localhost`, `127.0.0.1`, host service CI). Skrip `db:reset` dihapus. Test di `apps/web` memakai database tes yang sama.
+- **D37. Topologi branch.** `phase/2d-semifinal-pack` dari `main`. `phase/3-db-auth` tidak di-push sampai user mengonfirmasi aturan panitia. Phase 9 ditambah gate pengukuran puncak memori (commit charge dan RSS) saat demo penuh: server realtime, Next, Postgres, dan empat tab browser.
+- **D38. Kedalaman otorisasi.** `proxy.ts` adalah kenyamanan, bukan batas keamanan. Setiap server component, route handler, dan akses data memeriksa sesi lewat satu helper `requireSession()`, dan keanggotaan pod lewat helper db. Parameter `callbackUrl` hanya boleh berupa path relatif same-origin (diawali `/`, bukan `//`, tanpa skema).
+- **D39. Token realtime.** HS256 saja, `iss=syncpod-web`, `aud=syncpod-realtime`, TTL 5 menit, rahasia `REALTIME_JWT_SECRET` terpisah dari `AUTH_SECRET` (≥ 32 byte dan tidak boleh sama), respons `Cache-Control: no-store`. Verifier menolak `alg` selain HS256, `aud` atau `iss` salah, kedaluwarsa, dan `sub` kosong.
+- **D40. Skema env sadar mode.** Mode `fake` tidak boleh membutuhkan DB atau rahasia apa pun (build prototipe di Vercel tidak punya rahasia). Mode `real` gagal cepat dengan pesan yang hanya menyebut **nama** variabel dan syaratnya, tidak pernah nilainya.
+
