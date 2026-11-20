@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { AuthzError, assertPodLeader, assertPodMember, db } from '../src/index.js';
+import { assertPodLeader, assertPodMember, db } from '../src/index.js';
 
 describe('database authorization helpers assertPodMember & assertPodLeader (3.8, D38)', () => {
   let podId: string;

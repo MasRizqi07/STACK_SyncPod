@@ -67,6 +67,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
+        ok: true,
         user: {
           id: user.id,
           name: user.name,
@@ -86,6 +87,7 @@ export async function POST(request: Request) {
     ) {
       return NextResponse.json(
         {
+          ok: true,
           user: {
             id: user.id,
             name: user.name,

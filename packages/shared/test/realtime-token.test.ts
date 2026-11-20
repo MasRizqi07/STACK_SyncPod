@@ -1,9 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { SignJWT } from 'jose';
 import {
-  REALTIME_TOKEN_MAX_TTL_SEC,
   REALTIME_TOKEN_TTL_SEC,
-  RealtimeTokenError,
   signRealtimeToken,
   verifyRealtimeToken,
 } from '../src/server/realtime-token.js';

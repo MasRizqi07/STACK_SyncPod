@@ -1,0 +1,222 @@
+$ node scripts/verify-phase3b-gates.mjs
+# cwd .
+# started 2026-11-20T10:43:36.477Z
+=== PHASE 3B COMPREHENSIVE WORKSPACE GATES (G1) ===
+
+
+=== Gate: Recursive Typecheck (pnpm -r typecheck) ===
+$ pnpm -r typecheck
+packages/shared typecheck$ tsc --noEmit
+packages/shared typecheck: Done
+packages/db typecheck$ tsc --noEmit
+apps/realtime typecheck$ tsc --noEmit
+apps/realtime typecheck: Done
+packages/db typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+✓ Recursive Typecheck (pnpm -r typecheck) PASSED
+
+=== Gate: Recursive Lint (pnpm -r lint) ===
+$ pnpm -r lint
+packages/shared lint$ eslint .
+packages/shared lint: Done
+packages/db lint$ eslint .
+apps/realtime lint$ eslint .
+apps/realtime lint: Done
+packages/db lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+✓ Recursive Lint (pnpm -r lint) PASSED
+
+=== Gate: Recursive Test (pnpm -r test) ===
+$ pnpm -r test
+Scope: 4 of 5 workspace projects
+packages/shared test$ vitest run
+packages/shared test: 
+packages/shared test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/shared
+packages/shared test: 
+packages/shared test:  ✓ test/realtime-token.test.ts (11 tests) 45ms
+packages/shared test:  ✓ test/syllabus.test.ts (2 tests) 10ms
+packages/shared test:  ✓ test/schemas.test.ts (4 tests) 19ms
+packages/shared test:  ✓ test/summary-markdown.test.ts (2 tests) 35ms
+packages/shared test: 
+packages/shared test:  Test Files  4 passed (4)
+packages/shared test:       Tests  19 passed (19)
+packages/shared test:    Start at  17:43:45
+packages/shared test:    Duration  329ms (import 70%, tests 17%, transform 10%, worker 3%)
+packages/shared test: 
+packages/shared test: Done
+apps/realtime test$ vitest run
+packages/db test$ vitest run
+packages/db test: 
+packages/db test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/db
+packages/db test: 
+apps/realtime test: 
+apps/realtime test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/realtime
+apps/realtime test: 
+apps/realtime test:  ✓ test/env.test.ts (6 tests) 11ms
+apps/realtime test:  ✓ test/health.test.ts (2 tests) 52ms
+apps/realtime test: 
+apps/realtime test:  Test Files  2 passed (2)
+apps/realtime test:       Tests  8 passed (8)
+apps/realtime test:    Start at  17:43:45
+apps/realtime test:    Duration  329ms (import 64%, tests 21%, transform 10%, worker 4%)
+apps/realtime test: 
+apps/realtime test: Done
+packages/db test:  ✓ test/partial-index.test.ts (1 test) 64ms
+packages/db test:  ✓ test/authz.test.ts (6 tests) 105ms
+packages/db test:  ✓ test/seed.test.ts (5 tests) 111ms
+packages/db test:  ✓ test/index.test.ts (3 tests) 175ms
+packages/db test: 
+packages/db test:  Test Files  4 passed (4)
+packages/db test:       Tests  15 passed (15)
+packages/db test:    Start at  17:43:45
+packages/db test:    Duration  2.88s (tests 66%, import 28%, transform 3%, worker 2%)
+packages/db test: 
+packages/db test:     Isolate  4 workers spawned · ~106ms startup each (spawn + environment, per file)
+packages/db test:              at least ~317ms faster with isolate: false — reuses workers across files instead of one per file
+packages/db test: 
+packages/db test: Done
+apps/web test$ vitest run
+apps/web test: 
+apps/web test:  RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/apps/web
+apps/web test: 
+apps/web test:  ✓ test/summary-export.test.ts (2 tests) 55ms
+apps/web test:  ✓ test/realtime-contract.test.ts (4 tests) 64ms
+apps/web test:  ✓ test/proxy.test.ts (8 tests) 158ms
+apps/web test:  ✓ test/fake-client.test.ts (2 tests) 35ms
+apps/web test:  ✓ test/fake-client-phase2b.test.ts (4 tests) 65ms
+apps/web test:  ✓ test/demo-login-route.test.ts (5 tests) 242ms
+apps/web test:  ✓ test/pod-ring.test.tsx (2 tests) 74ms
+apps/web test:  ✓ test/resilience-components.test.tsx (5 tests) 74ms
+apps/web test:  ✓ test/drawer-focus-trap.test.tsx (6 tests) 17ms
+apps/web test:  ✓ test/realtime-token-route.test.ts (2 tests) 46ms
+apps/web test:  ✓ test/auth.test.ts (35 tests) 146ms
+apps/web test:  ✓ test/clock.test.ts (5 tests) 13ms
+apps/web test:  ✓ test/session.test.ts (4 tests) 35ms
+apps/web test:  ✓ test/matchmaking-logic.test.ts (4 tests) 25ms
+apps/web test:  ✓ test/env.test.ts (8 tests) 15ms
+apps/web test:  ✓ test/callback-path.test.ts (24 tests) 12ms
+apps/web test:  ✓ test/markdown-sanitize.test.tsx (1 test) 37ms
+apps/web test:  ✓ test/copy.test.ts (2 tests) 3ms
+apps/web test: 
+apps/web test:  Test Files  18 passed (18)
+apps/web test:       Tests  123 passed (123)
+apps/web test:    Start at  17:43:49
+apps/web test:    Duration  3.42s (import 79%, tests 12%, transform 6%, worker 2%)
+apps/web test: 
+apps/web test: Done
+✓ Recursive Test (pnpm -r test) PASSED
+
+=== Gate: Build in Fake Mode (NEXT_PUBLIC_REALTIME_MODE=fake) ===
+$ pnpm -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/db build$ prisma generate && tsc -p tsconfig.json
+apps/realtime build$ tsc -p tsconfig.json
+packages/db build: Environment variables loaded from .env
+packages/db build: Prisma schema loaded from prisma\schema.prisma
+apps/realtime build: Done
+packages/db build: 
+packages/db build: ✔ Generated Prisma Client (v6.19.3) to .\..\..\node_modules\.pnpm\@prisma+client@6.19.3_prism_4ffd11c130385b632f1988f146a90b26\node_modules\@prisma\client in 82ms
+packages/db build: 
+packages/db build: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+packages/db build: 
+packages/db build: Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+packages/db build: 
+packages/db build: Done
+apps/web build$ next build --webpack
+apps/web build: ▲ Next.js 16.4.6 (webpack)
+apps/web build: ✓ Running next.config.ts took 45ms
+apps/web build: 
+apps/web build:   Creating an optimized production build ...
+apps/web build: ✓ Compiled successfully in 3.9s
+apps/web build:   Running TypeScript ...
+apps/web build:   Finished TypeScript in 2.3s ...
+apps/web build:   Collecting page data using 11 workers ...
+apps/web build:   Generating static pages using 11 workers (0/5) ...
+apps/web build:   Generating static pages using 11 workers (1/5) 
+apps/web build:   Generating static pages using 11 workers (2/5) 
+apps/web build:   Generating static pages using 11 workers (3/5) 
+apps/web build: ✓ Generating static pages using 11 workers (5/5) in 1072ms
+apps/web build:   Finalizing page optimization ...
+apps/web build:   Collecting build traces ...
+apps/web build: 
+apps/web build: Route (app)
+apps/web build: ┌ ○ /
+apps/web build: ├ ○ /_not-found
+apps/web build: ├ ƒ /api/auth/[...nextauth]
+apps/web build: ├ ƒ /api/demo/login
+apps/web build: ├ ƒ /api/realtime/token
+apps/web build: ├ ƒ /masuk
+apps/web build: ├ ƒ /pod
+apps/web build: ├ ƒ /pod/[podId]
+apps/web build: └ ƒ /pod/[podId]/selesai
+apps/web build: 
+apps/web build: 
+apps/web build: ƒ Proxy (Middleware)
+apps/web build: 
+apps/web build: ○  (Static)   prerendered as static content
+apps/web build: ƒ  (Dynamic)  server-rendered on demand
+apps/web build: 
+apps/web build: Done
+✓ Build in Fake Mode (NEXT_PUBLIC_REALTIME_MODE=fake) PASSED
+
+=== Gate: Build in Real Mode (NEXT_PUBLIC_REALTIME_MODE=real) ===
+$ pnpm -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/db build$ prisma generate && tsc -p tsconfig.json
+apps/realtime build$ tsc -p tsconfig.json
+packages/db build: Environment variables loaded from .env
+packages/db build: Prisma schema loaded from prisma\schema.prisma
+apps/realtime build: Done
+packages/db build: 
+packages/db build: ✔ Generated Prisma Client (v6.19.3) to .\..\..\node_modules\.pnpm\@prisma+client@6.19.3_prism_4ffd11c130385b632f1988f146a90b26\node_modules\@prisma\client in 94ms
+packages/db build: 
+packages/db build: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+packages/db build: 
+packages/db build: Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+packages/db build: 
+packages/db build: Done
+apps/web build$ next build --webpack
+apps/web build: ▲ Next.js 16.4.6 (webpack)
+apps/web build: ✓ Running next.config.ts took 36ms
+apps/web build: 
+apps/web build:   Creating an optimized production build ...
+apps/web build: ✓ Compiled successfully in 3.5s
+apps/web build:   Running TypeScript ...
+apps/web build:   Finished TypeScript in 1945ms ...
+apps/web build:   Collecting page data using 11 workers ...
+apps/web build:   Generating static pages using 11 workers (0/5) ...
+apps/web build:   Generating static pages using 11 workers (1/5) 
+apps/web build:   Generating static pages using 11 workers (2/5) 
+apps/web build:   Generating static pages using 11 workers (3/5) 
+apps/web build: ✓ Generating static pages using 11 workers (5/5) in 1003ms
+apps/web build:   Finalizing page optimization ...
+apps/web build:   Collecting build traces ...
+apps/web build: 
+apps/web build: Route (app)
+apps/web build: ┌ ○ /
+apps/web build: ├ ○ /_not-found
+apps/web build: ├ ƒ /api/auth/[...nextauth]
+apps/web build: ├ ƒ /api/demo/login
+apps/web build: ├ ƒ /api/realtime/token
+apps/web build: ├ ƒ /masuk
+apps/web build: ├ ƒ /pod
+apps/web build: ├ ƒ /pod/[podId]
+apps/web build: └ ƒ /pod/[podId]/selesai
+apps/web build: 
+apps/web build: 
+apps/web build: ƒ Proxy (Middleware)
+apps/web build: 
+apps/web build: ○  (Static)   prerendered as static content
+apps/web build: ƒ  (Dynamic)  server-rendered on demand
+apps/web build: 
+apps/web build: Done
+✓ Build in Real Mode (NEXT_PUBLIC_REALTIME_MODE=real) PASSED
+
+ALL WORKSPACE GATES PASSED WITH ZERO ERRORS!
+EXIT=0

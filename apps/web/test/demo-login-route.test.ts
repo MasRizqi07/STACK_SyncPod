@@ -1,7 +1,8 @@
-import { describe, expect, it, beforeAll, afterAll, vi } from 'vitest';
+import { describe, expect, it, beforeAll, afterAll, beforeEach, vi } from 'vitest';
 import { db } from '@syncpod/db';
 import { signIn } from '../src/auth';
 import { POST } from '../src/app/api/demo/login/route';
+import { resetEnvCache } from '../src/env';
 
 vi.mock('../src/auth', () => ({
   signIn: vi.fn().mockResolvedValue('/'),
@@ -14,6 +15,7 @@ describe('POST /api/demo/login (D10, 3.5)', () => {
   beforeAll(async () => {
     process.env.DEMO_MODE = 'true';
     process.env.AUTH_SECRET = 'test-auth-secret-32-bytes-minimum-ok!!';
+    resetEnvCache();
     await db.user.upsert({
       where: { email: 'demo-1@demo.syncpod.local' },
       update: { name: 'Rizqi Pratama' },
@@ -24,9 +26,14 @@ describe('POST /api/demo/login (D10, 3.5)', () => {
     });
   });
 
+  beforeEach(() => {
+    resetEnvCache();
+  });
+
   afterAll(() => {
     process.env.DEMO_MODE = originalDemoMode;
     process.env.AUTH_SECRET = originalAuthSecret;
+    resetEnvCache();
   });
 
   it('returns 403 immediately when DEMO_MODE is not true', async () => {
