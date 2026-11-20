@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "pnpm --parallel --filter @syncpod/web --filter @syncpod/realtime dev",
     "build": "pnpm -r build",
-    "build:prototype": "pnpm --filter @syncpod/shared build && pnpm --filter @syncpod/db build && pnpm --filter @syncpod/web build",
+    "build:prototype": "pnpm --filter @syncpod/shared build && pnpm --filter @syncpod/db build && cross-env NEXT_PUBLIC_REALTIME_MODE=fake pnpm --filter @syncpod/web build",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
@@ -21,10 +21,10 @@
   "devDependencies": {
     "@eslint/js": "9.39.5",
     "@types/node": "26.6.6",
+    "cross-env": "7.0.3",
     "eslint": "9.39.5",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.2",
     "vitest": "5.1.0"
   }
 }
-
