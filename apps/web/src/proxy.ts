@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { getSessionCookieName, isSecureRequest } from '@/lib/auth-rules';
 
 export async function proxy(request: NextRequest) {
   // D18: In fake prototype mode, no auth or network check occurs
@@ -13,16 +12,11 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/masuk', request.url), 307);
   }
 
-  const secure = isSecureRequest(request);
-  const cookieName = getSessionCookieName(secure);
-
   let token: Awaited<ReturnType<typeof getToken>> = null;
   try {
     token = await getToken({
       req: request,
       secret,
-      secureCookie: secure,
-      cookieName,
     });
   } catch {
     token = null;

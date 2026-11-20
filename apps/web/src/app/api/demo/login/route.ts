@@ -1,12 +1,7 @@
 import { NextResponse } from 'next/server';
-import { encode } from 'next-auth/jwt';
 import { db } from '@syncpod/db';
-import {
-  getSessionCookieName,
-  isBotEmail,
-  isSecureRequest,
-  isSeededDemoEmail,
-} from '@/lib/auth-rules';
+import { signIn } from '@/auth';
+import { isBotEmail, isDemoLoginEmail } from '@/lib/auth-policy';
 
 export async function POST(request: Request) {
   if (process.env.DEMO_MODE !== 'true') {
@@ -45,18 +40,10 @@ export async function POST(request: Request) {
   }
 
   // D10: Only seeded demo accounts can sign in
-  if (!isSeededDemoEmail(normalized)) {
+  if (!isDemoLoginEmail(normalized)) {
     return NextResponse.json(
       { error: { code: 'FORBIDDEN', message: 'Only seeded demo accounts can log in' } },
       { status: 403 },
-    );
-  }
-
-  const secret = process.env.AUTH_SECRET;
-  if (!secret || secret.trim().length < 16) {
-    return NextResponse.json(
-      { error: { code: 'INTERNAL_ERROR', message: 'Auth secret is not configured' } },
-      { status: 500 },
     );
   }
 
@@ -71,42 +58,31 @@ export async function POST(request: Request) {
     );
   }
 
-  const secure = isSecureRequest(request);
-  const cookieName = getSessionCookieName(secure);
+  try {
+    await signIn('demo-login', {
+      email: normalized,
+      redirect: false,
+    });
 
-  const token = await encode({
-    token: {
-      sub: user.id,
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      universityName: user.universityName,
-      picture: user.image,
-    },
-    secret,
-    salt: cookieName,
-    maxAge: 30 * 24 * 60 * 60,
-  });
-
-  const response = NextResponse.json({
-    ok: true,
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      universityName: user.universityName,
-    },
-  });
-
-  response.cookies.set({
-    name: cookieName,
-    value: token,
-    httpOnly: true,
-    sameSite: 'lax',
-    secure,
-    path: '/',
-    maxAge: 30 * 24 * 60 * 60,
-  });
-
-  return response;
+    return NextResponse.json({
+      ok: true,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        universityName: user.universityName,
+      },
+    });
+  } catch (error) {
+    console.error('[demo/login] signIn error:', error);
+    return NextResponse.json(
+      {
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: error instanceof Error ? error.message : 'Sign in failed',
+        },
+      },
+      { status: 500 },
+    );
+  }
 }

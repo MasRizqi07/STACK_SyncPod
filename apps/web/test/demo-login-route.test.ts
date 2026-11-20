@@ -1,6 +1,11 @@
-import { describe, expect, it, beforeAll, afterAll } from 'vitest';
+import { describe, expect, it, beforeAll, afterAll, vi } from 'vitest';
 import { db } from '@syncpod/db';
+import { signIn } from '../src/auth';
 import { POST } from '../src/app/api/demo/login/route';
+
+vi.mock('../src/auth', () => ({
+  signIn: vi.fn().mockResolvedValue('/'),
+}));
 
 describe('POST /api/demo/login (D10, 3.5)', () => {
   const originalDemoMode = process.env.DEMO_MODE;
@@ -88,7 +93,7 @@ describe('POST /api/demo/login (D10, 3.5)', () => {
     expect(res2.status).toBe(400);
   });
 
-  it('returns 200 and sets HttpOnly SameSite=Lax session cookie for valid seeded demo user', async () => {
+  it('returns 200 and delegates cookie generation to Auth.js signIn for valid seeded demo user (D34)', async () => {
     const req = new Request('http://localhost:3000/api/demo/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -102,10 +107,9 @@ describe('POST /api/demo/login (D10, 3.5)', () => {
     expect(data.user.email).toBe('demo-1@demo.syncpod.local');
     expect(data.user.name).toBe('Rizqi Pratama');
 
-    const setCookie = res.headers.get('set-cookie');
-    expect(setCookie).toBeDefined();
-    expect(setCookie).toContain('session-token=');
-    expect(setCookie?.toLowerCase()).toContain('httponly');
-    expect(setCookie?.toLowerCase()).toContain('samesite=lax');
+    expect(signIn).toHaveBeenCalledWith('demo-login', {
+      email: 'demo-1@demo.syncpod.local',
+      redirect: false,
+    });
   });
 });
