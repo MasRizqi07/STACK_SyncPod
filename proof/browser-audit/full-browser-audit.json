@@ -1,0 +1,157 @@
+{
+  "timestamp": "2026-11-20T16:03:24.093Z",
+  "baseUrl": "http://localhost:3005",
+  "pages": {
+    "/masuk": {
+      "title": "SyncPod",
+      "heading": "Cari teman belajar yang buntu di modul yang sama.",
+      "buttons": [
+        "Masuk dengan Google",
+        "Masuk sebagai akun demo"
+      ],
+      "prototypeBadge": true,
+      "hasGoogleButton": true,
+      "hasDemoProfiles": true
+    },
+    "/pod": {
+      "title": "SyncPod",
+      "heading": "Cari pod belajar",
+      "hasModuleCatalog": true,
+      "hasUrgencyChips": true,
+      "hasPodRingSeats": true,
+      "searchButtonText": null,
+      "seatsLabel": "Kursi 0/4 terisi"
+    },
+    "/pod/pod-042": {
+      "title": "SyncPod",
+      "podTitle": "Traversal Graf dan Dijkstra · Pod 042",
+      "hasTimerSVG": true,
+      "timerText": "Prototipe: data simulasi",
+      "phaseBadge": "",
+      "roundInfo": "",
+      "hasNotesEditor": true,
+      "hasAIAdvisor": false,
+      "membersCount": 13,
+      "buttons": [
+        "Pemandu & Antrean",
+        "Keluar pod",
+        "Jeda",
+        "Lewati",
+        "Akhiri sprint",
+        "Keluar pod",
+        "Tulis",
+        "Pratinjau",
+        "Tanya pemandu",
+        "Q1\n·\nRivan Alamsyah\n\nBagaimana merepresentasikan edge berbobot negatif?",
+        "Dipilih",
+        "Tandai selesai",
+        "Tambah pertanyaan",
+        "Catatan",
+        "Antrean",
+        "Pemandu",
+        "Pod"
+      ]
+    },
+    "/pod/pod-042/selesai": {
+      "title": "SyncPod",
+      "heading": "Sprint selesai",
+      "moduleTitle": "Dijkstra",
+      "hasStatsSection": true,
+      "hasNotesPreview": true,
+      "hasExportButtons": true,
+      "hasPeerEndorsement": false,
+      "actionButtons": [
+        "Cari pod lain",
+        "Unduh ringkasan"
+      ]
+    }
+  },
+  "functionalTests": [
+    {
+      "test": "cockpit-notes-typing",
+      "success": true,
+      "length": 126
+    },
+    {
+      "test": "summary-export-click",
+      "clicked": true,
+      "text": "Unduh ringkasan"
+    }
+  ],
+  "overflowChecks": [
+    {
+      "page": "masuk-desktop",
+      "scrollW": 1280,
+      "innerW": 1280,
+      "overflow": false
+    },
+    {
+      "page": "masuk-mobile",
+      "scrollW": 375,
+      "innerW": 375,
+      "overflow": false
+    },
+    {
+      "page": "pod-matchmaking-desktop",
+      "scrollW": 1265,
+      "innerW": 1280,
+      "overflow": false
+    },
+    {
+      "page": "pod-matchmaking-mobile",
+      "scrollW": 375,
+      "innerW": 375,
+      "overflow": false
+    },
+    {
+      "page": "cockpit-desktop",
+      "scrollW": 1280,
+      "innerW": 1280,
+      "overflow": false
+    },
+    {
+      "page": "cockpit-mobile",
+      "scrollW": 375,
+      "innerW": 375,
+      "overflow": false
+    },
+    {
+      "page": "summary-desktop",
+      "scrollW": 1265,
+      "innerW": 1280,
+      "overflow": false
+    },
+    {
+      "page": "summary-mobile",
+      "scrollW": 375,
+      "innerW": 375,
+      "overflow": false
+    }
+  ],
+  "a11yChecks": [
+    {
+      "page": "masuk",
+      "issuesCount": 0,
+      "issues": []
+    },
+    {
+      "page": "pod-matchmaking",
+      "issuesCount": 0,
+      "issues": []
+    },
+    {
+      "page": "cockpit",
+      "issuesCount": 0,
+      "issues": []
+    },
+    {
+      "page": "summary",
+      "issuesCount": 0,
+      "issues": []
+    }
+  ],
+  "consoleErrors": [],
+  "networkFailures": [],
+  "passed": true,
+  "allConsoleLogs": []
+}

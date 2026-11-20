@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "pnpm --parallel --filter @syncpod/web --filter @syncpod/realtime dev",
     "build": "pnpm -r build",
-    "build:prototype": "pnpm --filter @syncpod/shared build && pnpm --filter @syncpod/db build && cross-env NEXT_PUBLIC_REALTIME_MODE=fake pnpm --filter @syncpod/web build",
+    "build:prototype": "pnpm --filter @syncpod/shared build && pnpm --filter @syncpod/db build && cross-env NEXT_PUBLIC_REALTIME_MODE=fake DEMO_MODE=false pnpm --filter @syncpod/web build",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",

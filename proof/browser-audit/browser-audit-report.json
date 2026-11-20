@@ -1,0 +1,144 @@
+{
+  "timestamp": "2026-11-20T15:59:27.141Z",
+  "baseUrl": "http://localhost:3005",
+  "pagesAudited": [
+    {
+      "route": "/",
+      "title": "SyncPod",
+      "heading": "Cari teman belajar yang buntu di modul yang sama.",
+      "bodyBg": "rgb(9, 13, 22)",
+      "hasPrototypeBadge": true,
+      "hasModulePicker": true,
+      "allHeadings": [
+        "Cari teman belajar yang buntu di modul yang sama."
+      ]
+    },
+    {
+      "route": "/masuk",
+      "title": "SyncPod",
+      "heading": "Cari teman belajar yang buntu di modul yang sama.",
+      "buttons": [
+        "Masuk dengan Google",
+        "Masuk sebagai akun demo"
+      ],
+      "hasGoogleLogin": true,
+      "hasDemoProfiles": false,
+      "hasPrototypeNotice": true
+    },
+    {
+      "route": "/pod/audit-pod-01?demo=1",
+      "title": "SyncPod",
+      "podTitle": "Pod tidak ditemukan.",
+      "bodyTextSnippet": "Pod tidak ditemukan.\n\nPeriksa tautan pod atau cari pod baru untuk memulai sprint.\n\nCari pod\nPrototipe: data simulasi",
+      "hasTimer": false,
+      "hasNotesEditor": false,
+      "buttons": []
+    },
+    {
+      "route": "/pod/audit-pod-01/selesai",
+      "title": "SyncPod",
+      "heading": "Pod tidak ditemukan.",
+      "bodySnippet": "Pod tidak ditemukan.\n\nPeriksa tautan pod atau cari pod baru untuk memulai sprint.\n\nCari pod lain\nPrototipe: data simulasi",
+      "buttons": [],
+      "hasExportButton": false,
+      "hasStats": false,
+      "hasPeerEndorsement": false
+    }
+  ],
+  "functionalTests": [
+    {
+      "test": "matchmaking-search-radar",
+      "result": {
+        "text": "Kursi 1 kosong\nKursi 2 kosong\nKursi 3 kosong\nKursi 4 kosong\n0/4\nKursi 0/4 terisi\n\nPrototipe: data simulasi\n\nSyncPod\nCari teman belajar yang buntu di modul yang sama.\n\nKokpit sprint belajar terarah dalam kelompok kecil.\n\nMasuk dengan Google\nMasuk sebagai akun demo\n\nAkun demo tersedia khusus untuk mod",
+        "hasCancelBtn": false,
+        "hasEnteringPod": true
+      }
+    },
+    {
+      "test": "cockpit-notes-typing",
+      "success": false,
+      "reason": "No textarea found"
+    }
+  ],
+  "a11yChecks": [
+    {
+      "page": "landing",
+      "issuesCount": 0,
+      "issues": []
+    },
+    {
+      "page": "masuk",
+      "issuesCount": 0,
+      "issues": []
+    },
+    {
+      "page": "cockpit",
+      "issuesCount": 0,
+      "issues": []
+    },
+    {
+      "page": "summary",
+      "issuesCount": 0,
+      "issues": []
+    }
+  ],
+  "visualChecks": [
+    {
+      "page": "landing-desktop",
+      "scrollW": 1280,
+      "innerW": 1280,
+      "overflow": false
+    },
+    {
+      "page": "landing-mobile",
+      "scrollW": 375,
+      "innerW": 375,
+      "overflow": false
+    },
+    {
+      "page": "masuk-desktop",
+      "scrollW": 1280,
+      "innerW": 1280,
+      "overflow": false
+    },
+    {
+      "page": "masuk-mobile",
+      "scrollW": 375,
+      "innerW": 375,
+      "overflow": false
+    },
+    {
+      "page": "cockpit-desktop",
+      "scrollW": 1280,
+      "innerW": 1280,
+      "overflow": false
+    },
+    {
+      "page": "cockpit-mobile",
+      "scrollW": 375,
+      "innerW": 375,
+      "overflow": false
+    },
+    {
+      "page": "summary-desktop",
+      "scrollW": 1280,
+      "innerW": 1280,
+      "overflow": false
+    },
+    {
+      "page": "summary-mobile",
+      "scrollW": 375,
+      "innerW": 375,
+      "overflow": false
+    }
+  ],
+  "consoleErrors": [],
+  "networkFailures": [
+    {
+      "url": "http://localhost:3005/favicon.ico",
+      "status": 404
+    }
+  ],
+  "passed": true,
+  "allConsoleLogs": []
+}
