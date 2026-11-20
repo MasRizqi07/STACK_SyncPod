@@ -1,0 +1,41 @@
+$ pnpm --filter @syncpod/db test
+# cwd .
+# started 2026-11-20T03:47:20.393Z
+$ vitest run
+
+ RUN  v5.1.0 D:/MY CODE/STACK_SyncPod/packages/db
+
+No test files found, exiting with code 1
+
+include: test/**/*.test.ts
+exclude:  **/node_modules/**, **/.git/**
+
+
+⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯
+Error: D36 Database Safety: Test database name "production_database" must end with "_test". Aborting test execution to protect non-test database "production_database".
+ ❯ assertSafeTestDatabase test/global-setup.ts:25:11
+     23|   const pathname = parsed.pathname.replace(/^\//, '');
+     24|   if (!pathname.endsWith('_test')) {
+     25|     throw new Error(
+       |           ^
+     26|       `D36 Database Safety: Test database name "${pathname}" must end …
+     27|     );
+ ❯ Object.setup test/global-setup.ts:74:3
+ ❯ TestProject._initializeGlobalSetup ../../node_modules/.pnpm/vitest@5.1.0_@types+node@26_3f1d3f6185e8fc438c92369e1f009bae/node_modules/vitest/dist/chunks/index.Di8au7q4.js:6602:50
+ ❯ Vitest.initializeGlobalSetup ../../node_modules/.pnpm/vitest@5.1.0_@types+node@26_3f1d3f6185e8fc438c92369e1f009bae/node_modules/vitest/dist/chunks/cli-api.COfZo8lK.js:13573:35
+ ❯ ../../node_modules/.pnpm/vitest@5.1.0_@types+node@26_3f1d3f6185e8fc438c92369e1f009bae/node_modules/vitest/dist/chunks/cli-api.COfZo8lK.js:13413:6
+ ❯ ../../node_modules/.pnpm/vitest@5.1.0_@types+node@26_3f1d3f6185e8fc438c92369e1f009bae/node_modules/vitest/dist/chunks/cli-api.COfZo8lK.js:13440:11
+ ❯ ../../node_modules/.pnpm/vitest@5.1.0_@types+node@26_3f1d3f6185e8fc438c92369e1f009bae/node_modules/vitest/dist/chunks/cli-api.COfZo8lK.js:13304:45
+ ❯ startVitest ../../node_modules/.pnpm/vitest@5.1.0_@types+node@26_3f1d3f6185e8fc438c92369e1f009bae/node_modules/vitest/dist/chunks/cli-api.COfZo8lK.js:14572:8
+ ❯ start ../../node_modules/.pnpm/vitest@5.1.0_@types+node@26_3f1d3f6185e8fc438c92369e1f009bae/node_modules/vitest/dist/chunks/cac.BYbt0aJp.js:2382:15
+ ❯ CAC.run ../../node_modules/.pnpm/vitest@5.1.0_@types+node@26_3f1d3f6185e8fc438c92369e1f009bae/node_modules/vitest/dist/chunks/cac.BYbt0aJp.js:2358:2
+
+
+
+
+[ELIFECYCLE] Test failed. See above for more details.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in D:\MY CODE\STACK_SyncPod\packages\db
+
+EXIT=1

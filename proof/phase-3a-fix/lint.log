@@ -1,0 +1,12 @@
+$ pnpm -r lint
+# cwd .
+# started 2026-11-20T03:53:29.354Z
+packages/shared lint$ eslint .
+packages/shared lint: Done
+packages/db lint$ eslint .
+apps/realtime lint$ eslint .
+apps/realtime lint: Done
+packages/db lint: Done
+apps/web lint$ eslint .
+apps/web lint: Done
+EXIT=0

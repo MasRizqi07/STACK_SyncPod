@@ -1,0 +1,22 @@
+$ node scripts/verify-protocol-cookies.mjs
+# cwd .
+# started 2026-11-20T03:48:34.756Z
+Starting Next.js production server on 0.0.0.0:3198...
+(node:3796) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Server ready on 0.0.0.0:3198
+
+CASE 1: http://localhost
+  Set-Cookie: authjs.session-token=[REDACTED]; Path=/; Expires=Sun, 20 Dec 2026 03:48:35 GMT; HttpOnly; SameSite=lax
+  Result: PASS (HttpOnly=true, SameSite=Lax, Secure=false, __Secure-=false)
+
+CASE 2: http://10.26.56.86:3198 (LAN access in NODE_ENV=production)
+  Set-Cookie: authjs.session-token=[REDACTED]; Path=/; Expires=Sun, 20 Dec 2026 03:48:35 GMT; HttpOnly; SameSite=lax
+  Result: PASS (HttpOnly=true, SameSite=Lax, Secure=false, __Secure-=false)
+
+CASE 3: x-forwarded-proto: https (HTTPS reverse proxy / production deployment)
+  Set-Cookie: __Secure-authjs.session-token=[REDACTED]; Path=/; Expires=Sun, 20 Dec 2026 03:48:35 GMT; Secure; HttpOnly; SameSite=lax
+  Result: PASS (HttpOnly=true, SameSite=Lax, Secure=true, __Secure-=true)
+
+PROTOCOL-AWARE COOKIE VERIFICATION: ALL 3 CASES PASSED
+EXIT=0

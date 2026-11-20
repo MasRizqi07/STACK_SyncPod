@@ -1,39 +1,26 @@
-=== PHASE 3 COMPLETE AUTH & REALTIME TOKEN MATRIX ===
-CHECK 1 (GET /api/realtime/token without session cookie):
-  Response: HTTP 401 -> {"error":{"code":"UNAUTHENTICATED","message":"Authentication required"}}
-  Result:   PASS
-
-CHECK 2 (POST /api/demo/login when DEMO_MODE=false):
-  Response: HTTP 403 -> {"error":{"code":"FORBIDDEN","message":"Demo mode is disabled"}}
-  Result:   PASS
-
-CHECK 3 (POST /api/demo/login with bot email):
+CHECK 1 (bot account rejection):
+  Request:  POST /api/demo/login { email: "simulasi-1@bot.syncpod.local" }
   Response: HTTP 403 -> {"error":{"code":"FORBIDDEN","message":"Bot accounts cannot log in"}}
   Result:   PASS
 
-CHECK 4 (POST /api/demo/login with arbitrary email):
+CHECK 2 (arbitrary email rejection):
+  Request:  POST /api/demo/login { email: "random@gmail.com" }
   Response: HTTP 403 -> {"error":{"code":"FORBIDDEN","message":"Only seeded demo accounts can log in"}}
   Result:   PASS
 
-CHECK 5 (POST /api/demo/login with valid seeded demo account):
+CHECK 3 (valid demo account login):
+  Request:  POST /api/demo/login { email: "demo-1@demo.syncpod.local" }
   Response: HTTP 200 -> {"ok":true,"user":{"id":"cmwj3jbtv0000gug4c2q4h6ia","email":"demo-1@demo.syncpod.local","name":"Rizqi Pratama","universityName":"Institut Teknologi Adhi Tama Surabaya"}}
-  Cookie:   [REDACTED_VALUE]; Path=/; Expires=Fri, 18 Dec 2026 15:59:25 GMT; Max-Age=2592000; HttpOnly; SameSite=lax
+  Set-Cookie: authjs.session-token=[REDACTED]; Path=/; Expires=Sun, 20 Dec 2026 03:52:37 GMT; HttpOnly; SameSite=lax
   Result:   PASS
 
-CHECK 6 (GET /api/auth/session with session cookie):
-  Response: HTTP 200 -> {"user":{"name":"Rizqi Pratama","email":"demo-1@demo.syncpod.local","image":null,"id":"cmwj3jbtv0000gug4c2q4h6ia","universityName":"Institut Teknologi Adhi Tama Surabaya"},"expires":"2026-12-18T15:59:25.422Z"}
+CHECK 4 (session retrieval via Auth.js session endpoint):
+  Request:  GET /api/auth/session [with session cookie]
+  Response: HTTP 200 -> {"user":{"name":"Rizqi Pratama","email":"demo-1@demo.syncpod.local","image":null,"id":"cmwj3jbtv0000gug4c2q4h6ia","universityName":"Institut Teknologi Adhi Tama Surabaya"},"expires":"2026-12-20T03:52:37.789Z"}
   Result:   PASS
 
-CHECK 7 (GET /api/realtime/token with session cookie):
-  Response: HTTP 200 -> token=[REDACTED_JWT], expiresAt=1795017865000
-  Verified: sub=cmwj3jbtv0000gug4c2q4h6ia, exp - iat = 300s (HS256)
-  Result:   PASS
+CHECK 5 (Google OAuth status):
+  Credentials: AUTH_GOOGLE_ID not set, AUTH_GOOGLE_SECRET not set
+  Status:      UNVERIFIED (no credentials) [Per D17 cut-line]
 
-CHECK 8 (Authenticated GET /pod through proxy.ts):
-  Response: HTTP 200
-  Result:   PASS
-
-CHECK 9 (Google OAuth status):
-  Status:   UNVERIFIED (no credentials) [Per D17 cut-line]
-
-AUTH MATRIX VERIFICATION: ALL CHECKS PASSED
+AUTH MATRIX VERIFICATION: ALL 5 CHECKS PASSED

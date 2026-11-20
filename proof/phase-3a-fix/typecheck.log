@@ -1,0 +1,14 @@
+$ pnpm -r typecheck
+# cwd .
+# started 2026-11-20T03:53:07.979Z
+packages/shared typecheck$ tsc --noEmit
+packages/shared typecheck: Done
+apps/realtime typecheck$ tsc --noEmit
+packages/db typecheck$ tsc --noEmit
+apps/realtime typecheck: Done
+packages/db typecheck: Done
+apps/web typecheck$ next typegen && tsc --noEmit
+apps/web typecheck: Generating route types...
+apps/web typecheck: ✓ Types generated successfully
+apps/web typecheck: Done
+EXIT=0

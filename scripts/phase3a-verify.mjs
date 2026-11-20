@@ -2,13 +2,16 @@ import { spawn, execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { maskSensitiveData } from './proof-run.mjs';
 import { PrismaClient, Urgency, MatchStatus } from '../packages/db/dist/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..');
 const PROOF_DIR = path.join(REPO_ROOT, 'proof/phase-3');
+const PROOF_FIX_DIR = path.join(REPO_ROOT, 'proof/phase-3a-fix');
 fs.mkdirSync(PROOF_DIR, { recursive: true });
+fs.mkdirSync(PROOF_FIX_DIR, { recursive: true });
 
 const CHROME_PATH = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const CDP_PORT = 9332;
@@ -295,24 +298,26 @@ async function runStep4AuthMatrixLog(appUrl) {
     body: JSON.stringify({ email: 'demo-1@demo.syncpod.local' }),
   });
   const validData = await validRes.json();
-  const setCookie = validRes.headers.get('set-cookie') || '';
+  const rawCookies = validRes.headers.getSetCookie ? validRes.headers.getSetCookie() : [validRes.headers.get('set-cookie')];
+  const sessionCookie = rawCookies.find((c) => c && c.includes('session-token')) || '';
+  const maskedCookie = maskSensitiveData(`Set-Cookie: ${sessionCookie}`);
   lines.push(`\nCHECK 3 (valid demo account login):`);
   lines.push(`  Request:  POST /api/demo/login { email: "demo-1@demo.syncpod.local" }`);
   lines.push(`  Response: HTTP ${validRes.status} -> ${JSON.stringify(validData)}`);
-  lines.push(`  Cookie:   ${setCookie}`);
-  if (validRes.status !== 200 || !validData?.ok || !setCookie.includes('session-token')) {
+  lines.push(`  ${maskedCookie}`);
+  if (validRes.status !== 200 || !validData?.ok || !sessionCookie.includes('session-token')) {
     throw new Error('Valid demo account login failed');
   }
   lines.push(`  Result:   PASS`);
 
   // Test D: Session verification via /api/auth/session
-  const cookieHeader = setCookie.split(';')[0];
+  const cookieHeader = rawCookies.map((c) => (c ? c.split(';')[0] : '')).filter(Boolean).join('; ');
   const sessionRes = await fetch(`${appUrl}/api/auth/session`, {
     headers: { Cookie: cookieHeader },
   });
   const sessionData = await sessionRes.json();
   lines.push(`\nCHECK 4 (session retrieval via Auth.js session endpoint):`);
-  lines.push(`  Request:  GET /api/auth/session [with cookie ${cookieHeader.slice(0, 35)}...]`);
+  lines.push(`  Request:  GET /api/auth/session [with session cookie]`);
   lines.push(`  Response: HTTP ${sessionRes.status} -> ${JSON.stringify(sessionData)}`);
   if (!sessionData?.user?.email || sessionData.user.email !== 'demo-1@demo.syncpod.local') {
     throw new Error('Session retrieval failed');
@@ -325,6 +330,7 @@ async function runStep4AuthMatrixLog(appUrl) {
 
   lines.push(`\nAUTH MATRIX VERIFICATION: ALL 5 CHECKS PASSED`);
   fs.writeFileSync(path.join(PROOF_DIR, 'auth-matrix.log'), lines.join('\n'), 'utf8');
+  fs.writeFileSync(path.join(PROOF_FIX_DIR, 'auth-matrix.log'), lines.join('\n'), 'utf8');
 }
 
 async function runStep5BrowserProof(appUrl) {
@@ -421,9 +427,11 @@ async function main() {
         ...process.env,
         PORT: String(APP_PORT),
         DEMO_MODE: 'true',
+        ALLOW_DEMO_IN_PROD: 'true',
         NEXT_PUBLIC_REALTIME_MODE: 'real',
         DATABASE_URL: baseDbUrl,
         AUTH_SECRET: 'syncpod-dev-secret-auth-32bytes-syncpod!!',
+        REALTIME_JWT_SECRET: 'syncpod-dev-secret-realtime-32bytes-syncpod!!',
       },
       shell: true,
       stdio: ['ignore', 'pipe', 'pipe'],
@@ -441,7 +449,11 @@ async function main() {
     await runStep5BrowserProof(`http://127.0.0.1:${APP_PORT}`);
   } finally {
     try {
-      nextProc.kill();
+      if (process.platform === 'win32') {
+        spawn('taskkill', ['/pid', String(nextProc.pid), '/f', '/t']);
+      } else {
+        nextProc.kill();
+      }
     } catch {}
   }
 
